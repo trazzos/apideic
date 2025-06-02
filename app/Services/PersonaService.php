@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Services;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+use App\Repositories\Eloquent\PersonaRepository;
+use App\Dtos\Persona\CreatePersonaDto;
+use App\Dtos\Persona\UpdatePersonaDto;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use App\Actions\Fortify\CreateNewUser;
+
+class PersonaService extends BaseService {
+
+    /**
+     * @param PersonaRepository $personaRepository
+     */
+    public function __construct(
+        private readonly PersonaRepository $personaRepository,
+        private readonly CreateNewUser $createNewUser
+    )
+    {
+        $this->repository = $this->personaRepository;
+    }
+
+
+    /**
+     * @param CreatePersonaDto $createPersonaDto
+     * @param UploadedFile|null $fotografiaFile
+     * @return JsonResource
+     */
+    public function crearDesdeDto(CreatePersonaDto $createPersonaDto, ?UploadedFile $fotografiaFile): JsonResource
+    {
+
+        $urlFotografia = '';
+
+        if ($fotografiaFile) {
+
+            $fileName = (string) Str::uuid() . '.' . $fotografiaFile->getClientOriginalExtension();
+            $path = $fotografiaFile->storeAs('fotografias_persona', $fileName, 'public');
+            $urlFotografia = Storage::url($path);
+        }
+
+        $data = [
+            'departamento_id' => $createPersonaDto->departamentoId,
+            'nombre' => $createPersonaDto->nombre,
+            'apellido_paterno' => $createPersonaDto->apellidoPaterno,
+            'apellido_materno' => $createPersonaDto->apellidoMaterno,
+            'responsable_departamento' => $createPersonaDto->responsableDepartamento,
+            'url_fotografia' => $urlFotografia,
+        ];
+
+        $nuevaPersonaResource = null;
+        DB::transaction(function() use ($data, $createPersonaDto, &$nuevaPersonaResource){
+            $nuevaPersonaResource =  parent::crear($data);
+            $nuevaPersona = $nuevaPersonaResource->resource;
+
+            if ($createPersonaDto->email && $createPersonaDto->passsword) {
+                $dataUser  = [
+                    'name' => $createPersonaDto->nombre." ".$createPersonaDto->apellidoPaterno. " ". $createPersonaDto->apellidoMaterno,
+                    'email' => $createPersonaDto->email,
+                    'password' => $createPersonaDto->passsword,
+                    'password_confirmation' => $createPersonaDto->passsword,
+                ];
+
+              $user = $this->createNewUser->create($dataUser);
+              $user->owner()->associate($nuevaPersona);
+              $user->save();
+            }
+
+        });
+        if (!$nuevaPersonaResource) {
+            throw new \RuntimeException('No se pudo crear la persona o el usuario.');
+        }
+
+        return $nuevaPersonaResource;
+    }
+
+
+    /**
+     * @param UpdatePersonaDto $updatePersonaDto
+     * @param int $id
+     * @param UploadedFile|null $fotografiaFile
+     * @return JsonResource
+     */
+    public function actualizarDesdeDto(UpdatePersonaDto $updatePersonaDto, int $id, ?UploadedFile $fotografiaFile): JsonResource
+    {
+
+        $data = [
+            'departamento_id' => $updatePersonaDto->departamentoId,
+            'nombre' => $updatePersonaDto->nombre,
+            'apellido_paterno' => $updatePersonaDto->apellidoPaterno,
+            'apellido_materno' => $updatePersonaDto->apellidoMaterno,
+            'responsable_departamento' => $updatePersonaDto->responsableDepartamento,
+        ];
+
+        if ($fotografiaFile) {
+
+            $persona = $this->repository->findById($id);
+            if ($persona->url_fotografia) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $persona->url_fotografia));
+            }
+
+            $fileName = (string) Str::uuid() . '.' . $fotografiaFile->getClientOriginalExtension();
+            $path = $fotografiaFile->storeAs('fotografias_persona', $fileName, 'public');
+
+            $data['url_fotografia'] = Storage::url($path);
+        }
+
+        return parent::actualizar($id, $data);
+    }
+}
