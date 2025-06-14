@@ -34,7 +34,7 @@ return [
     |
     */
     //Se anula por que la api es 100% autenticaod por token
-    'guard' => [],
+    'guard' => ['web'],
 
     /*
     |--------------------------------------------------------------------------

@@ -7,14 +7,23 @@ use App\Models\User;
 
 class AuthService
 {
-  public function login($data)
+  public function login($request)
   {
+      $data = $request->only('email', 'password');
       if (!Auth::attempt($data)) {
         throw new AuthenticationException('Credenciales invalidas');
       }
-      $user = User::where('email', $data['email'])->firstOrFail();
-      $token = $user->createToken('auth_token')->plainTextToken;
+      $request->session()->regenerate();
 
-      return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+      $user = User::where('email', $data['email'])->firstOrFail();
+     // $token = $user->createToken('auth_token')->plainTextToken;
+
+      return response()->json(
+          [
+              'message' => 'Login exitoso',
+              'user' => $user,
+          ],
+          200
+      );
   }
 }

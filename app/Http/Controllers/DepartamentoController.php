@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 
-use App\Http\Requests\Departamento\RolePostRequest;
-use App\Http\Requests\Departamento\RolePutRequest;
+use App\Http\Requests\Departamento\DepartamentoPostRequest;
+use App\Http\Requests\Departamento\DepartamentoPutRequest;
 use App\Services\DepartamentoService;
 use App\Models\Departamento;
 
@@ -33,7 +33,7 @@ class DepartamentoController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function create(RolePostRequest $request)
+    public function create(DepartamentoPostRequest $request)
     {
         return $this->departamentoService->crear($request->validated());
     }
@@ -42,7 +42,7 @@ class DepartamentoController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Departamento $departamento, RolePutRequest $request)
+    public function update(Departamento $departamento, DepartamentoPutRequest $request)
     {
         return $this->departamentoService->actualizar($departamento->id, $request->validated());
     }

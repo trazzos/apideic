@@ -20,6 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->statefulApi();
+
         $middleware->alias([
             'abilities' => CheckAbilities::class,
             'ability' => CheckForAnyAbility::class,
@@ -40,7 +42,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
                 if ($e instanceof AuthenticationException) {
                     return response()->json([
-                        'message' => $e->getMessage() ?? 'No autenticado. Por favor, inicia sesión.',
+                        'message' => $e->getMessage() ?? 'No autenticado. Por favor, inicia sesión.'(),
                         'code' => 401,
                     ], 401);
                 }
