@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->name('auth.')->group(function()  {
 
     Route::middleware(['web'])->post('login', App\Http\Controllers\Auth\LoginController::class)->name('login');
-    Route::post('logout', [App\Http\Controllers\Auth\LogoutController::class])
+    Route::middleware(['web'])->post('logout', App\Http\Controllers\Auth\LogoutController::class)
         ->name('logout')
         ->middleware(['auth:sanctum']);
 

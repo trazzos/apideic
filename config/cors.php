@@ -19,7 +19,12 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'http://localhost:3000',
+        'https://localhost:3000',
+        'https://deic.codisoft.com.mx',
+        'https://deicapi.codisoft.com.mx',
+    ],
 
     'allowed_origins_patterns' => ['*'],
 
