@@ -43,7 +43,7 @@ class AutoridadController extends BaseController
      */
     public function update(Autoridad $autoridad, AutoridadPutRequest $request)
     {
-        return $this->autoridadService->actualizar($request->validated(), $autoridad->id);
+        return $this->autoridadService->actualizar($autoridad->id, $request->validated());
     }
 
     /**
