@@ -50,8 +50,8 @@ class BeneficiarioController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Beneficiario $beneficiario)
+    public function delete(Beneficiario $beneficiarios)
     {
-        return $this->beneficiarioService->eliminar($beneficiario->id);
+        return $this->beneficiarioService->eliminar($beneficiarios->id);
     }
 }
