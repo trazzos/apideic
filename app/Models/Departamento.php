@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Departamento extends Model
@@ -12,4 +13,9 @@ class Departamento extends Model
     protected $table = 'departamentos';
 
     protected $guarded = [];
+
+    public function proyectos(): HasMany {
+
+        return $this->hasMany(Proyecto::class);
+    }
 }

@@ -18,7 +18,9 @@ class ProyectoResource extends JsonResource
             "id" => $this->id,
             "uuid" => $this->uuid,
             "tipo_proyecto_id" => $this->tipo_proyecto_id,
+            "tipo_proyecto_nombre" => $this->tipoProyecto->nombre,
             "departamento_id" => $this->departamento_id,
+            "departamento_nombre" => $this->departamento->nombre,
             "nombre" => $this->nombre,
             "descripcion" => $this->descripcion,
         ];

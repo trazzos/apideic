@@ -17,6 +17,8 @@ class ProyectoService extends BaseService {
     public function __construct(private readonly ProyectoRepository $proyectoRepository)
     {
         $this->repository = $this->proyectoRepository;
+        $this->customResourceCollection = "App\\Http\\Resources\\Proyecto\\ProyectoCollection";
+        $this->customResource = "App\\Http\\Resources\\Proyecto\\ProyectoResource";
     }
 
 

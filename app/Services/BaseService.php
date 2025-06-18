@@ -11,6 +11,11 @@ use Illuminate\Http\Response;
 abstract class BaseService
 {
     /**
+     *
+     */
+    protected $customResourceCollection = "";
+    protected $customResource = "";
+    /**
      * @var BaseEloquentRepository $repository
      */
     protected BaseEloquentRepository $repository;
@@ -21,6 +26,10 @@ abstract class BaseService
     public function lista(): ResourceCollection
     {
         $rows = $this->repository->all();
+
+        if ($this->customResourceCollection)
+            return new $this->customResourceCollection($rows);
+
         return ResourceCollection::make($rows);
     }
 
@@ -31,6 +40,10 @@ abstract class BaseService
     public function findById($id): JsonResource
     {
         $row = $this->repository->findById($id);
+
+        if ($this->customResource)
+            return new $this->customResource($row);
+
         return JsonResource::make($row);
     }
 
@@ -41,6 +54,10 @@ abstract class BaseService
     public function crear(array $data): JsonResource
     {
         $nuevo = $this->repository->create($data);
+
+        if ($this->customResource)
+            return new $this->customResource($nuevo);
+
         return JsonResource::make($nuevo);
     }
 
@@ -56,6 +73,9 @@ abstract class BaseService
         if (!$nuevo) {
             throw new ModelNotFoundException("Registro con ID {$id} no encontrado para actualizar.");
         }
+        if ($this->customResource)
+            return new $this->customResource($nuevo);
+
         return JsonResource::make($nuevo);
     }
 
