@@ -62,10 +62,10 @@ class ProyectoController extends BaseController
      * @param ProyectoPutRequest $request
      * @return JsonResource
      */
-    public function update(Proyecto $proyecto, ProyectoPutRequest $request):JsonResource
+    public function update(Proyecto $proyectos, ProyectoPutRequest $request):JsonResource
     {
         $updateProyectoDto = UpdateProyectoDto::fromRequest($request);
-        return $this->proyectoService->actualizarDesdeDto($updateProyectoDto, $proyecto->id,);
+        return $this->proyectoService->actualizarDesdeDto($updateProyectoDto, $proyectos->id,);
     }
 
     /**

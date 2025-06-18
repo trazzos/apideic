@@ -42,16 +42,16 @@ class TipoActividadController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(TipoActividad $tipoActividad, TipoActividadPutRequest $request)
+    public function update(TipoActividad $tiposActividad, TipoActividadPutRequest $request)
     {
-        return $this->tipoActividadService->actualizar($request->validated(), $tipoActividad->id);
+        return $this->tipoActividadService->actualizar($request->validated(), $tiposActividad->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(TipoActividad $tipoActividad)
+    public function delete(TipoActividad $tiposActividad)
     {
-        return $this->tipoActividadService->eliminar($tipoActividad->id);
+        return $this->tipoActividadService->eliminar($tiposActividad->id);
     }
 }

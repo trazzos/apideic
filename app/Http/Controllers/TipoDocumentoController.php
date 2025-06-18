@@ -40,16 +40,16 @@ class TipoDocumentoController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(TipoDocumento $tipoDocumento, TipoDocumentoPutRequest $request)
+    public function update(TipoDocumento $tiposDocumento, TipoDocumentoPutRequest $request)
     {
-        return $this->tipoDocumentoService->actualizar($tipoDocumento->id, $request->validated());
+        return $this->tipoDocumentoService->actualizar($tiposDocumento->id, $request->validated());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(TipoDocumento $tipoDocumento)
+    public function delete(TipoDocumento $tiposDocumento)
     {
-        return $this->tipoDocumentoService->eliminar($tipoDocumento->id);
+        return $this->tipoDocumentoService->eliminar($tiposDocumento->id);
     }
 }

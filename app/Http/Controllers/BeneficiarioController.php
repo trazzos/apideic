@@ -42,9 +42,9 @@ class BeneficiarioController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Beneficiario $beneficiario, BeneficiarioPutRequest $request)
+    public function update(Beneficiario $beneficiarios, BeneficiarioPutRequest $request)
     {
-        return $this->beneficiarioService->actualizar($request->validated(), $beneficiario->id);
+        return $this->beneficiarioService->actualizar($request->validated(), $beneficiarios->id);
     }
 
     /**

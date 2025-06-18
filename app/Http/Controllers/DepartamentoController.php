@@ -42,16 +42,16 @@ class DepartamentoController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Departamento $departamento, DepartamentoPutRequest $request)
+    public function update(Departamento $departamentos, DepartamentoPutRequest $request)
     {
-        return $this->departamentoService->actualizar($departamento->id, $request->validated());
+        return $this->departamentoService->actualizar($departamentos->id, $request->validated());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Departamento $departamento)
+    public function delete(Departamento $departamentos)
     {
-        return $this->departamentoService->eliminar($departamento->id);
+        return $this->departamentoService->eliminar($departamentos->id);
     }
 }

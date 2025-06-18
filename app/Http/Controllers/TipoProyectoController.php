@@ -40,16 +40,16 @@ class TipoProyectoController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(TipoProyecto $tipoProyecto, TipoProyectoPutRequest $request)
+    public function update(TipoProyecto $tiposProyecto, TipoProyectoPutRequest $request)
     {
-        return $this->tipoProyectoService->actualizar($tipoProyecto->id, $request->validated());
+        return $this->tipoProyectoService->actualizar($tiposProyecto->id, $request->validated());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(TipoProyecto $tipoProyecto)
+    public function delete(TipoProyecto $tiposProyecto)
     {
-        return $this->tipoProyectoService->eliminar($tipoProyecto->id);
+        return $this->tipoProyectoService->eliminar($tiposProyecto->id);
     }
 }

@@ -42,16 +42,16 @@ class CapacitadorController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Capacitador $capacitador, CapacitadorPutRequest $request)
+    public function update(Capacitador $capacitadores, CapacitadorPutRequest $request)
     {
-        return $this->capacitadorService->actualizar($request->validated(), $capacitador->id);
+        return $this->capacitadorService->actualizar($request->validated(), $capacitadores->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Capacitador $capacitador)
+    public function delete(Capacitador $capacitadores)
     {
-        return $this->capacitadorService->eliminar($capacitador->id);
+        return $this->capacitadorService->eliminar($capacitadores->id);
     }
 }

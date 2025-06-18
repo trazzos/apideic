@@ -24,7 +24,7 @@ class TipoProyectoPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', Rule::unique('tipos_proyecto')->ignore($this->tipoProyecto->id)],
+            'nombre' => ['required','string', Rule::unique('tipos_proyecto')->ignore($this->tiposProyecto->id)],
             'descripcion' => ['required','string'],
         ];
     }

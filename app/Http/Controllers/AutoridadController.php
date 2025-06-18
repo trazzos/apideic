@@ -41,16 +41,16 @@ class AutoridadController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Autoridad $autoridad, AutoridadPutRequest $request)
+    public function update(Autoridad $autoridades, AutoridadPutRequest $request)
     {
-        return $this->autoridadService->actualizar($autoridad->id, $request->validated());
+        return $this->autoridadService->actualizar($autoridades->id, $request->validated());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Autoridad $autoridad)
+    public function delete(Autoridad $autoridades)
     {
-        return $this->autoridadService->eliminar($autoridad->id);
+        return $this->autoridadService->eliminar($autoridades->id);
     }
 }
