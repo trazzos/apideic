@@ -24,7 +24,7 @@ class AutoridadPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', Rule::unique('autoridades', 'nombre')->ignore($this->autoridad->id)],
+            'nombre' => ['required','string', Rule::unique('autoridades', 'nombre')->ignore($this->autoridades->id)],
             'descripcion' => ['required','string'],
         ];
     }
