@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\Proyecto\ProyectoResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Repositories\Eloquent\ProyectoRepository;
 use App\Dtos\Proyecto\CreateProyectoDto;
@@ -34,7 +35,8 @@ class ProyectoService extends BaseService {
             'descripcion' => $createProyectoDto->descripcion,
         ];
 
-        return parent::crear($data);
+        $jsonResource =  parent::crear($data);
+        return ProyectoResource::make($jsonResource);
     }
 
 
@@ -53,6 +55,8 @@ class ProyectoService extends BaseService {
             'descripcion' => $updateProyectoDto->descripcion,
         ];
 
-        return parent::actualizar($id, $data);
+        $jsonResource = parent::actualizar($id, $data);
+
+        return ProyectoResource::make($jsonResource);
     }
 }
