@@ -58,7 +58,7 @@ class ProyectoController extends BaseController
 
 
     /**
-     * @param Proyecto $proyecto
+     * @param Proyecto $proyectoS
      * @param ProyectoPutRequest $request
      * @return JsonResource
      */
@@ -69,11 +69,11 @@ class ProyectoController extends BaseController
     }
 
     /**
-     * @param Proyecto $proyecto
+     * @param Proyecto $proyectos
      * @return Response
      */
-    public function delete(Proyecto $proyecto):Response
+    public function delete(Proyecto $proyectos):Response
     {
-        return $this->proyectoService->eliminar($proyecto->id);
+        return $this->proyectoService->eliminar($proyectos->id);
     }
 }

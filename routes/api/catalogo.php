@@ -60,10 +60,6 @@ Route::middleware(['auth:sanctum'])->prefix('tipos-proyecto')->name('tipos-proye
     Route::delete('{tiposProyecto}', [App\Http\Controllers\TipoProyectoController::class,'delete'])->name('eliminar');
 });
 
-Route::middleware('auth:sanctum')->get('test-auth', function (Request $request) {
-    return response()->json(['user' => $request->user()]);
-});
-
 Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->group(function()  {
 
     Route::get('', [App\Http\Controllers\ProyectoController::class,'list'])->name('lista');
