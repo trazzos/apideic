@@ -9,9 +9,9 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::delete('{proyecto}', [App\Http\Controllers\ProyectoController::class,'delete'])->name('eliminar');
 
 
-    Route::get('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'list'])->name('lista');
-    Route::post('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'create'])->name('registrar');
-    Route::patch('{proyecto:uuid}/actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'update'])->name('actualizar');
-    Route::delete('{proyecto:uuid}/actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'delete'])->name('eliminar');
+    Route::get('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'list'])->name('actividades.lista');
+    Route::post('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'create'])->name('actividades.registrar');
+    Route::patch('{proyecto:uuid}/actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'update'])->name('actividades.actualizar');
+    Route::delete('{proyecto:uuid}/actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'delete'])->name('actividades.eliminar');
 });
 
