@@ -28,6 +28,7 @@ class PersonaController extends BaseController
         //$this->middleware('permission:persona.crear')->only(['store']);
         //$this->middleware('permission:persona.editar')->only(['update']);
         //$this->middleware('permission:persona.eliminar')->only(['eliminar']);
+
     }
 
     /**
@@ -35,7 +36,7 @@ class PersonaController extends BaseController
      */
     public function list(): ResourceCollection
     {
-        return $this->personaService->lista();
+        return $this->personaService->list();
     }
 
 
@@ -47,7 +48,7 @@ class PersonaController extends BaseController
     {
         $createPersonaDto = CreatePersonaDto::fromRequest($request);
         $fotografiaFile = $request->file('fotografia');
-        return $this->personaService->crearDesdeDto($createPersonaDto, $fotografiaFile);
+        return $this->personaService->createFromDto($createPersonaDto, $fotografiaFile);
     }
 
 
@@ -60,7 +61,7 @@ class PersonaController extends BaseController
     {
         $updatePersonaDto = UpdatePersonaDto::fromRequest($request);
         $fotografiaFile = $request->file('fotografia');
-        return $this->personaService->actualizarDesdeDto($updatePersonaDto, $persona->id, $fotografiaFile);
+        return $this->personaService->updateFromDto($updatePersonaDto, $persona->id, $fotografiaFile);
     }
 
     /**
@@ -69,6 +70,6 @@ class PersonaController extends BaseController
      */
     public function delete(Persona $persona):Response
     {
-        return $this->personaService->eliminar($persona->id);
+        return $this->personaService->delete($persona->id);
     }
 }

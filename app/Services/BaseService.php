@@ -11,10 +11,14 @@ use Illuminate\Http\Response;
 abstract class BaseService
 {
     /**
-     *
+     * @var string
      */
     protected $customResourceCollection = "";
+    /**
+     * @var string
+     */
     protected $customResource = "";
+
     /**
      * @var BaseEloquentRepository $repository
      */
@@ -23,7 +27,7 @@ abstract class BaseService
     /**
      * @return ResourceCollection
      */
-    public function lista(): ResourceCollection
+    public function list(): ResourceCollection
     {
         $rows = $this->repository->all();
 
@@ -51,7 +55,7 @@ abstract class BaseService
      * @param array $data
      * @return JsonResource
      */
-    public function crear(array $data): JsonResource
+    public function create(array $data): JsonResource
     {
         $nuevo = $this->repository->create($data);
 
@@ -67,7 +71,7 @@ abstract class BaseService
      * @return JsonResource
      * @throws ModelNotFoundException
      */
-    public function actualizar(int $id, array $data):JsonResource
+    public function update(int $id, array $data):JsonResource
     {
         $nuevo = $this->repository->updateAndReturn($id, $data);
         if (!$nuevo) {
@@ -84,7 +88,7 @@ abstract class BaseService
      * @return Response
      * @throws ModelNotFoundException
      */
-    public function eliminar($id):Response
+    public function delete($id):Response
     {
         $deleted = $this->repository->delete($id);
 

@@ -26,7 +26,7 @@ class AutoridadController extends BaseController
 
     public function list()
     {
-        return $this->autoridadService->lista();
+        return $this->autoridadService->list();
     }
 
     /**
@@ -34,7 +34,7 @@ class AutoridadController extends BaseController
      */
     public function create(AutoridadPostRequest $request)
     {
-        return $this->autoridadService->crear($request->validated());
+        return $this->autoridadService->create($request->validated());
     }
 
 
@@ -43,7 +43,7 @@ class AutoridadController extends BaseController
      */
     public function update(Autoridad $autoridades, AutoridadPutRequest $request)
     {
-        return $this->autoridadService->actualizar($autoridades->id, $request->validated());
+        return $this->autoridadService->update($autoridades->id, $request->validated());
     }
 
     /**
@@ -51,6 +51,6 @@ class AutoridadController extends BaseController
      */
     public function delete(Autoridad $autoridades)
     {
-        return $this->autoridadService->eliminar($autoridades->id);
+        return $this->autoridadService->delete($autoridades->id);
     }
 }

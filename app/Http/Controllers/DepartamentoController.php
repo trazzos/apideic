@@ -27,7 +27,7 @@ class DepartamentoController extends BaseController
 
     public function list()
     {
-        return $this->departamentoService->lista();
+        return $this->departamentoService->list();
     }
 
     /**
@@ -35,7 +35,7 @@ class DepartamentoController extends BaseController
      */
     public function create(DepartamentoPostRequest $request)
     {
-        return $this->departamentoService->crear($request->validated());
+        return $this->departamentoService->create($request->validated());
     }
 
 
@@ -44,7 +44,7 @@ class DepartamentoController extends BaseController
      */
     public function update(Departamento $departamentos, DepartamentoPutRequest $request)
     {
-        return $this->departamentoService->actualizar($departamentos->id, $request->validated());
+        return $this->departamentoService->update($departamentos->id, $request->validated());
     }
 
     /**
@@ -52,6 +52,6 @@ class DepartamentoController extends BaseController
      */
     public function delete(Departamento $departamentos)
     {
-        return $this->departamentoService->eliminar($departamentos->id);
+        return $this->departamentoService->delete($departamentos->id);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller as BaseController;
 use App\Http\Requests\Auth\LoginPostRequest;
 use App\Services\AuthService;
-class LoginController extends Controller
+class LoginController extends BaseController
 {
 
     public function __construct(private readonly AuthService $authService)

@@ -23,6 +23,7 @@ return [
         'http://localhost:3000',
         'https://localhost:3000',
         'https://deic.codisoft.com.mx',
+        'http://deic.test',
         'https://deicapi.codisoft.com.mx',
     ],
 

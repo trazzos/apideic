@@ -27,7 +27,7 @@ class CapacitadorController extends BaseController
 
     public function list()
     {
-        return $this->capacitadorService->lista();
+        return $this->capacitadorService->list();
     }
 
     /**
@@ -35,7 +35,7 @@ class CapacitadorController extends BaseController
      */
     public function create(CapacitadorPostRequest $request)
     {
-        return $this->capacitadorService->crear($request->validated());
+        return $this->capacitadorService->create($request->validated());
     }
 
 
@@ -44,7 +44,7 @@ class CapacitadorController extends BaseController
      */
     public function update(Capacitador $capacitadores, CapacitadorPutRequest $request)
     {
-        return $this->capacitadorService->actualizar($request->validated(), $capacitadores->id);
+        return $this->capacitadorService->update($request->validated(), $capacitadores->id);
     }
 
     /**
@@ -52,6 +52,6 @@ class CapacitadorController extends BaseController
      */
     public function delete(Capacitador $capacitadores)
     {
-        return $this->capacitadorService->eliminar($capacitadores->id);
+        return $this->capacitadorService->delete($capacitadores->id);
     }
 }

@@ -34,7 +34,7 @@ class RoleController extends BaseController
      */
     public function list(): ResourceCollection
     {
-        return $this->roleService->lista();
+        return $this->roleService->list();
     }
 
 
@@ -45,7 +45,7 @@ class RoleController extends BaseController
     public function create(RolePostRequest $request): JsonResource
     {
         $createRoleDto = CreateRoleDto::fromRequest($request);
-        return $this->roleService->crearDesdeDto($createRoleDto);
+        return $this->roleService->createFromDto($createRoleDto);
     }
 
 
@@ -57,7 +57,7 @@ class RoleController extends BaseController
     public function update(Role $role, RolePutRequest $request):JsonResource
     {
         $updateRoleDto = UpdateRoleDto::fromRequest($request);
-        return $this->roleService->actualizarDesdeDto($updateRoleDto, $role->id,);
+        return $this->roleService->updateFromDto($updateRoleDto, $role->id,);
     }
 
     /**
@@ -66,6 +66,6 @@ class RoleController extends BaseController
      */
     public function delete(Role $role):Response
     {
-        return $this->roleService->eliminar($role->id);
+        return $this->roleService->delete($role->id);
     }
 }

@@ -22,7 +22,10 @@ class PersonaService extends BaseService {
         private readonly CreateNewUser $createNewUser
     )
     {
+
         $this->repository = $this->personaRepository;
+        $this->customResourceCollection = "App\\Http\\Resources\\Persona\\PersonaCollection";
+        $this->customResource = "App\\Http\\Resources\\Persona\\PersonaResource";
     }
 
 
@@ -31,7 +34,7 @@ class PersonaService extends BaseService {
      * @param UploadedFile|null $fotografiaFile
      * @return JsonResource
      */
-    public function crearDesdeDto(CreatePersonaDto $createPersonaDto, ?UploadedFile $fotografiaFile): JsonResource
+    public function createFromDto(CreatePersonaDto $createPersonaDto, ?UploadedFile $fotografiaFile): JsonResource
     {
 
         $urlFotografia = '';
@@ -54,7 +57,7 @@ class PersonaService extends BaseService {
 
         $nuevaPersonaResource = null;
         DB::transaction(function() use ($data, $createPersonaDto, &$nuevaPersonaResource){
-            $nuevaPersonaResource =  parent::crear($data);
+            $nuevaPersonaResource =  parent::create($data);
             $nuevaPersona = $nuevaPersonaResource->resource;
 
             if ($createPersonaDto->email && $createPersonaDto->passsword) {
@@ -85,7 +88,7 @@ class PersonaService extends BaseService {
      * @param UploadedFile|null $fotografiaFile
      * @return JsonResource
      */
-    public function actualizarDesdeDto(UpdatePersonaDto $updatePersonaDto, int $id, ?UploadedFile $fotografiaFile): JsonResource
+    public function updateFromDto(UpdatePersonaDto $updatePersonaDto, int $id, ?UploadedFile $fotografiaFile): JsonResource
     {
 
         $data = [
@@ -109,6 +112,6 @@ class PersonaService extends BaseService {
             $data['url_fotografia'] = Storage::url($path);
         }
 
-        return parent::actualizar($id, $data);
+        return parent::update($id, $data);
     }
 }

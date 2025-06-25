@@ -27,7 +27,7 @@ class BeneficiarioController extends BaseController
 
     public function list()
     {
-        return $this->beneficiarioService->lista();
+        return $this->beneficiarioService->list();
     }
 
     /**
@@ -35,7 +35,7 @@ class BeneficiarioController extends BaseController
      */
     public function create(BeneficiarioPostRequest $request)
     {
-        return $this->beneficiarioService->crear($request->validated());
+        return $this->beneficiarioService->create($request->validated());
     }
 
 
@@ -44,7 +44,7 @@ class BeneficiarioController extends BaseController
      */
     public function update(Beneficiario $beneficiarios, BeneficiarioPutRequest $request)
     {
-        return $this->beneficiarioService->actualizar($request->validated(), $beneficiarios->id);
+        return $this->beneficiarioService->update($request->validated(), $beneficiarios->id);
     }
 
     /**
@@ -52,6 +52,6 @@ class BeneficiarioController extends BaseController
      */
     public function delete(Beneficiario $beneficiarios)
     {
-        return $this->beneficiarioService->eliminar($beneficiarios->id);
+        return $this->beneficiarioService->delete($beneficiarios->id);
     }
 }

@@ -25,7 +25,7 @@ class TipoProyectoController extends BaseController
 
     public function list()
     {
-        return $this->tipoProyectoService->lista();
+        return $this->tipoProyectoService->list();
     }
 
     /**
@@ -33,7 +33,7 @@ class TipoProyectoController extends BaseController
      */
     public function create(TipoProyectoPostRequest $request)
     {
-        return $this->tipoProyectoService->crear($request->validated());
+        return $this->tipoProyectoService->create($request->validated());
     }
 
 
@@ -42,7 +42,7 @@ class TipoProyectoController extends BaseController
      */
     public function update(TipoProyecto $tiposProyecto, TipoProyectoPutRequest $request)
     {
-        return $this->tipoProyectoService->actualizar($tiposProyecto->id, $request->validated());
+        return $this->tipoProyectoService->update($tiposProyecto->id, $request->validated());
     }
 
     /**
@@ -50,6 +50,6 @@ class TipoProyectoController extends BaseController
      */
     public function delete(TipoProyecto $tiposProyecto)
     {
-        return $this->tipoProyectoService->eliminar($tiposProyecto->id);
+        return $this->tipoProyectoService->delete($tiposProyecto->id);
     }
 }

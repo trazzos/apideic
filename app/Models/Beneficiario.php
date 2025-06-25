@@ -12,4 +12,9 @@ class Beneficiario extends Model
     protected $table = 'beneficiarios';
 
     protected $guarded = [];
+
+    public function actividades()
+    {
+        return $this->hasMany(Actividad::class, 'beneficiario_id');
+    }
 }

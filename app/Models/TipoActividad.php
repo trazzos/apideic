@@ -12,4 +12,9 @@ class TipoActividad extends Model
     protected $table = 'tipos_actividad';
 
     protected $guarded = [];
+
+    public function actividades()
+    {
+        return $this->hasMany(Actividad::class, 'tipo_actividad_id');
+    }
 }

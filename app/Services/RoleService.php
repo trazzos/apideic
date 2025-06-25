@@ -18,7 +18,7 @@ class RoleService extends BaseService
     }
 
 
-    public function crearDesdeDto(CreateRoleDto $createRoleDto): JsonResource {
+    public function createFromDto(CreateRoleDto $createRoleDto): JsonResource {
 
         $data = [
             'title' => $createRoleDto->tile,
@@ -26,7 +26,7 @@ class RoleService extends BaseService
             'guard_name' => $createRoleDto->guardName ?? 'web',
         ];
 
-        $roleResource = parent::crear($data);
+        $roleResource = parent::create($data);
         $role = $roleResource->resource;
 
         if ($createRoleDto->permisos) {
@@ -35,13 +35,13 @@ class RoleService extends BaseService
         return $roleResource;
     }
 
-    public function actualizarDesdeDto(UpdateRoleDto $updateRoleDto, int $id): JsonResource {
+    public function updateFromDto(UpdateRoleDto $updateRoleDto, int $id): JsonResource {
 
         $data = [
             'title' => $updateRoleDto->tile,
         ];
 
-        $roleResource = parent::actualizar($id, $data);
+        $roleResource = parent::update($id, $data);
         $role = $roleResource->resource;
 
         if ($updateRoleDto->permisos) {

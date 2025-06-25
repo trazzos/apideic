@@ -26,7 +26,7 @@ class ProyectoService extends BaseService {
     * @param CreateProyectoDto $createProyectoDto
     * @return JsonResource
     */
-    public function crearDesdeDto(CreateProyectoDto $createProyectoDto): JsonResource
+    public function createFromDto(CreateProyectoDto $createProyectoDto): JsonResource
     {
 
         $data = [
@@ -37,7 +37,7 @@ class ProyectoService extends BaseService {
             'descripcion' => $createProyectoDto->descripcion,
         ];
 
-        $jsonResource =  parent::crear($data);
+        $jsonResource =  parent::create($data);
         return ProyectoResource::make($jsonResource);
     }
 
@@ -47,7 +47,7 @@ class ProyectoService extends BaseService {
      * @param int $id
      * @return JsonResource
      */
-    public function actualizarDesdeDto(UpdateProyectoDto $updateProyectoDto, $id): JsonResource
+    public function updateFromDto(UpdateProyectoDto $updateProyectoDto, $id): JsonResource
     {
 
         $data = [
@@ -57,7 +57,7 @@ class ProyectoService extends BaseService {
             'descripcion' => $updateProyectoDto->descripcion,
         ];
 
-        $jsonResource = parent::actualizar($id, $data);
+        $jsonResource = parent::update($id, $data);
 
         return ProyectoResource::make($jsonResource);
     }

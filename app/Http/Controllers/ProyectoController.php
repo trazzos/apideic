@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Dtos\Proyecto\CreateProyectoDto;
 use App\Dtos\Proyecto\UpdateProyectoDto;
 use App\Http\Requests\Proyecto\ProyectoPostRequest;
-use App\Http\Requests\Proyecto\ProyectoPutRequest;
+use App\Http\Requests\Proyecto\ProyectoPatchRequest;
 use App\Models\Proyecto;
 use App\Services\ProyectoService;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -34,7 +34,7 @@ class ProyectoController extends BaseController
      */
     public function list(): ResourceCollection
     {
-        return $this->proyectoService->lista();
+        return $this->proyectoService->list();
     }
 
     /**
@@ -53,27 +53,27 @@ class ProyectoController extends BaseController
     public function create(ProyectoPostRequest $request): JsonResource
     {
         $createProyectoDto = CreateProyectoDto::fromRequest($request);
-        return $this->proyectoService->crearDesdeDto($createProyectoDto);
+        return $this->proyectoService->createFromDto($createProyectoDto);
     }
 
 
     /**
-     * @param Proyecto $proyectoS
-     * @param ProyectoPutRequest $request
+     * @param Proyecto $proyecto
+     * @param ProyectoPatchRequest $request
      * @return JsonResource
      */
-    public function update(Proyecto $proyectos, ProyectoPutRequest $request):JsonResource
+    public function update(Proyecto $proyecto, ProyectoPatchRequest $request):JsonResource
     {
         $updateProyectoDto = UpdateProyectoDto::fromRequest($request);
-        return $this->proyectoService->actualizarDesdeDto($updateProyectoDto, $proyectos->id,);
+        return $this->proyectoService->updateFromDto($updateProyectoDto, $proyecto->id,);
     }
 
     /**
-     * @param Proyecto $proyectos
+     * @param Proyecto $proyecto
      * @return Response
      */
-    public function delete(Proyecto $proyectos):Response
+    public function delete(Proyecto $proyecto):Response
     {
-        return $this->proyectoService->eliminar($proyectos->id);
+        return $this->proyectoService->delete($proyecto->id);
     }
 }

@@ -11,9 +11,6 @@
 |
 */
 require __DIR__.'/api/seguridad.php';
-require __DIR__.'/api/catalogo.php';
-require __DIR__.'/api/persona.php';
-
-
-
-
+require __DIR__.'/api/catalogos.php';
+require __DIR__.'/api/personas.php';
+require __DIR__.'/api/proyectos.php';

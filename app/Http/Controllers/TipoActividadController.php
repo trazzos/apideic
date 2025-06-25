@@ -27,7 +27,7 @@ class TipoActividadController extends BaseController
 
     public function list()
     {
-        return $this->tipoActividadService->lista();
+        return $this->tipoActividadService->list();
     }
 
     /**
@@ -35,7 +35,7 @@ class TipoActividadController extends BaseController
      */
     public function create(TipoActividadPostRequest $request)
     {
-        return $this->tipoActividadService->crear($request->validated());
+        return $this->tipoActividadService->create($request->validated());
     }
 
 
@@ -44,7 +44,7 @@ class TipoActividadController extends BaseController
      */
     public function update(TipoActividad $tiposActividad, TipoActividadPutRequest $request)
     {
-        return $this->tipoActividadService->actualizar($request->validated(), $tiposActividad->id);
+        return $this->tipoActividadService->update($request->validated(), $tiposActividad->id);
     }
 
     /**
@@ -52,6 +52,6 @@ class TipoActividadController extends BaseController
      */
     public function delete(TipoActividad $tiposActividad)
     {
-        return $this->tipoActividadService->eliminar($tiposActividad->id);
+        return $this->tipoActividadService->delete($tiposActividad->id);
     }
 }

@@ -9,5 +9,7 @@ class BeneficiarioService extends BaseService {
     public function __construct(readonly BeneficiarioRepository $beneficiarioRepository)
     {
         $this->repository = $this->beneficiarioRepository;
+        $this->customResourceCollection = "App\\Http\\Resources\\Beneficiario\\BeneficiarioCollection";
+        $this->customResource = "App\\Http\\Resources\\Beneficiario\\BeneficiarioResource";
     }
 }

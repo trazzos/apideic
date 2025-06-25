@@ -9,5 +9,7 @@ class TipoProyectoService extends BaseService {
     public function __construct(readonly TipoProyectoRepository $tipoProyectoRepository)
     {
         $this->repository = $this->tipoProyectoRepository;
+        $this->customResourceCollection = "App\\Http\\Resources\\TipoProyecto\\TipoProyectoCollection";
+        $this->customResource = "App\\Http\\Resources\\TipoProyecto\\TipoProyectoResource";
     }
 }

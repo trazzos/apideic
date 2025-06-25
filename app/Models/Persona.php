@@ -13,6 +13,16 @@ class Persona extends Model
 
     protected $guarded = [];
 
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function actividades()
+    {
+        return $this->hasMany(Actividad::class, 'responsable_id');
+    }
+
     public function user()
     {
         return $this->morphOne(User::class, 'owner');

@@ -23,4 +23,9 @@ class Proyecto extends Model
     {
         return $this->belongsTo(Departamento::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 }

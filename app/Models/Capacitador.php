@@ -12,4 +12,9 @@ class Capacitador extends Model
     protected $table = 'capacitadores';
 
     protected $guarded = [];
+
+    public function actividades()
+    {
+        return $this->hasMany(Actividad::class, 'capacitador_id');
+    }
 }

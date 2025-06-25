@@ -25,7 +25,7 @@ class TipoDocumentoController extends BaseController
 
     public function list()
     {
-        return $this->tipoDocumentoService->lista();
+        return $this->tipoDocumentoService->list();
     }
 
     /**
@@ -33,7 +33,7 @@ class TipoDocumentoController extends BaseController
      */
     public function create(TipoDocumentoPostRequest $request)
     {
-        return $this->tipoDocumentoService->crear($request->validated());
+        return $this->tipoDocumentoService->create($request->validated());
     }
 
 
@@ -42,7 +42,7 @@ class TipoDocumentoController extends BaseController
      */
     public function update(TipoDocumento $tiposDocumento, TipoDocumentoPutRequest $request)
     {
-        return $this->tipoDocumentoService->actualizar($tiposDocumento->id, $request->validated());
+        return $this->tipoDocumentoService->update($tiposDocumento->id, $request->validated());
     }
 
     /**
@@ -50,6 +50,6 @@ class TipoDocumentoController extends BaseController
      */
     public function delete(TipoDocumento $tiposDocumento)
     {
-        return $this->tipoDocumentoService->eliminar($tiposDocumento->id);
+        return $this->tipoDocumentoService->delete($tiposDocumento->id);
     }
 }
