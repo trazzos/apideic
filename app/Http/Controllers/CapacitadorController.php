@@ -44,7 +44,7 @@ class CapacitadorController extends BaseController
      */
     public function update(Capacitador $capacitadores, CapacitadorPutRequest $request)
     {
-        return $this->capacitadorService->update($request->validated(), $capacitadores->id);
+        return $this->capacitadorService->update($capacitadores->id, $request->validated());
     }
 
     /**

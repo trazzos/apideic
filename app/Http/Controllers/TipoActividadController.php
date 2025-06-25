@@ -44,7 +44,7 @@ class TipoActividadController extends BaseController
      */
     public function update(TipoActividad $tiposActividad, TipoActividadPutRequest $request)
     {
-        return $this->tipoActividadService->update($request->validated(), $tiposActividad->id);
+        return $this->tipoActividadService->update($tiposActividad->id, $request->validated());
     }
 
     /**

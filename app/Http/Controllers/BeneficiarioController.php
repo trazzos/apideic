@@ -44,7 +44,7 @@ class BeneficiarioController extends BaseController
      */
     public function update(Beneficiario $beneficiarios, BeneficiarioPutRequest $request)
     {
-        return $this->beneficiarioService->update($request->validated(), $beneficiarios->id);
+        return $this->beneficiarioService->update($beneficiarios->id, $request->validated());
     }
 
     /**
