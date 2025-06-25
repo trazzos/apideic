@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Dtos\Persona\CreatePersonaDto;
 use App\Dtos\Persona\UpdatePersonaDto;
 use App\Http\Requests\Persona\PersonaPostRequest;
-use App\Http\Requests\Persona\PersonaPutRequest;
+use App\Http\Requests\Persona\PersonaPatchRequest;
 use App\Models\Persona;
 use App\Services\PersonaService;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -54,10 +54,10 @@ class PersonaController extends BaseController
 
     /**
      * @param Persona $persona
-     * @param PersonaPutRequest $request
+     * @param PersonaPatchRequest $request
      * @return JsonResource
      */
-    public function update(Persona $persona, PersonaPutRequest $request):JsonResource
+    public function update(Persona $persona, PersonaPatchRequest $request):JsonResource
     {
         $updatePersonaDto = UpdatePersonaDto::fromRequest($request);
         $fotografiaFile = $request->file('fotografia');
