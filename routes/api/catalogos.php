@@ -30,8 +30,8 @@ Route::middleware(['auth:sanctum'])->prefix('departamentos')->name('departamento
 
     Route::get('', [App\Http\Controllers\DepartamentoController::class,'list'])->name('lista');
     Route::post('', [App\Http\Controllers\DepartamentoController::class,'create'])->name('registrar');
-    Route::put('{departamentos}', [App\Http\Controllers\DepartamentoController::class,'update'])->name('actualizar');
-    Route::delete('{departamentos}', [App\Http\Controllers\DepartamentoController::class,'delete'])->name('eliminar');
+    Route::put('{departamento}', [App\Http\Controllers\DepartamentoController::class,'update'])->name('actualizar');
+    Route::delete('{departamento}', [App\Http\Controllers\DepartamentoController::class,'delete'])->name('eliminar');
 });
 
 
