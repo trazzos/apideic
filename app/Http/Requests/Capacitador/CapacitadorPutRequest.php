@@ -24,7 +24,7 @@ class CapacitadorPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', Rule::unique('capacitadores', 'nombre')->ignore($this->capacitador->id)],
+            'nombre' => ['required','string', Rule::unique('capacitadores', 'nombre')->ignore($this->capacitadores->id)],
             'descripcion' => ['required','string'],
         ];
     }

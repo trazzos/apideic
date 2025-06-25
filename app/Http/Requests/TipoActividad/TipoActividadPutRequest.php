@@ -23,7 +23,7 @@ class TipoActividadPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', Rule::unique('tipos_actividad', 'nombre')->ignore($this->tipoActividad->id)],
+            'nombre' => ['required','string', Rule::unique('tipos_actividad', 'nombre')->ignore($this->tiposActividad->id)],
             'descripcion' => ['required','string'],
             'mostrar_en_calendario' => ['required','string'],
         ];

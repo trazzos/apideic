@@ -24,7 +24,7 @@ class BeneficiarioPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', Rule::unique('beneficiarios', 'nombre')->ignore($this->beneficiario->id)],
+            'nombre' => ['required','string', Rule::unique('beneficiarios', 'nombre')->ignore($this->beneficiarios->id)],
             'descripcion' => ['required','string'],
         ];
     }

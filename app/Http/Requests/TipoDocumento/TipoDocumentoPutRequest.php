@@ -24,7 +24,7 @@ class TipoDocumentoPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', Rule::unique('tipos_documento', 'nombre')->ignore($this->tipoDocumento->id)],
+            'nombre' => ['required','string', Rule::unique('tipos_documento', 'nombre')->ignore($this->tiposDocumento->id)],
             'descripcion' => ['required','string'],
         ];
     }
