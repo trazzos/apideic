@@ -29,6 +29,11 @@ class ProyectoController extends BaseController
         //$this->middleware('permission:proyecto.editar')->only(['update']);
     }
 
+    public function show(Proyecto $proyecto): JsonResource
+    {
+        return $this->proyectoService->findById($proyecto->id);
+    }
+
     /**
      * @return ResourceCollection
      */
