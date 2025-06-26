@@ -5,7 +5,7 @@ Route::middleware(['auth:sanctum'])->prefix('personas')->name('personas.')->grou
 
     Route::get('', [App\Http\Controllers\PersonaController::class,'list'])->name('lista');
     Route::post('', [App\Http\Controllers\PersonaController::class,'create'])->name('registrar');
-    Route::patch('{$id}', [App\Http\Controllers\PersonaController::class,'update'])->name('actualizar');
+    Route::patch('{id}', [App\Http\Controllers\PersonaController::class,'update'])->name('actualizar');
     Route::delete('{id}', [App\Http\Controllers\PersonaController::class,'delete'])->name('eliminar');
 
     //Route::put('{persona}/user', [App\Http\Controllers\PersonaController::class,'actualizarPassword'])->name('actualizar.user');
