@@ -43,15 +43,6 @@ class ProyectoController extends BaseController
     }
 
     /**
-     * @param int $id
-     * @return JsonResource
-     */
-    public function show(int $id):JsonResource
-    {
-        return $this->proyectoService->findById($id);
-    }
-
-    /**
      * @param ProyectoPostRequest $request
      * @return JsonResource
      */
