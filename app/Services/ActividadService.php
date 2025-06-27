@@ -87,12 +87,12 @@ class ActividadService extends BaseService {
 
         $data = [
             'tipo_actividad_id' => $updateActividadDto->tipoActividadId,
-            'tipo_capacitador_id' => $updateActividadDto->tipoCapacitadorId,
-            'tipo_beneficiario_id' => $updateActividadDto->tipoBeneficiarioId,
+            'capacitador_id' => $updateActividadDto->capacitadorId,
+            'beneficiario_id' => $updateActividadDto->beneficiarioId,
             'nombre' => $updateActividadDto->nombre,
             'responsable_id'=> $updateActividadDto->responsableId,
-            'fecha_inicio'  => $updateActividadDto->fechaInicio,
-            'fecha_final'  => $updateActividadDto->fechaFin,
+            'fecha_inicio'  => $updateActividadDto->fechaInicio->toDateString(),
+            'fecha_final'  => $updateActividadDto->fechaFin->toDateString(),
             'persona_beneficiada' => $updateActividadDto->personaBeneficiada,
             'prioridad' => $updateActividadDto->prioridad,
             'autoridad' => $updateActividadDto->autoridad,
