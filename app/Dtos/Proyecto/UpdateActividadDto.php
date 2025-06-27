@@ -60,7 +60,7 @@ class UpdateActividadDto
             $request->input('persona_beneficiada'),
             $request->input('prioridad'),
             $request->input('persona_beneficiada'),
-            $request->input('autoridad'),
+            $request->input('autoridad_participante'),
             $request->input('link_drive'),
             $request->input('fecha_solicitud_constancia'),
             $request->input('fecha_envio_constancia'),
