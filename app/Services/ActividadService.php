@@ -104,10 +104,10 @@ class ActividadService extends BaseService {
             'fecha_copy_creativo' => $updateActividadDto->fechaCopyCreativo,
             'fecha_inicio_difusion_banner' => $updateActividadDto->fechaInicioDifusionBanner,
             'fecha_fin_difusion_banner' => $updateActividadDto->fechaFinDifusionBanner,
-            'liga_registro' => $updateActividadDto->ligaRegistro,
+            'link_registro' => $updateActividadDto->ligaRegistro,
             'registro_nafin' => $updateActividadDto->registroNafin,
-            'liga_zoom' => $updateActividadDto->ligaZoom,
-            'liga_panelista' => $updateActividadDto->ligaPanelista,
+            'link_zoom' => $updateActividadDto->ligaZoom,
+            'link_panelista' => $updateActividadDto->ligaPanelista,
             'comentario' => $updateActividadDto->comentario,
         ];
 
