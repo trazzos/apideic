@@ -68,11 +68,11 @@ class UpdateActividadDto
             $request->input('fecha_copy_creativo'),
             $request->input('fecha_inicio_difusion_banner'),
             $request->input('fecha_fin_difusion_banner'),
-            $request->input('liga_registro'),
-            $request->input('registro_nafin'),
-            $request->input('liga_zoom'),
-            $request->input('liga_panelista'),
-            $request->input('comentario'),
+            $request->input('liga_registro') ?? '',
+            $request->input('registro_nafin') ?? '',
+            $request->input('liga_zoom') ?? '',
+            $request->input('liga_panelista') ?? '',
+            $request->input('comentario') ?? '',
         );
     }
 }
