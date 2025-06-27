@@ -7,7 +7,7 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::get('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'show'])->name('show');
     Route::post('', [App\Http\Controllers\ProyectoController::class,'create'])->name('registrar');
     Route::patch('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'update'])->name('actualizar');
-    Route::delete('{proyecto}', [App\Http\Controllers\ProyectoController::class,'delete'])->name('eliminar');
+    Route::delete('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'delete'])->name('eliminar');
 
 
     Route::get('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'list'])->name('actividades.lista');
