@@ -25,6 +25,7 @@ return [
         'https://deic.codisoft.com.mx',
         'http://deic.test',
         'https://deicapi.codisoft.com.mx',
+        'https://deic.netlify.app'
     ],
 
     'allowed_origins_patterns' => ['*'],
