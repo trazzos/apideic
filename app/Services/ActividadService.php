@@ -95,7 +95,7 @@ class ActividadService extends BaseService {
             'fecha_final'  => $updateActividadDto->fechaFin->toDateString(),
             'persona_beneficiada' => $updateActividadDto->personaBeneficiada,
             'prioridad' => $updateActividadDto->prioridad,
-            'autoridad' => $updateActividadDto->autoridad,
+            'autoridad_participante' => $updateActividadDto->autoridad,
             'link_drive' => $updateActividadDto->linkDrive,
             'fecha_solicitud_constancia' => $updateActividadDto->fechaSolicitudConstancia,
             'fecha_envio_constancia' => $updateActividadDto->fechaEnvioConstancia,
