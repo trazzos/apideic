@@ -15,15 +15,15 @@ class CreateActividadDto
      * @param string $uuidProyecto
      * @param string $uuid
      * @param int $tipoActividadId
-     * @param int $tipoCapacitadorId
-     * @param int $tipoBeneficiarioId
+     * @param int $capacitadorId
+     * @param int $beneficiarioId
      * @param string $nombre
      * @param int $responsableId
      * @param Carbon $fechaInicio
      * @param Carbon $fechaFin
      * @param string $personaBeneficiada
      * @param string $prioridad
-     * @param array|null $autoridad
+     * @param array|null $autoridadParticipante
      * @param string|null $linkDrive
      * @param Carbon|null $fechaSolicitudConstancia
      * @param Carbon|null $fechaEnvioConstancia
