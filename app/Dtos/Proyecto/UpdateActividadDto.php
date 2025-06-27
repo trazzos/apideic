@@ -16,8 +16,8 @@ class UpdateActividadDto
      */
     public function __construct(
         public readonly int $tipoActividadId,
-        public readonly int $tipoCapacitadorId,
-        public readonly int $tipoBeneficiarioId,
+        public readonly int $capacitadorId,
+        public readonly int $beneficiarioId,
         public readonly string $nombre,
         public readonly int $responsableId,
         public readonly Carbon $fechaInicio,
@@ -51,8 +51,8 @@ class UpdateActividadDto
     {
         return new self(
             $request->input('tipo_actividad_id'),
-            $request->input('tipo_capacitador_id'),
-            $request->input('tipo_beneficiario_id'),
+            $request->input('capacitador_id'),
+            $request->input('beneficiario_id'),
             $request->input('nombre'),
             $request->input('responsable_id'),
             $request->input('fecha_inicio'),
