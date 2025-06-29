@@ -27,7 +27,7 @@ class ActividadResource extends JsonResource
             'responsable_nombre' => $this->responsable?->nombre,
             'nombre' => $this->nombre,
             'fecha_inicio' => $this->fecha_inicio,
-            'fecha_fin' => $this->fecha_fin,
+            'fecha_fin' => $this->fecha_final,
             'persona_beneficiada' => $this->persona_beneficiada,
             'prioridad' => $this->prioridad,
             'autoridad_participante' => $this->autoridad_participante,
