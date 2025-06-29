@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Interfaces\Repositories\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 abstract class BaseEloquentRepository implements BaseRepositoryInterface
@@ -21,6 +22,25 @@ abstract class BaseEloquentRepository implements BaseRepositoryInterface
     {
         $this->model =  $model;
     }
+
+    /**
+     * Paginate the model's records.
+     *
+     * @param int $perPage
+     * @param array $filters
+     * @return LengthAwarePaginator
+     */
+    public function paginate(int $perPage = 15, array $filters = []): LengthAwarePaginator
+    {
+        $query = $this->model->newQuery();
+
+        foreach ($filters as $key => $value) {
+            $query->where($key, $value);
+        }
+
+        return $query->paginate($perPage);
+    }
+
 
     /**
      * @param array $data

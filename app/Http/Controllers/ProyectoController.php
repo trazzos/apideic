@@ -34,6 +34,9 @@ class ProyectoController extends BaseController
         return $this->proyectoService->findById($proyecto->id);
     }
 
+    //implementar paginacion para list
+
+
     /**
      * @return ResourceCollection
      */

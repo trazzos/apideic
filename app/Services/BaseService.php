@@ -27,6 +27,19 @@ abstract class BaseService
     /**
      * @return ResourceCollection
      */
+    public function paginate(): ResourceCollection
+    {
+        $rows = $this->repository->all();
+
+        if ($this->customResourceCollection)
+            return new $this->customResourceCollection($rows);
+
+        return ResourceCollection::make($rows);
+    }
+
+    /**
+     * @return ResourceCollection
+     */
     public function list(): ResourceCollection
     {
         $rows = $this->repository->all();
@@ -36,6 +49,7 @@ abstract class BaseService
 
         return ResourceCollection::make($rows);
     }
+
 
     /**
      * @param int $id

@@ -113,6 +113,6 @@ class ActividadService extends BaseService {
 
         $jsonResource = parent::update($id, $data);
 
-        return ProyectoResource::make($jsonResource);
+        return ActividadResource::make($jsonResource);
     }
 }
