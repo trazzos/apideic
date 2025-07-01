@@ -68,10 +68,10 @@ class UpdateActividadDto
             $request->input('fecha_copy_creativo') ? Carbon::parse($request->input('fecha_copy_creativo')) : null,
             $request->input('fecha_inicio_difusion_banner') ? Carbon::parse($request->input('fecha_inicio_difusion_banner')) : null,
             $request->input('fecha_fin_difusion_banner') ? Carbon::parse($request->input('fecha_fin_difusion_banner')) : null,
-            $request->input('liga_registro') ?? '',
+            $request->input('link_registro') ?? '',
             $request->input('registro_nafin') ?? '',
-            $request->input('liga_zoom') ?? '',
-            $request->input('liga_panelista') ?? '',
+            $request->input('link_zoom') ?? '',
+            $request->input('link_panelista') ?? '',
             $request->input('comentario') ?? '',
         );
     }
