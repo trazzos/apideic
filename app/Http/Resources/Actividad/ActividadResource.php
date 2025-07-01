@@ -42,7 +42,7 @@ class ActividadResource extends JsonResource
             'link_registro' => $this->link_registro,
             'registro_nafin' => $this->registro_nafin,
             'link_zoom' => $this->link_zoom,
-            'link_penalista' => $this->link_penalista,
+            'link_panelista' => $this->link_panelista,
             'comentario' => $this->comentario,
 
         ];
