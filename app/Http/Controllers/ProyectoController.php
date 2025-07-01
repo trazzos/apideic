@@ -8,6 +8,7 @@ use App\Http\Requests\Proyecto\ProyectoPostRequest;
 use App\Http\Requests\Proyecto\ProyectoPatchRequest;
 use App\Models\Proyecto;
 use App\Services\ProyectoService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -40,8 +41,13 @@ class ProyectoController extends BaseController
     /**
      * @return ResourceCollection
      */
-    public function list(): ResourceCollection
+    public function list(Request $request): ResourceCollection
     {
+        if ($request->has('per_page')) {
+            $perPage = (int)$request->get('per_page');
+            $page = (int)$request->get('page');
+            return $this->proyectoService->paginate($perPage,['*'], 'page', $page);
+        }
         return $this->proyectoService->list();
     }
 

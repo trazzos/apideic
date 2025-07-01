@@ -27,14 +27,12 @@ abstract class BaseService
     /**
      * @return ResourceCollection
      */
-    public function paginate(): ResourceCollection
+    public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): mixed
     {
-        $rows = $this->repository->all();
+        $rows = $this->repository->paginate($perPage, $columns,$pageName, $page);
 
-        if ($this->customResourceCollection)
-            return new $this->customResourceCollection($rows);
 
-        return ResourceCollection::make($rows);
+        return response()->json($rows);
     }
 
     /**

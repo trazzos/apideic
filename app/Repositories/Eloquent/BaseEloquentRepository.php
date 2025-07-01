@@ -24,21 +24,28 @@ abstract class BaseEloquentRepository implements BaseRepositoryInterface
     }
 
     /**
-     * Paginate the model's records.
-     *
      * @param int $perPage
-     * @param array $filters
+     * @param array $columns
+     * @param string $pageName
+     * @param int|null $page
      * @return LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15, array $filters = []): LengthAwarePaginator
+    public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): LengthAwarePaginator
     {
-        $query = $this->model->newQuery();
+        return $this->model->paginate($perPage, $columns, $pageName, $page);
+    }
 
-        foreach ($filters as $key => $value) {
-            $query->where($key, $value);
-        }
-
-        return $query->paginate($perPage);
+    /**
+     * @param int $perPage
+     * @param array $with
+     * @param array $columns
+     * @param string $pageName
+     * @param int|null $page
+     * @return LengthAwarePaginator
+     */
+    public function paginateWith(int $perPage = 15, array $with = [], array $columns = ['*'], string $pageName = 'page', int $page = null): LengthAwarePaginator
+    {
+        return $this->model->with($with)->paginate($perPage, $columns, $pageName, $page);
     }
 
 

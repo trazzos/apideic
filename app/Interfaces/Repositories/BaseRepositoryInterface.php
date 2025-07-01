@@ -17,12 +17,7 @@ interface BaseRepositoryInterface
 
     public function all(array $columns = ['*'], array $relations = []): \Illuminate\Support\Collection;
 
-    /**
-     * Paginate the model's records.
-     *
-     * @param int $perPage
-     * @param array $filters
-     * @return LengthAwarePaginator
-     */
-    public function paginate(int $perPage = 15, array $filters = []): LengthAwarePaginator;
+    public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): LengthAwarePaginator;
+
+    public function paginateWith(int $perPage = 15, array $with = [], array $columns = ['*'], string $pageName = 'page', int $page = null): LengthAwarePaginator;
 }
