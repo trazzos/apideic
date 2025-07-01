@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Dtos\Proyecto\CreateActividadDto;
 use App\Http\Resources\Actividad\ActividadResource;
-use App\Http\Resources\Proyecto\ProyectoResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Repositories\Eloquent\ActividadRepository;
 use App\Dtos\Proyecto\UpdateActividadDto;
@@ -55,14 +54,14 @@ class ActividadService extends BaseService {
             'persona_beneficiada' => $createActividadDto->personaBeneficiada,
             'prioridad' => $createActividadDto->prioridad,
             'autoridad_participante' => $createActividadDto->autoridadParticipante,
-            'link_drive' => $createActividadDto->linkDrive,
-            'fecha_solicitud_constancia' => $createActividadDto->fechaSolicitudConstancia,
-            'fecha_envio_constancia' => $createActividadDto->fechaEnvioConstancia,
-            'fecha_vencimiento_envio_encuesta' => $createActividadDto->fechaVencimientoEnvioEncuesta,
-            'fecha_envio_encuesta' => $createActividadDto->fechaEnvioEncuesta,
-            'fecha_copy_creativo' => $createActividadDto->fechaCopyCreativo,
-            'fecha_inicio_difusion_banner' => $createActividadDto->fechaInicioDifusionBanner,
-            'fecha_fin_difusion_banner' => $createActividadDto->fechaFinDifusionBanner,
+            'link_drive' => $createActividadDto->linkDrive ?? '',
+            'fecha_solicitud_constancia' => $createActividadDto->fechaSolicitudConstancia?->toDateString(),
+            'fecha_envio_constancia' => $createActividadDto->fechaEnvioConstancia?->toDateString(),
+            'fecha_vencimiento_envio_encuesta' => $createActividadDto->fechaVencimientoEnvioEncuesta?->toDateString(),
+            'fecha_envio_encuesta' => $createActividadDto->fechaEnvioEncuesta?->toDateString(),
+            'fecha_copy_creativo' => $createActividadDto->fechaCopyCreativo?->toDateString(),
+            'fecha_inicio_difusion_banner' => $createActividadDto->fechaInicioDifusionBanner?->toDateString(),
+            'fecha_fin_difusion_banner' => $createActividadDto->fechaFinDifusionBanner?->toDateString(),
             'link_registro' => $createActividadDto->linkRegistro,
             'registro_nafin' => $createActividadDto->registroNafin,
             'link_zoom' => $createActividadDto->linkZoom,
@@ -96,7 +95,7 @@ class ActividadService extends BaseService {
             'persona_beneficiada' => $updateActividadDto->personaBeneficiada,
             'prioridad' => $updateActividadDto->prioridad,
             'autoridad_participante' => $updateActividadDto->autoridad,
-            'link_drive' => $updateActividadDto->linkDrive,
+            'link_drive' => $updateActividadDto->linkDrive ?? '',
             'fecha_solicitud_constancia' => $updateActividadDto->fechaSolicitudConstancia,
             'fecha_envio_constancia' => $updateActividadDto->fechaEnvioConstancia,
             'fecha_vencimiento_envio_encuesta' => $updateActividadDto->fechaVencimientoEnvioEncuesta,
