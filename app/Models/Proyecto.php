@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Proyecto extends Model
@@ -22,6 +23,11 @@ class Proyecto extends Model
     public function departamento(): BelongsTo
     {
         return $this->belongsTo(Departamento::class);
+    }
+
+    public function actividades(): HasMany
+    {
+        return $this->hasMany(Actividad::class);
     }
 
     public function getRouteKeyName()

@@ -30,8 +30,6 @@ abstract class BaseService
     public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): mixed
     {
         $rows = $this->repository->paginate($perPage, $columns,$pageName, $page);
-
-
         return response()->json($rows);
     }
 

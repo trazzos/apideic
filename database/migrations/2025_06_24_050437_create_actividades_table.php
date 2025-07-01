@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('link_zoom')->default('');
             $table->string('link_panelista')->default('');
             $table->text('comentario')->default('');
+            $table->timestamp('completed_at')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
         });

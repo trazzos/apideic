@@ -18,6 +18,7 @@ class TipoActividadResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
+            'mostrar_en_calendario' => $this->mostrar_en_calendario,
         ];
     }
 }

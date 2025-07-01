@@ -72,7 +72,7 @@ return new class extends Migration
         Schema::create('proyectos', function (Blueprint $table) {
 
             $table->id();
-            $table->uuid()->index();
+            $table->uuid()->unique()->index();
             $table->foreignId('departamento_id')->constrained('departamentos');
             $table->foreignId('tipo_proyecto_id')->constrained('tipos_proyecto');
             $table->string('nombre');

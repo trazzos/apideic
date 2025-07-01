@@ -11,9 +11,14 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::delete('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'delete'])->name('eliminar');
 
 
-    Route::get('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'list'])->name('actividades.lista');
-    Route::post('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'create'])->name('actividades.registrar');
-    Route::patch('actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'update'])->name('actividades.actualizar');
-    Route::delete('actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'delete'])->name('actividades.eliminar');
+    Route::get('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'list'])->name('actividades.list');
+    Route::post('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'create'])->name('actividades.create');
+    Route::patch('actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'update'])->name('actividades.update');
+    Route::delete('actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'delete'])->name('actividades.delete');
+
+    Route::get('{proyectos:uuid}/actividades/{actividades:uuid}/tareas', [App\Http\Controllers\TareaController::class,'list'])->name('actividades.tareas.list');
+    Route::post('{proyectos:uuid}/actividades/{actividades:uuid}/tareas', [App\Http\Controllers\TareaController::class,'create'])->name('actividades.tareas.create')->scopeBindings();
+    Route::patch('{proyecto:uuid}/actividades/{actividades:uuid}/tareas/{tarea:uuid}', [App\Http\Controllers\TareaController::class,'update'])->name('actividades.tareas.update');
+    Route::delete('{proyecto:uuid}/actividades/{actividades:uuid}/tareas/{tarea:uuid}', [App\Http\Controllers\TareaController::class,'delete'])->name('actividades.tareas.update');
 });
 
