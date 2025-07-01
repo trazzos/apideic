@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller as BaseController;
 
 class ProyectoController extends BaseController
@@ -43,12 +44,20 @@ class ProyectoController extends BaseController
      */
     public function list(Request $request): ResourceCollection
     {
-        if ($request->has('per_page')) {
-            $perPage = (int)$request->get('per_page');
-            $page = (int)$request->get('page');
-            return $this->proyectoService->paginate($perPage,['*'], 'page', $page);
-        }
+
         return $this->proyectoService->list();
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function paginate(Request $request): mixed
+    {
+
+        $perPage = $request->input('per_page', 15);
+        $page = $request->input('page', 1);
+        return $this->proyectoService->paginate($perPage, ['*'], 'page', $page);
     }
 
     /**

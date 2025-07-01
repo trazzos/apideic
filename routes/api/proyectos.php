@@ -3,7 +3,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->group(function()  {
 
-    Route::get('', [App\Http\Controllers\ProyectoController::class,'list'])->name('lista');
+    Route::get('', [App\Http\Controllers\ProyectoController::class,'list'])->name('list');
+    Route::get('paginate', [App\Http\Controllers\ProyectoController::class,'paginate'])->name('paginate');
     Route::get('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'show'])->name('show');
     Route::post('', [App\Http\Controllers\ProyectoController::class,'create'])->name('registrar');
     Route::patch('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'update'])->name('actualizar');
