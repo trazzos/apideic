@@ -79,4 +79,16 @@ class TareaController extends BaseController
     {
         return $this->tareaService->delete($tarea->id);
     }
+
+    /**
+     * @param Proyecto $proyecto
+     * @param Actividad $actividad
+     * @param Tarea $tarea
+     * @return Response
+     */
+    public function changeEstatus(Proyecto $proyecto, Actividad $actividad, Tarea $tarea,):JsonResource
+    {
+        $data['completed_at'] = $tarea->completed_at ? null : now();
+        return $this->tareaService->update($tarea->id, $data);
+    }
 }
