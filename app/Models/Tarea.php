@@ -22,6 +22,6 @@ class Tarea extends Model
     }
     public function getEstatusAttribute(): string
     {
-        return $this->completed ? 'Completada' : 'Pendiente';
+        return $this->completed_at ? 'Completada' : 'Pendiente';
     }
 }
