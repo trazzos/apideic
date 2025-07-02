@@ -14,12 +14,14 @@ class Tarea extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['estatus'];
+
     public function actividad(): BelongsTo
     {
         return $this->belongsTo(Actividad::class);
     }
-    public function getRouteKeyName()
+    public function getEstatusAttribute(): string
     {
-        return 'uuid';
+        return $this->completed ? 'Completada' : 'Pendiente';
     }
 }

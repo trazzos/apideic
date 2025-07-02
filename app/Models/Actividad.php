@@ -13,7 +13,6 @@ class Actividad extends Model
     protected $table = 'actividades';
 
     protected $guarded = [];
-
     protected $casts = [
         'autoridad_participante' => 'json',
     ];

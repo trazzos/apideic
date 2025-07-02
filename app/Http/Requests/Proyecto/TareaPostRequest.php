@@ -25,9 +25,11 @@ class TareaPostRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        \Log::info($this->actividad->uuid);
         return [
             'nombre'=> ['required',Rule::unique('tareas')->where(function ($query) {
-                return $query->where('actividad_uuid', $this->actividades->uuid);
+                return $query->where('actividad_uuid', $this->actividad->uuid);
             })],
         ];
     }

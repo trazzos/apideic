@@ -45,11 +45,9 @@ class TareaController extends BaseController
      * @param TareaPostRequest $request
      * @return JsonResource
      */
-    public function create(Proyecto $proyecto, Actividad $actividades, TareaPostRequest $request): JsonResource
+    public function create(Proyecto $proyecto, Actividad $actividad, TareaPostRequest $request): JsonResource
     {
 
-        $proyecto = Proyecto::where('uuid', $this->proyecto->uuid)->firstOrFail();
-        $actividad = Actividad::where('uuid', $this->actividades->uuid)->where('proyecto_uuid', $proyecto->uuid)->firstOrFail();
 
         $data = $request->validated();
         $data['actividad_id']   = $actividad->id;

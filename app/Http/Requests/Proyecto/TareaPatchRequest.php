@@ -24,7 +24,7 @@ class TareaPatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', Rule::unique('tareas')->ignore($this->route('tarea')->uuid)->where(function ($query) {
+            'nombre' => ['required', Rule::unique('tareas')->ignore($this->tarea->id)->where(function ($query) {
                 return $query->where('actividad_uuid', $this->actividad->uuid);
             })],
         ];
