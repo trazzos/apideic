@@ -24,14 +24,19 @@ abstract class BaseService
      */
     protected BaseEloquentRepository $repository;
 
-    /**
-     * @return ResourceCollection
-     */
-    public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): mixed
-    {
-        $rows = $this->repository->paginate($perPage, $columns,$pageName, $page);
-        return response()->json($rows);
-    }
+  /**
+   * @return ResourceCollection
+   */
+  public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): ResourceCollection
+  {
+      $rows = $this->repository->paginate($perPage, $columns, $pageName, $page);
+
+      if ($this->customResourceCollection) {
+          return new $this->customResourceCollection($rows);
+      }
+
+      return ResourceCollection::make($rows);
+  }
 
     /**
      * @return ResourceCollection
