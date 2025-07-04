@@ -46,6 +46,11 @@ class Actividad extends Model
         return $this->morphMany(Archivo::class, 'archivable');
     }
 
+    public function tareas()
+    {
+        return $this->hasMany(Tarea::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'uuid';

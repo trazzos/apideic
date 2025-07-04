@@ -23,6 +23,12 @@ class ProyectoResource extends JsonResource
             "departamento_nombre" => $this->departamento->nombre,
             "nombre" => $this->nombre,
             "descripcion" => $this->descripcion,
+            "porcentaje_avance" => $this->getProgress()['porcentaje_completado'],
+            "total_tareas" => $this->getProgress()['total_tareas'],
+            "tareas_completadas" => $this->getProgress()['tareas_completadas'],
+            "tareas_pendientes" => $this->getProgress()['tareas_pendientes'],
+            "estatus" => $this->isCompleted() ? 'Completado' : 'Pendiente', // Atributo calculado
+
         ];
     }
 }

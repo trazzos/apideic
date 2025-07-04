@@ -24,25 +24,26 @@ abstract class BaseService
      */
     protected BaseEloquentRepository $repository;
 
-  /**
-   * @return ResourceCollection
-   */
-  public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): ResourceCollection
-  {
-      $rows = $this->repository->paginate($perPage, $columns, $pageName, $page);
+    /**
+     * @return ResourceCollection
+     */
+    public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): ResourceCollection
+    {
+        $rows = $this->repository->paginate($perPage, $columns, $pageName, $page);
 
-      if ($this->customResourceCollection) {
-          return new $this->customResourceCollection($rows);
-      }
+        if ($this->customResourceCollection) {
+            return new $this->customResourceCollection($rows);
+        }
 
-      return ResourceCollection::make($rows);
-  }
+        return ResourceCollection::make($rows);
+    }
 
     /**
      * @return ResourceCollection
      */
     public function list(): ResourceCollection
     {
+
         $rows = $this->repository->all();
 
         if ($this->customResourceCollection)
@@ -110,7 +111,7 @@ abstract class BaseService
         if ($deleted) {
             return response()->noContent();
         } else {
-           throw new ModelNotFoundException("No se encontró registro con ID {$id} para eliminar.");
+        throw new ModelNotFoundException("No se encontró registro con ID {$id} para eliminar.");
         }
     }
 

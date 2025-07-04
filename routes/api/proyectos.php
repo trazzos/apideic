@@ -20,6 +20,7 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::post('{proyecto}/actividades/{actividad}/tareas', [App\Http\Controllers\TareaController::class,'create'])->name('actividades.tareas.create');
     Route::patch('{proyecto}/actividades/{actividad}/tareas/{tarea}', [App\Http\Controllers\TareaController::class,'update'])->name('actividades.tareas.update');
     Route::delete('{proyecto}/actividades/{actividad}/tareas/{tarea}', [App\Http\Controllers\TareaController::class,'delete'])->name('actividades.tareas.delete');
-    Route::patch('{proyecto}/actividades/{actividad}/tareas/{tarea}/cambiar-estatus', [App\Http\Controllers\TareaController::class,'changeStatus'])->name('actividades.tareas.change-status');
+    Route::patch('{proyecto}/actividades/{actividad}/tareas/{tarea}/completar', [App\Http\Controllers\TareaController::class,'complete'])->name('actividades.tareas.complete');
+    Route::patch('{proyecto}/actividades/{actividad}/tareas/{tarea}/pendiente', [App\Http\Controllers\TareaController::class,'markAsPending'])->name('actividades.tareas.pending');
 });
 

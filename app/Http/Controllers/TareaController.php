@@ -86,9 +86,19 @@ class TareaController extends BaseController
      * @param Tarea $tarea
      * @return Response
      */
-    public function changeStatus(Proyecto $proyecto, Actividad $actividad, Tarea $tarea,):JsonResource
+    public function complete(Proyecto $proyecto, Actividad $actividad, Tarea $tarea): JsonResource
     {
-        $data['completed_at'] = $tarea->completed_at ? null : now();
-        return $this->tareaService->update($tarea->id, $data);
+        return $this->tareaService->complete($tarea->id);
+    }
+
+    /**
+     * @param Proyecto $proyecto
+     * @param Actividad $actividad
+     * @param Tarea $tarea
+     * @return Response
+     */
+    public function markAsPending(Proyecto $proyecto, Actividad $actividad, Tarea $tarea): JsonResource
+    {
+        return $this->tareaService->markAsPending($tarea->id);
     }
 }
