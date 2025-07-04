@@ -70,4 +70,13 @@ class ActividadController extends BaseController
     {
         return $this->actividadService->delete($actividad->id);
     }
+
+    /**
+     * Obtener el progreso de una actividad
+     */
+    public function getProgress(Actividad $actividad): JsonResource
+    {
+        $progress = $this->actividadService->getProgress($actividad->id);
+        return JsonResource::make($progress);
+    }
 }

@@ -90,4 +90,13 @@ class ProyectoController extends BaseController
     {
         return $this->proyectoService->delete($proyecto->id);
     }
+
+    /**
+     * Obtener el progreso de un proyecto
+     */
+    public function getProgress(Proyecto $proyecto): JsonResource
+    {
+        $progress = $proyecto->getProgress();
+        return JsonResource::make($progress);
+    }
 }

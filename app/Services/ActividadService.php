@@ -114,4 +114,18 @@ class ActividadService extends BaseService {
 
         return ActividadResource::make($jsonResource);
     }
+
+    /**
+     * Obtener el progreso de una actividad específica
+     */
+    public function getProgress(int $id): array
+    {
+        $actividad = $this->repository->find($id);
+        
+        if (!$actividad) {
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Actividad con ID {$id} no encontrada.");
+        }
+
+        return $actividad->getProgress();
+    }
 }

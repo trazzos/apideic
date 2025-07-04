@@ -6,6 +6,7 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::get('', [App\Http\Controllers\ProyectoController::class,'list'])->name('list');
     Route::get('paginate', [App\Http\Controllers\ProyectoController::class,'paginate'])->name('paginate');
     Route::get('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'show'])->name('show');
+    Route::get('{proyecto:uuid}/progreso', [App\Http\Controllers\ProyectoController::class,'getProgress'])->name('progress');
     Route::post('', [App\Http\Controllers\ProyectoController::class,'create'])->name('registrar');
     Route::patch('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'update'])->name('actualizar');
     Route::delete('{proyecto:uuid}', [App\Http\Controllers\ProyectoController::class,'delete'])->name('eliminar');
@@ -15,6 +16,7 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::post('{proyecto:uuid}/actividades', [App\Http\Controllers\ActividadController::class,'create'])->name('actividades.create');
     Route::patch('actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'update'])->name('actividades.update');
     Route::delete('actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'delete'])->name('actividades.delete');
+    Route::get('actividades/{actividad:uuid}/progreso', [App\Http\Controllers\ActividadController::class,'getProgress'])->name('actividades.progress');
 
     Route::get('{proyecto}/actividades/{actividad}/tareas', [App\Http\Controllers\TareaController::class,'list'])->name('actividades.tareas.list');
     Route::post('{proyecto}/actividades/{actividad}/tareas', [App\Http\Controllers\TareaController::class,'create'])->name('actividades.tareas.create');

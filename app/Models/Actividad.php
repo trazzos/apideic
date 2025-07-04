@@ -15,6 +15,7 @@ class Actividad extends Model
     protected $guarded = [];
     protected $casts = [
         'autoridad_participante' => 'json',
+        'completed_at' => 'datetime',
     ];
 
     public function proyecto(): BelongsTo
@@ -49,6 +50,34 @@ class Actividad extends Model
     public function tareas()
     {
         return $this->hasMany(Tarea::class);
+    }
+
+    /**
+     * Verificar si la actividad está completada (todas las tareas completadas)
+     */
+    public function isCompleted(): bool
+    {
+        return !is_null($this->completed_at);
+    }
+
+    /**
+     * Obtener el progreso de la actividad basado en las tareas completadas
+     */
+    public function getProgress(): array
+    {
+        $totalTareas = $this->tareas()->count();
+        $tareasCompletadas = $this->tareas()->whereNotNull('completed_at')->count();
+        $tareasPendientes = $totalTareas - $tareasCompletadas;
+
+        $porcentaje = $totalTareas > 0 ? round(($tareasCompletadas / $totalTareas) * 100, 2) : 0;
+
+        return [
+            'total_tareas' => $totalTareas,
+            'tareas_completadas' => $tareasCompletadas,
+            'tareas_pendientes' => $tareasPendientes,
+            'porcentaje_completado' => $porcentaje,
+            'completado' => $this->isCompleted()
+        ];
     }
 
     public function getRouteKeyName()

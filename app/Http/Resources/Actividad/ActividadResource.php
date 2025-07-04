@@ -44,6 +44,11 @@ class ActividadResource extends JsonResource
             'link_zoom' => $this->link_zoom,
             'link_panelista' => $this->link_panelista,
             'comentario' => $this->comentario,
+            "porcentaje_avance" => $this->getProgress()['porcentaje_completado'],
+            "total_tareas" => $this->getProgress()['total_tareas'],
+            "tareas_completadas" => $this->getProgress()['tareas_completadas'],
+            "tareas_pendientes" => $this->getProgress()['tareas_pendientes'],
+            "estatus" => $this->isCompleted() ? 'Completado' : 'Pendiente',
 
         ];
     }
