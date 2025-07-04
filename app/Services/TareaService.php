@@ -185,7 +185,7 @@ class TareaService
      */
     public function delete($id): Response
     {
-        $tarea = $this->tareaRepository->find($id);
+        $tarea = $this->tareaRepository->findById($id);
         
         if (!$tarea) {
             throw new \Illuminate\Database\Eloquent\ModelNotFoundException("No se encontró registro con ID {$id} para eliminar.");
