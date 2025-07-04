@@ -2,43 +2,138 @@
 
 namespace App\Services;
 
-use App\Models\Proyecto;
+use App\Events\TareaCompletedStatusChanged;
 use App\Repositories\Eloquent\TareaRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 
-class TareaService extends BaseService {
+/**
+ * Servicio para la gestión de tareas con eventos automáticos.
+ * 
+ * Este servicio maneja las operaciones CRUD de tareas y dispara eventos
+ * automáticamente para mantener actualizados los estados de actividades
+ * y proyectos relacionados. No extiende BaseService debido a que requiere
+ * lógica específica de eventos en todos los métodos de modificación.
+ * 
+ * @package App\Services
+ * @author Sistema DEIC
+ * @since 1.0.0
+ */
+class TareaService 
+{
+    /**
+     * Repositorio para operaciones de base de datos de tareas.
+     */
+    private readonly TareaRepository $tareaRepository;
+    
+    /**
+     * Clase del recurso de colección personalizada.
+     */
+    private string $customResourceCollection = "App\\Http\\Resources\\Tarea\\TareaCollection";
+    
+    /**
+     * Clase del recurso individual personalizada.
+     */
+    private string $customResource = "App\\Http\\Resources\\Tarea\\TareaResource";
 
     /**
-     * @param TareaRepository $tareaRepository
+     * Constructor del servicio de tareas.
+     * 
+     * @param TareaRepository $tareaRepository Repositorio para operaciones de BD
      */
-    public function __construct(private readonly TareaRepository $tareaRepository)
+    public function __construct(TareaRepository $tareaRepository)
     {
-        $this->repository = $this->tareaRepository;
-        $this->customResourceCollection = "App\\Http\\Resources\\Tarea\\TareaCollection";
-        $this->customResource = "App\\Http\\Resources\\Tarea\\TareaResource";
+        $this->tareaRepository = $tareaRepository;
     }
 
-    public function listByActividadUuid(string $uuid):ResourceCollection
+    /**
+     * Listar tareas con paginación.
+     * 
+     * @param int $perPage Número de elementos por página
+     * @param array $columns Columnas a seleccionar
+     * @param string $pageName Nombre del parámetro de página
+     * @param int|null $page Página específica
+     * @return ResourceCollection Colección paginada de tareas
+     */
+    public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): ResourceCollection
     {
-        $rows = $this->repository->findByActividadUuid($uuid);
+        $rows = $this->tareaRepository->paginate($perPage, $columns, $pageName, $page);
 
         if ($this->customResourceCollection) {
             return new $this->customResourceCollection($rows);
         }
-        return ($this->customResourceCollection)::make($rows);
+
+        return ResourceCollection::make($rows);
     }
 
     /**
-     * Crear una tarea y actualizar el proyecto si es necesario
+     * Listar todas las tareas.
+     * 
+     * @return ResourceCollection Colección de todas las tareas
+     */
+    public function list(): ResourceCollection
+    {
+        $rows = $this->tareaRepository->all();
+
+        if ($this->customResourceCollection) {
+            return new $this->customResourceCollection($rows);
+        }
+
+        return ResourceCollection::make($rows);
+    }
+
+    /**
+     * Buscar una tarea por ID.
+     * 
+     * @param int $id El ID de la tarea
+     * @return JsonResource La tarea encontrada como recurso JSON
+     */
+    public function findById($id): JsonResource
+    {
+        $row = $this->tareaRepository->findById($id);
+
+        if ($this->customResource) {
+            return new $this->customResource($row);
+        }
+
+        return JsonResource::make($row);
+    }
+
+    /**
+     * Listar tareas por UUID de actividad.
+     * 
+     * @param string $uuid UUID de la actividad
+     * @return ResourceCollection Colección de tareas de la actividad
+     */
+    public function listByActividadUuid(string $uuid): ResourceCollection
+    {
+        $rows = $this->tareaRepository->findByActividadUuid($uuid);
+
+        if ($this->customResourceCollection) {
+            return new $this->customResourceCollection($rows);
+        }
+        
+        return ResourceCollection::make($rows);
+    }
+
+    /**
+     * Crear una nueva tarea.
+     * 
+     * Después de crear la tarea, dispara el evento TareaCompletedStatusChanged
+     * para que el sistema actualice automáticamente los estados de la actividad
+     * y proyecto asociados según sea necesario.
+     * 
+     * @param array $data Los datos para crear la tarea
+     * @return JsonResource La tarea creada como recurso JSON
+     * @throws \Exception Si hay un error al crear la tarea
      */
     public function create(array $data): JsonResource
     {
-        $nuevaTarea = $this->repository->create($data);
+        $nuevaTarea = $this->tareaRepository->create($data);
         
-        // Actualizar el estado del proyecto y actividad
-        $this->updateCompletedStatus($nuevaTarea->actividad_id);
+        // Disparar evento para actualizar estados automáticamente
+        TareaCompletedStatusChanged::dispatch($nuevaTarea);
         
         if ($this->customResource) {
             return new $this->customResource($nuevaTarea);
@@ -48,18 +143,27 @@ class TareaService extends BaseService {
     }
 
     /**
-     * Actualizar una tarea y el estado del proyecto
+     * Actualizar una tarea existente.
+     * 
+     * Después de actualizar la tarea, dispara el evento TareaCompletedStatusChanged
+     * para que el sistema actualice automáticamente los estados de la actividad
+     * y proyecto asociados según sea necesario.
+     * 
+     * @param int $id El ID de la tarea a actualizar
+     * @param array $data Los datos para actualizar la tarea
+     * @return JsonResource La tarea actualizada como recurso JSON
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException Si la tarea no existe
      */
     public function update(int $id, array $data): JsonResource
     {
-        $tareaActualizada = $this->repository->updateAndReturn($id, $data);
+        $tareaActualizada = $this->tareaRepository->updateAndReturn($id, $data);
         
         if (!$tareaActualizada) {
             throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Registro con ID {$id} no encontrado para actualizar.");
         }
         
-        // Actualizar el estado del proyecto y actividad
-        $this->updateCompletedStatus($tareaActualizada->actividad_id);
+        // Disparar evento para actualizar estados automáticamente
+        TareaCompletedStatusChanged::dispatch($tareaActualizada);
         
         if ($this->customResource) {
             return new $this->customResource($tareaActualizada);
@@ -69,22 +173,35 @@ class TareaService extends BaseService {
     }
 
     /**
-     * Eliminar una tarea y actualizar el estado del proyecto
+     * Eliminar una tarea.
+     * 
+     * Después de eliminar la tarea, dispara el evento TareaCompletedStatusChanged
+     * para que el sistema actualice automáticamente los estados de la actividad
+     * y proyecto asociados según sea necesario.
+     * 
+     * @param int $id El ID de la tarea a eliminar
+     * @return Response Respuesta HTTP sin contenido (204)
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException Si la tarea no existe
      */
     public function delete($id): Response
     {
-        $tarea = $this->repository->find($id);
+        $tarea = $this->tareaRepository->find($id);
         
         if (!$tarea) {
             throw new \Illuminate\Database\Eloquent\ModelNotFoundException("No se encontró registro con ID {$id} para eliminar.");
         }
         
-        $actividadId = $tarea->actividad_id;
-        $deleted = $this->repository->delete($id);
+        // Guardar referencia a la actividad antes de eliminar
+        $actividad = $tarea->actividad;
+        $deleted = $this->tareaRepository->delete($id);
         
         if ($deleted) {
-            // Actualizar el estado del proyecto y actividad después de eliminar la tarea
-            $this->updateCompletedStatus($actividadId);
+            // Disparar evento para actualizar estados después de eliminar
+            // Creamos una tarea temporal con la actividad para el evento
+            $tareaTemp = new \App\Models\Tarea();
+            $tareaTemp->setRelation('actividad', $actividad);
+            TareaCompletedStatusChanged::dispatch($tareaTemp);
+            
             return response()->noContent();
         } else {
             throw new \Illuminate\Database\Eloquent\ModelNotFoundException("No se encontró registro con ID {$id} para eliminar.");
@@ -92,7 +209,15 @@ class TareaService extends BaseService {
     }
 
     /**
-     * Marcar una tarea como completada
+     * Marcar una tarea como completada.
+     * 
+     * Establece el campo 'completed_at' con la fecha y hora actual,
+     * y dispara automáticamente los eventos necesarios para actualizar
+     * los estados de la actividad y proyecto relacionados.
+     * 
+     * @param int $id El ID de la tarea a completar
+     * @return JsonResource La tarea completada como recurso JSON
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException Si la tarea no existe
      */
     public function complete(int $id): JsonResource
     {
@@ -101,88 +226,20 @@ class TareaService extends BaseService {
     }
 
     /**
-     * Marcar una tarea como pendiente (no completada)
+     * Marcar una tarea como pendiente (no completada).
+     * 
+     * Establece el campo 'completed_at' como null, indicando que la tarea
+     * no está completada, y dispara automáticamente los eventos necesarios
+     * para actualizar los estados de la actividad y proyecto relacionados.
+     * 
+     * @param int $id El ID de la tarea a marcar como pendiente
+     * @return JsonResource La tarea actualizada como recurso JSON
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException Si la tarea no existe
      */
     public function markAsPending(int $id): JsonResource
     {
         $data = ['completed_at' => null];
         return $this->update($id, $data);
-    }
-
-    /**
-     * Actualizar el campo completed_at de la actividad y proyecto basado en el estado de las tareas
-     */
-    private function updateCompletedStatus(int $actividadId): void
-    {
-        // Obtener la actividad con su proyecto y todas las tareas
-        $actividad = \App\Models\Actividad::with(['proyecto', 'tareas'])->find($actividadId);
-        
-        if (!$actividad) {
-            return;
-        }
-
-        // Actualizar el estado de la actividad
-        $this->updateActividadCompletedStatus($actividad);
-
-        // Actualizar el estado del proyecto si existe
-        if ($actividad->proyecto) {
-            $this->updateProyectoCompletedStatus($actividad->proyecto);
-        }
-    }
-
-    /**
-     * Actualizar el campo completed_at de una actividad específica
-     */
-    private function updateActividadCompletedStatus(\App\Models\Actividad $actividad): void
-    {
-        $totalTareas = $actividad->tareas()->count();
-        $tareasCompletadas = $actividad->tareas()->whereNotNull('completed_at')->count();
-
-        // Si hay tareas y todas están completas, marcar la actividad como completa
-        if ($totalTareas > 0 && $tareasCompletadas === $totalTareas) {
-            if (!$actividad->completed_at) {
-                $actividad->update(['completed_at' => now()]);
-            }
-        } else {
-            // Si no todas las tareas están completas, quitar la fecha de completado
-            if ($actividad->completed_at) {
-                $actividad->update(['completed_at' => null]);
-            }
-        }
-    }
-
-    /**
-     * Actualizar el campo completed_at de un proyecto basado en el estado de todas sus actividades
-     */
-    private function updateProyectoCompletedStatus(\App\Models\Proyecto $proyecto): void
-    {
-        // Obtener todas las actividades del proyecto con sus tareas
-        $todasLasActividades = $proyecto->actividades()->with('tareas')->get();
-        
-        $todasLasTareasCompletas = true;
-        $hayTareas = false;
-        
-        foreach ($todasLasActividades as $act) {
-            foreach ($act->tareas as $tarea) {
-                $hayTareas = true;
-                if (!$tarea->completed_at) {
-                    $todasLasTareasCompletas = false;
-                    break 2; // Salir de ambos loops
-                }
-            }
-        }
-        
-        // Si hay tareas y todas están completas, marcar el proyecto como completo
-        if ($hayTareas && $todasLasTareasCompletas) {
-            if (!$proyecto->completed_at) {
-                $proyecto->update(['completed_at' => now()]);
-            }
-        } else {
-            // Si no todas las tareas están completas, quitar la fecha de completado
-            if ($proyecto->completed_at) {
-                $proyecto->update(['completed_at' => null]);
-            }
-        }
     }
 
 }

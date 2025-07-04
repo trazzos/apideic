@@ -36,38 +36,48 @@ class Proyecto extends Model
 
     
     /**
-     * Verificar si el proyecto está completado (todas las tareas completadas)
+     * Verificar si el proyecto está completado (todas las actividades completadas)
      */
     public function isCompleted(): bool
     {
-        return !is_null($this->completed_at);
+        $totalActividades = $this->actividades()->count();
+        
+        if ($totalActividades === 0) {
+            return false;
+        }
+
+        $actividadesCompletadas = $this->actividades()->whereNotNull('completed_at')->count();
+        
+        return $actividadesCompletadas === $totalActividades;
     }
 
     /**
-     * Obtener el progreso del proyecto basado en las tareas completadas
+     * Obtener el progreso del proyecto basado en actividades completadas
      */
     public function getProgress(): array
     {
-        $totalTareas = 0;
-        $tareasCompletadas = 0;
-
-        foreach ($this->actividades as $actividad) {
-            foreach ($actividad->tareas as $tarea) {
-                $totalTareas++;
-                if ($tarea->completed_at) {
-                    $tareasCompletadas++;
-                }
-            }
+        $totalActividades = $this->actividades()->count();
+        
+        if ($totalActividades === 0) {
+            return [
+                'total_actividades' => 0,
+                'actividades_completadas' => 0,
+                'actividades_pendientes' => 0,
+                'porcentaje_completado' => 0.00,
+                'completado' => false
+            ];
         }
 
-        $porcentaje = $totalTareas > 0 ? round(($tareasCompletadas / $totalTareas) * 100, 2) : 0;
+        $actividadesCompletadas = $this->actividades()->whereNotNull('completed_at')->count();
+        $actividadesPendientes = $totalActividades - $actividadesCompletadas;
+        $porcentajeCompletado = round(($actividadesCompletadas / $totalActividades) * 100, 2);
 
         return [
-            'total_tareas' => $totalTareas,
-            'tareas_completadas' => $tareasCompletadas,
-            'tareas_pendientes' => $totalTareas - $tareasCompletadas,
-            'porcentaje_completado' => $porcentaje,
-            'completado' => $this->isCompleted()
+            'total_actividades' => $totalActividades,
+            'actividades_completadas' => $actividadesCompletadas,
+            'actividades_pendientes' => $actividadesPendientes,
+            'porcentaje_completado' => $porcentajeCompletado,
+            'completado' => $actividadesCompletadas === $totalActividades
         ];
     }
 
