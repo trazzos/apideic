@@ -46,7 +46,6 @@ class ActividadPatchRequest extends FormRequest
             'link_zoom' => ['nullable','string'],
             'link_panelista' => ['nullable','string'],
             'comentario' => ['nullable','string'],
-            'documentos.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
         ];
     }
 }

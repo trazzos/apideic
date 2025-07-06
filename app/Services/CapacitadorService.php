@@ -6,7 +6,7 @@ use App\Repositories\Eloquent\CapacitadorRepository;
 
 class CapacitadorService extends BaseService {
 
-    public function __construct(readonly CapacitadorRepository $capacitadorRepository)
+    public function __construct(private readonly CapacitadorRepository $capacitadorRepository)
     {
         $this->repository = $this->capacitadorRepository;
         $this->customResourceCollection = "App\\Http\\Resources\\Capacitador\\CapacitadorCollection";

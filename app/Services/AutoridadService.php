@@ -6,7 +6,7 @@ use App\Repositories\Eloquent\AutoridadRepository;
 
 class AutoridadService extends BaseService {
 
-    public function __construct(readonly AutoridadRepository $autoridadRepository)
+    public function __construct(private readonly AutoridadRepository $autoridadRepository)
     {
         $this->repository = $this->autoridadRepository;
         $this->customResourceCollection = "App\\Http\\Resources\\Autoridad\\AutoridadCollection";

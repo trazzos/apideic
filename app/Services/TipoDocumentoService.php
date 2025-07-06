@@ -6,7 +6,7 @@ use App\Repositories\Eloquent\TipoDocumentoRepository;
 
 class TipoDocumentoService extends BaseService {
 
-    public function __construct(readonly TipoDocumentoRepository $tipoDocumentoRepository)
+    public function __construct(private readonly TipoDocumentoRepository $tipoDocumentoRepository)
     {
         $this->repository = $this->tipoDocumentoRepository;
         $this->customResourceCollection = "App\\Http\\Resources\\TipoDocumento\\TipoDocumentoCollection";
