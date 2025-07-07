@@ -22,7 +22,8 @@ class ArchivoResource extends JsonResource
             'tamanio' => $this->tamanio,
             'fecha_creacion' => $this->created_at->format('Y-m-d H:i:s'),
             'extension' => $this->extension,
-            'mime_type' => $this->mime_type
+            'mime_type' => $this->mime_type,
+            'url' => $this->getUrlCompleta(),
         ];
     }
 }

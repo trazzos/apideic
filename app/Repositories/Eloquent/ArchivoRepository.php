@@ -4,13 +4,12 @@ namespace App\Repositories\Eloquent;
 
 use App\Interfaces\Repositories\ArchivoRepositoryInterface;
 use App\Models\Archivo;
+use App\Models\Actividad;
 
 /**
  * Repositorio para la gestión de archivos/documentos.
  * 
  * @package App\Repositories\Eloquent
- * @author Sistema DEIC
- * @since 1.0.0
  */
 class ArchivoRepository extends BaseEloquentRepository implements ArchivoRepositoryInterface
 {

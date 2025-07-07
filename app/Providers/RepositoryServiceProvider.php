@@ -25,7 +25,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerBindings();
     }
 
     /**

@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
-use App\Http\Requests\DocumentoRequest;
+use App\Http\Requests\Shared\ArchivoRequest;
 use App\Interfaces\Repositories\ArchivoRepositoryInterface;
+use App\Interfaces\Repositories\TipoDocumentoRepositoryInterface;
 use App\Models\Actividad;
 use App\Models\Proyecto;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -18,10 +20,8 @@ use Illuminate\Support\Str;
  * de archivos y la persistencia en base de datos.
  * 
  * @package App\Services
- * @author Sistema DEIC
- * @since 1.0.0
  */
-class DocumentoService
+class ArchivoService
 {
     /**
      * Repositorio para operaciones de base de datos de archivos.
@@ -61,18 +61,18 @@ class DocumentoService
      * 
      * @param Proyecto $proyecto Proyecto al que pertenece la actividad
      * @param Actividad $actividad Actividad a la que se asociará el documento
-     * @param DocumentoRequest $request Datos del documento validados
-     * @return array Respuesta con el documento creado
+     * @param ArchivoRequest $request Datos del documento validados
+     * @return JsonResource Recurso JSON del documento creado
      * @throws \Exception Si hay error en la subida o validación
      */
-    public function create(Proyecto $proyecto, Actividad $actividad, DocumentoRequest $request): array
+    public function create(Proyecto $proyecto, Actividad $actividad, ArchivoRequest $request): JsonResource
     {
         // Validar que la actividad pertenece al proyecto
         if ($actividad->proyecto_id !== $proyecto->id) {
             throw new \Exception('La actividad no pertenece al proyecto especificado', 404);
         }
 
-        $file = $request->file('documento');
+        $file = $request->file('archivo');
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         
@@ -88,7 +88,7 @@ class DocumentoService
 
         // tipo_documento_nombre es derivado del catalogo tipos_documento que se accede con el tipo_documento_id
         // Preparar datos para el repositorio
-        $documentoData = [
+        $archivoData = [
             'uuid' => Str::uuid(),
             'nombre_original' => $originalName,
             'ruta' => $path,
@@ -101,15 +101,20 @@ class DocumentoService
             'archivable_type' => Actividad::class,
         ];
 
-        return $this->archivoRepository->create($documentoData);
+        $archivo = $this->archivoRepository->create($archivoData);
+        if ($this->customResource) {
+            return new $this->customResource($archivo);
+        }
+
+        return JsonResource::make($archivo);
     }
 
     /**
-     * Listar documentos de una actividad.
+     * Listar archivos de una actividad.
      * 
      * @param Proyecto $proyecto Proyecto al que pertenece la actividad
-     * @param Actividad $actividad Actividad de la cual listar documentos
-     * @return ResourceCollection|array Colección de documentos
+     * @param Actividad $actividad Actividad de la cual listar archivos
+     * @return mixed Colección de archivos
      * @throws \Exception Si la actividad no pertenece al proyecto
      */
     public function list(Proyecto $proyecto, Actividad $actividad):mixed
@@ -119,23 +124,23 @@ class DocumentoService
             throw new \Exception('La actividad no pertenece al proyecto especificado', 404);
         }
 
-        $documentos = $this->archivoRepository->findByArchivableId($actividad->id);
+        $archivos = $this->archivoRepository->findByArchivableId($actividad->id);
 
         if ($this->customResourceCollection) {
-            return new $this->customResourceCollection($documentos);
+            return new $this->customResourceCollection($archivos);
         }
 
-        return ResourceCollection::make($documentos);
+        return ResourceCollection::make($archivos);
     }
 
     /**
-     * Eliminar un documento.
-     * 
+     * Eliminar un archivo.
+     *
      * @param Proyecto $proyecto Proyecto al que pertenece la actividad
-     * @param Actividad $actividad Actividad a la que pertenece el documento
+     * @param Actividad $actividad Actividad a la que pertenece el archivo
      * @param Archivo $archivo Archivo a eliminar
      * @return array Respuesta de confirmación
-     * @throws \Exception Si hay errores de validación o no se encuentra el documento
+     * @throws \Exception Si hay errores de validación o no se encuentra el archivo
      */
     public function delete(Proyecto $proyecto, Actividad $actividad, Archivo $archivo): array
     {

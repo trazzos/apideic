@@ -26,13 +26,13 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::patch('{proyecto}/actividades/{actividad}/tareas/{tarea}/pendiente', [App\Http\Controllers\TareaController::class,'markAsPending'])->name('actividades.tareas.pending');
 
     // Rutas para documentos de actividades
-    Route::get('{proyecto}/actividades/{actividad}/archivos', [App\Http\Controllers\DocumentoController::class, 'list'])
+    Route::get('{proyecto}/actividades/{actividad}/archivos', [App\Http\Controllers\ArchivoController::class, 'list'])
         ->name('actividades.archivos.index');
 
-    Route::post('{proyecto}/actividades/{actividad}/archivos', [App\Http\Controllers\DocumentoController::class, 'create'])
+    Route::post('{proyecto}/actividades/{actividad}/archivos', [App\Http\Controllers\ArchivoController::class, 'create'])
         ->name('actividades.archivos.store');
 
-    Route::delete('{proyecto}/actividades/{actividad}/archivos/{archivo}', [App\Http\Controllers\DocumentoController::class, 'delete'])
+    Route::delete('{proyecto}/actividades/{actividad}/archivos/{archivo}', [App\Http\Controllers\ArchivoController::class, 'delete'])
         ->name('actividades.archivos.destroy');
 });
 
