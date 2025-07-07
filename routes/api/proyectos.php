@@ -26,10 +26,10 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::patch('{proyecto}/actividades/{actividad}/tareas/{tarea}/pendiente', [App\Http\Controllers\TareaController::class,'markAsPending'])->name('actividades.tareas.pending');
 
     // Rutas para archivos de actividades
-    Route::get('{proyecto}/actividades/{actividad}/archivos', [App\Http\Controllers\ArchivoController::class, 'index'])
+    Route::get('{proyecto}/actividades/{actividad}/archivos', [App\Http\Controllers\ArchivoController::class, 'list'])
         ->name('actividades.archivos.index');
 
-    Route::post('{proyecto}/actividades/{actividad}/archivos', [App\Http\Controllers\ArchivoController::class, 'store'])
+    Route::post('{proyecto}/actividades/{actividad}/archivos', [App\Http\Controllers\ArchivoController::class, 'create'])
         ->name('actividades.archivos.store');
 
     Route::get('{proyecto}/actividades/{actividad}/archivos/{archivo}/descargar', [App\Http\Controllers\ArchivoController::class, 'download'])
