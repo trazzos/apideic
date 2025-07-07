@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Shared\ArchivoRequest;
 use App\Models\Actividad;
 use App\Models\Proyecto;
+use App\Models\Archivo;
 use App\Services\ArchivoService;
 use Illuminate\Http\JsonResponse;
 
@@ -83,6 +84,16 @@ class ArchivoController extends Controller
             return $this->archivoService->delete($proyecto, $actividad, $archivo);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode() ?: 500);
+        }
+    }
+
+    //Descargar un archivo específico de una actividad.
+    public function download(Proyecto $proyecto, Actividad $actividad, Archivo $archivo): JsonResponse
+    {
+        try {
+            return $this->archivoService->download($proyecto, $actividad, $archivo);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), (int)$e->getCode() ?: 500);
         }
     }
 }

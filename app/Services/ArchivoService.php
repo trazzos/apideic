@@ -148,8 +148,8 @@ class ArchivoService
         if ($actividad->proyecto_id !== $proyecto->id) {
             throw new \Exception('La actividad no pertenece al proyecto especificado', 404);
         }
-        // Validar que el archivo es de tipo Documento
-        if ($archivo->archivo_type !== Actividad::class) {
+        // Validar que el archivo es de tipo Actividad
+        if ($archivo->archivable_type !== Actividad::class) {
             throw new \Exception('El archivo no es un documento de actividad', 400);
         }       
         //validar que el archivo pertenece a la actividad
@@ -157,20 +157,69 @@ class ArchivoService
             throw new \Exception('El archivo no pertenece a la actividad especificada', 404);
         }
 
-        // Asegurar que se busca el documento
-        $$archivo = $this->archivoRepository->findByUuid($archivo->uuid);
+        // Buscar el documento en el repositorio
+        $archivoEncontrado = $this->archivoRepository->findByUuid($archivo->uuid);
 
-        if (!$$archivo) {
+        if (!$archivoEncontrado) {
             throw new \Exception('Documento no encontrado', 404);
         }
 
         // Eliminar archivo físico
-        Storage::disk('public')->delete($$archivo->ruta);
+        Storage::disk('public')->delete($archivoEncontrado->ruta);
         
         // Eliminar registro de la base de datos
-        $this->archivoRepository->delete($$archivo->id);
+        $this->archivoRepository->delete($archivoEncontrado->id);
 
         return response()->noContent();
+    }
+
+    /**
+     * Descargar un archivo específico de una actividad.
+     *
+     * @param Proyecto $proyecto Proyecto al que pertenece la actividad
+     * @param Actividad $actividad Actividad a la que pertenece el archivo
+     * @param Archivo $archivo Archivo a descargar
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse Respuesta de descarga del archivo
+     * @throws \Exception Si hay errores de validación o no se encuentra el archivo
+     */
+    public function download(Proyecto $proyecto, Actividad $actividad, Archivo $archivo): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        // Validar que la actividad pertenece al proyecto
+        if ($actividad->proyecto_id !== $proyecto->id) {
+            throw new \Exception('La actividad no pertenece al proyecto especificado', 404);
+        }
+
+        // Validar que el archivo es de tipo Actividad
+        if ($archivo->archivable_type !== Actividad::class) {
+            throw new \Exception('El archivo no es un documento de actividad', 400);
+        }
+
+        // Validar que el archivo pertenece a la actividad
+        if ($archivo->archivable_id !== $actividad->id) {
+            throw new \Exception('El archivo no pertenece a la actividad especificada', 404);
+        }
+
+        // Verificar que el archivo existe físicamente
+        if (!Storage::disk('public')->exists($archivo->ruta)) {
+            throw new \Exception('El archivo físico no se encuentra en el almacenamiento', 404);
+        }
+
+        // Obtener el contenido del archivo
+        $fileContent = Storage::disk('public')->get($archivo->ruta);
+        $fileName = $archivo->nombre_original;
+        $mimeType = $archivo->mime_type;
+
+        // Crear respuesta de descarga
+        return response()->streamDownload(function () use ($fileContent) {
+            echo $fileContent;
+        }, $fileName, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+            'Content-Length' => strlen($fileContent),
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0'
+        ]);
     }
 
     /**
