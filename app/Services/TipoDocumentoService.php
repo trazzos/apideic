@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\Interfaces\TipoDocumentoRepositoryInterface;
+use App\Interfaces\Repositories\TipoDocumentoRepositoryInterface;
 
 class TipoDocumentoService extends BaseService {
 
