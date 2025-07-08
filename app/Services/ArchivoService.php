@@ -7,6 +7,7 @@ use App\Interfaces\Repositories\ArchivoRepositoryInterface;
 use App\Interfaces\Repositories\TipoDocumentoRepositoryInterface;
 use App\Models\Actividad;
 use App\Models\Proyecto;
+use App\Models\Archivo;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
