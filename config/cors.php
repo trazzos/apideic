@@ -22,14 +22,12 @@ return [
     'allowed_origins' => [
         'http://localhost:3000',
         'https://localhost:3000',
+        'http://localhost:8888',
         'https://deic.codisoft.com.mx',
         'http://deic.test',
         'https://deicapi.codisoft.com.mx',
         'https://deic.netlify.app'
     ],
-
-    'allowed_origins_patterns' => [],
-
     'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
