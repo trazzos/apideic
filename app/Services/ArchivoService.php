@@ -166,11 +166,14 @@ class ArchivoService
             throw new \Exception('Documento no encontrado', 404);
         }
 
-        // Eliminar archivo físico
-        Storage::disk('public')->delete($archivoEncontrado->ruta);
-        
-        // Eliminar registro de la base de datos
-        $this->archivoRepository->delete($archivoEncontrado->id);
+        try {
+            // Eliminar archivo físico
+            Storage::disk('public')->delete($archivoEncontrado->ruta);
+            // Eliminar registro de la base de datos
+            $this->archivoRepository->delete($archivoEncontrado->id);
+        } catch (\Exception $e) {
+            throw new \Exception('Error al eliminar el archivo: ' . $e->getMessage(), 500);
+        }
 
         return response()->noContent();
     }
