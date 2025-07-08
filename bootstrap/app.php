@@ -25,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'abilities' => CheckAbilities::class,
             'ability' => CheckForAnyAbility::class,
+            'log.sanctum.csrf' => \App\Http\Middleware\LogSanctumCsrfCookie::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
