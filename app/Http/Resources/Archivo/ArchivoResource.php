@@ -15,7 +15,7 @@ class ArchivoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return  [
-            'uuid' => $this->id,
+            'uuid' => $this->uuid,
             'nombre_original' => $this->nombre_original,
             'tipo' => $this->tipo_documento_nombre,
             'url' => $this->url,
