@@ -72,9 +72,9 @@ abstract class BaseEloquentRepository implements BaseRepositoryInterface
      * Buscar archivo por UUID.
      * 
      * @param string $uuid UUID del archivo
-     * @return Archivo
+     * @return Model
      */
-    public function findByUuid(string $uuid): Archivo
+    public function findByUuid(string $uuid): Model | ModelNotFoundException
     {
         return $this->model->where('uuid', $uuid)->firstOrFail();
     }
