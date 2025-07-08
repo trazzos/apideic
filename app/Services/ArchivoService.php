@@ -12,6 +12,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 
 /**
  * Servicio para la gestión de documentos de actividades.
@@ -140,10 +141,10 @@ class ArchivoService
      * @param Proyecto $proyecto Proyecto al que pertenece la actividad
      * @param Actividad $actividad Actividad a la que pertenece el archivo
      * @param Archivo $archivo Archivo a eliminar
-     * @return array Respuesta de confirmación
+     * @return Response Respuesta de confirmación
      * @throws \Exception Si hay errores de validación o no se encuentra el archivo
      */
-    public function delete(Proyecto $proyecto, Actividad $actividad, Archivo $archivo): array
+    public function delete(Proyecto $proyecto, Actividad $actividad, Archivo $archivo): Response
     {
         // Validar que la actividad pertenece al proyecto
         if ($actividad->proyecto_id !== $proyecto->id) {
