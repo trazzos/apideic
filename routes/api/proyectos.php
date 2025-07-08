@@ -14,7 +14,7 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
 
     Route::get('{proyecto}/actividades', [App\Http\Controllers\ActividadController::class,'list'])->name('actividades.list');
     Route::post('{proyecto}/actividades', [App\Http\Controllers\ActividadController::class,'create'])->name('actividades.create');
-    Route::patch('{proyecto:uuid}/actividades/{actividad:uuid}', [App\Http\Controllers\ActividadController::class,'update'])->name('actividades.update');
+    Route::patch('{proyecto}/actividades/{actividad}', [App\Http\Controllers\ActividadController::class,'update'])->name('actividades.update');
     Route::delete('{proyecto}/actividades/{actividad}', [App\Http\Controllers\ActividadController::class,'delete'])->name('actividades.delete');
     Route::get('{proyecto}/actividades/{actividad}/progreso', [App\Http\Controllers\ActividadController::class,'getProgress'])->name('actividades.progress');
 

@@ -52,11 +52,12 @@ class ActividadController extends BaseController
 
 
     /**
+     * @param Proyecto $proyecto
      * @param Actividad $actividad
      * @param ActividadPatchRequest $request
      * @return JsonResource
      */
-    public function update(Actividad $actividad, ActividadPatchRequest $request):JsonResource
+    public function update(Proyecto $proyecto, Actividad $actividad, ActividadPatchRequest $request):JsonResource
     {
         $updateActividadDto = UpdateActividadDto::fromRequest($request);
         return $this->actividadService->updateFromDto($updateActividadDto, $actividad->id);
