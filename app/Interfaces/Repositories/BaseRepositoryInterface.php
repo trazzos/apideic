@@ -10,6 +10,8 @@ interface BaseRepositoryInterface
     public function create(array $data):mixed;
 
     public function findById(mixed $id): Model | ModelNotFoundException;
+    
+    public function findByUuid(string $uuid): Model | ModelNotFoundException;
 
     public function updateAndReturn(mixed $id, array $data): ?Model;
 
