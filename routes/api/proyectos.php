@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
     Route::get('{proyecto}/actividades/{actividad}/archivos/{archivo}/descargar', [App\Http\Controllers\ArchivoController::class, 'download'])
         ->name('actividades.archivos.download');
 
-    Route::delete('{proyecto}/actividades/{actividad}/archivos/{archivo::uuid}', [App\Http\Controllers\ArchivoController::class, 'delete'])
+    Route::delete('{proyecto}/actividades/{actividad}/archivos/{archivo}', [App\Http\Controllers\ArchivoController::class, 'delete'])
         ->name('actividades.archivos.delete');
 });
 
