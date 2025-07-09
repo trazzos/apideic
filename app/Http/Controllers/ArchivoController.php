@@ -87,8 +87,16 @@ class ArchivoController extends Controller
         }
     }
 
-    //Descargar un archivo específico de una actividad.
-    public function download(Proyecto $proyecto, Actividad $actividad, Archivo $archivo): JsonResponse
+    /**
+     * Descargar un archivo de una actividad.
+     *
+     * @param Proyecto $proyecto Proyecto al que pertenece la actividad
+     * @param Actividad $actividad Actividad de la cual se descargará el archivo
+     * @param Archivo $archivo Archivo a descargar
+     * @return StreamedResponse
+     * @throws \Exception
+     */
+    public function download(Proyecto $proyecto, Actividad $actividad, Archivo $archivo): StreamedResponse
     {
         try {
             return $this->archivoService->download($proyecto, $actividad, $archivo);
