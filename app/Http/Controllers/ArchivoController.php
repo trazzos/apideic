@@ -8,6 +8,7 @@ use App\Models\Proyecto;
 use App\Models\Archivo;
 use App\Services\ArchivoService;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Controlador para la gestión de archivos de actividades.
