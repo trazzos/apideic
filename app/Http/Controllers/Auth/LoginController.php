@@ -18,14 +18,6 @@ class LoginController extends BaseController
     public function __invoke(LoginPostRequest $request)
     {
        $request->validated();
-
-        // Log the login attempt
-        \Log::info('Login attempt', [
-            'email' => $request->input('email'),
-            'ip' => $request->ip(),
-        ]);
-
-        // Call the auth service to handle the login logic
        return $this->authService->login($request);
     }
 }
