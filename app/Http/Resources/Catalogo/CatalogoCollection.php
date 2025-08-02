@@ -45,7 +45,6 @@ class CatalogoCollection extends ResourceCollection
             return [
                 'id' => $item->id,
                 'nombre' => $item->nombre,
-                'descripcion' => $item->descripcion ?? null,
             ];
         })->toArray();
     }
@@ -62,8 +61,6 @@ class CatalogoCollection extends ResourceCollection
             return [
                 'id' => $item->id,
                 'nombre' => $item->nombre,
-                'contacto' => $item->contacto ?? null,
-                'email' => $item->email ?? null,
             ];
         })->toArray();
     }
@@ -80,8 +77,6 @@ class CatalogoCollection extends ResourceCollection
             return [
                 'id' => $item->id,
                 'nombre' => $item->nombre,
-                'cargo' => $item->cargo ?? null,
-                'institucion' => $item->institucion ?? null,
             ];
         })->toArray();
     }
@@ -97,11 +92,12 @@ class CatalogoCollection extends ResourceCollection
         return collect($items)->map(function ($item) {
             return [
                 'id' => $item->id,
+                'departamento_id' => $item->departamento_id,
+                'departamento_nombre' => $item->departamento->nombre ?? null,
+                'responsable_departamento' => $item->responsable_departamento,
                 'nombre' => $item->nombre,
-                'apellido' => $item->apellido ?? null,
-                'nombre_completo' => trim($item->nombre . ' ' . ($item->apellido ?? '')),
-                'email' => $item->email ?? null,
-                'telefono' => $item->telefono ?? null,
+                'apellido_paterno' => $item->apellido_paterno ?? null,
+                'apellido_materno' => $item->apellido_materno ?? null,
             ];
         })->toArray();
     }
@@ -118,8 +114,6 @@ class CatalogoCollection extends ResourceCollection
             return [
                 'id' => $item->id,
                 'nombre' => $item->nombre,
-                'especialidad' => $item->especialidad ?? null,
-                'contacto' => $item->contacto ?? null,
             ];
         })->toArray();
     }
