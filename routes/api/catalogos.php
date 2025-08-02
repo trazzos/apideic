@@ -69,6 +69,11 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->name('roles.')->group(func
     Route::delete('{roles}', [App\Http\Controllers\RoleController::class,'delete'])->name('eliminar');
 });
 
+// Endpoint consolidado para todos los catálogos
+Route::middleware(['auth:sanctum'])->prefix('catalogos')->name('catalogos.')->group(function()  {
+    Route::get('all', [App\Http\Controllers\CatalogoController::class,'all'])->name('all');
+});
+
 Route::middleware([StartSession::class])->get('debug-session', function (\Illuminate\Http\Request $request) {
     return response()->json([
         'session_id' => $request->session()->getId(),
