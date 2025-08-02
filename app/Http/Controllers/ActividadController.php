@@ -64,10 +64,11 @@ class ActividadController extends BaseController
     }
 
     /**
+     * @param Proyecto $proyecto
      * @param Actividad $actividad
      * @return Response
      */
-    public function delete(Actividad $actividad):Response
+    public function delete(Proyecto $proyecto, Actividad $actividad):Response
     {
         return $this->actividadService->delete($actividad->id);
     }
