@@ -52,7 +52,7 @@ class CatalogoService extends BaseService
      */
     private function getDepartamentos()
     {
-        return Departamento::select('id', 'nombre', 'descripcion')
+        return Departamento::select('id', 'nombre')
             ->orderBy('nombre')
             ->get();
     }
@@ -64,7 +64,7 @@ class CatalogoService extends BaseService
      */
     private function getTiposDocumento()
     {
-        return TipoDocumento::select('id', 'nombre', 'descripcion')
+        return TipoDocumento::select('id', 'nombre','descripcion')
             ->orderBy('nombre')
             ->get();
     }
@@ -76,7 +76,7 @@ class CatalogoService extends BaseService
      */
     private function getTiposProyecto()
     {
-        return TipoProyecto::select('id', 'nombre', 'descripcion')
+        return TipoProyecto::select('id', 'nombre')
             ->orderBy('nombre')
             ->get();
     }
@@ -88,7 +88,7 @@ class CatalogoService extends BaseService
      */
     private function getTiposActividad()
     {
-        return TipoActividad::select('id', 'nombre', 'descripcion')
+        return TipoActividad::select('id', 'nombre')
             ->orderBy('nombre')
             ->get();
     }
@@ -100,7 +100,7 @@ class CatalogoService extends BaseService
      */
     private function getBeneficiarios()
     {
-        return Beneficiario::select('id', 'nombre', 'contacto', 'email')
+        return Beneficiario::select('id', 'nombre')
             ->orderBy('nombre')
             ->get();
     }
@@ -112,7 +112,7 @@ class CatalogoService extends BaseService
      */
     private function getAutoridades()
     {
-        return Autoridad::select('id', 'nombre', 'cargo', 'institucion')
+        return Autoridad::select('id', 'nombre')
             ->orderBy('nombre')
             ->get();
     }
@@ -124,7 +124,13 @@ class CatalogoService extends BaseService
      */
     private function getResponsables()
     {
-        return Persona::select('id', 'nombre', 'apellido', 'email', 'telefono')
+        return Persona::select(
+            'id',
+            'departamento_id', 
+            'nombre', 
+            'apellido_paterno',
+            'apellido_materno', 
+            'responsable_departamento')
             ->orderBy('nombre')
             ->get();
     }
@@ -136,7 +142,7 @@ class CatalogoService extends BaseService
      */
     private function getCapacitadores()
     {
-        return Capacitador::select('id', 'nombre', 'especialidad', 'contacto')
+        return Capacitador::select('id', 'nombre')
             ->orderBy('nombre')
             ->get();
     }
