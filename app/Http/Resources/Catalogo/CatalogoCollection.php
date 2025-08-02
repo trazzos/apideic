@@ -117,21 +117,4 @@ class CatalogoCollection extends ResourceCollection
             ];
         })->toArray();
     }
-
-    /**
-     * Get additional data that should be returned with the resource array.
-     *
-     * @param Request $request
-     * @return array<string, mixed>
-     */
-    public function with(Request $request): array
-    {
-        return [
-            'meta' => [
-                'version' => '1.0',
-                'generated_at' => now()->toISOString(),
-                'total_catalogos' => 8,
-            ],
-        ];
-    }
 }
