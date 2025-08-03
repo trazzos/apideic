@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class CreateRoleDto
 {
     public function __construct(
-         public readonly string $tile,
+         public readonly string $title,
          public readonly string $name,
          public readonly array $permisos,
     ) {

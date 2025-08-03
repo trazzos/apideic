@@ -1,12 +1,9 @@
 <?php
 
 namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Schema;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 
@@ -26,230 +23,272 @@ class InicializarPermisos extends Seeder
 
         $permisos =  [
             [
-                'title' => 'Autoridades',
-                'name' => 'autoridad',
+                'title' => 'Dashboard',
+                'name' => 'dashboard',
+            ],
+            [
+                'title' => 'Catálogo',
+                'name' => 'catalogos',
                 'children' => [
                     [
-                        'title' => 'Agregar',
-                        'name'  => 'autoridad.agregar'
+                        'title' => 'Autoridades',
+                        'name' => 'catalogos.autoridades',
+                        'children' => [
+                            [
+                                'title' => 'Listar',
+                                'name'  => 'catalogos.autoridades.listar'
+                            ],
+                            [
+                                'title' => 'Agregar',
+                                'name'  => 'catalogos.autoridades.agregar'
+                            ],
+                            [
+                                'title' => 'Editar',
+                                'name'  => 'catalogos.autoridades.editar'
+                            ],
+                            [
+                                'title' => 'Eliminar',
+                                'name'  => 'catalogos.autoridades.eliminar'
+                            ]
+                        ]
                     ],
                     [
-                        'title' => 'Editar',
-                        'name'  => 'autoridad.editar'
+                        'title' => 'Beneficiarios',
+                        'name' => 'catalogos.beneficiarios',
+                        'children' => [
+                            [
+                                'title' => 'Listar',
+                                'name'  => 'catalogos.beneficiarios.listar'
+                            ],
+                            [
+                                'title' => 'Agregar',
+                                'name'  => 'catalogos.beneficiarios.agregar'
+                            ],
+                            [
+                                'title' => 'Editar',
+                                'name'  => 'catalogos.beneficiarios.editar'
+                            ],
+                            [
+                                'title' => 'Eliminar',
+                                'name'  => 'catalogos.beneficiarios.eliminar'
+                            ]
+                        ]
                     ],
                     [
-                        'title' => 'Eliminar',
-                        'name'  => 'autoridad.eliminar'
-                    ]
+                        'title' => 'Capacitadores',
+                        'name' => 'catalogos.capacitadores',
+                        'children' => [
+                            [
+                                'title' => 'Listar',
+                                'name'  => 'catalogos.capacitadores.listar'
+                            ],
+                            [
+                                'title' => 'Agregar',
+                                'name'  => 'catalogos.capacitadores.agregar'
+                            ],
+                            [
+                                'title' => 'Editar',
+                                'name'  => 'catalogos.capacitadores.editar'
+                            ],
+                            [
+                                'title' => 'Eliminar',
+                                'name'  => 'catalogos.capacitadores.eliminar'
+                            ]
+                        ]
+                    ],
+                    [
+                        'title' => 'Departamentos',
+                        'name' => 'catalogos.departamentos',
+                        'children' => [
+                            [
+                                'title' => 'Listar',
+                                'name'  => 'catalogos.departamentos.agregar'
+                            ],
+                            [
+                                'title' => 'Agregar',
+                                'name'  => 'catalogos.departamentos.agregar'
+                            ],
+                            [
+                                'title' => 'Editar',
+                                'name'  => 'catalogos.departamentos.editar'
+                            ],
+                            [
+                                'title' => 'Eliminar',
+                                'name'  => 'catalogos.departamentos.eliminar'
+                            ]
+                        ]
+                    ],
+                    [
+                        'title' => 'Tipos de actividad',
+                        'name' => 'catalogos.tipos_actividad',
+                        'children' => [
+                            [
+                                'title' => 'Listar',
+                                'name'  => 'catalogos.tipos_actividad.listar'
+                            ],
+                            [
+                                'title' => 'Agregar',
+                                'name'  => 'catalogos.tipos_actividad.agregar'
+                            ],
+                            [
+                                'title' => 'Editar',
+                                'name'  => 'catalogos.tipos_actividad.editar'
+                            ],
+                            [
+                                'title' => 'Eliminar',
+                                'name'  => 'catalogos.tipos_actividad.eliminar'
+                            ]
+                        ]
+                    ],
+                    [
+                        'title' => 'Tipos de documento',
+                        'name' => 'catalogos.tipos_documento',
+                        'children' => [
+                            [
+                                'title' => 'Listar',
+                                'name'  => 'catalogos.tipos_documento.listar'
+                            ],
+                            [
+                                'title' => 'Agregar',
+                                'name'  => 'catalogos.tipos_documento.agregar'
+                            ],
+                            [
+                                'title' => 'Editar',
+                                'name'  => 'catalogos.tipos_documento.editar'
+                            ],
+                            [
+                                'title' => 'Eliminar',
+                                'name'  => 'catalogos.tipos_documento.eliminar'
+                            ]
+                        ]
+                    ],
+                    [
+                        'title' => 'Tipos de proyecto',
+                        'name' => 'catalogos.tipos_proyecto',
+                        'children' => [
+                            [
+                                'title' => 'Listar',
+                                'name'  => 'catalogos.tipos_proyecto.listar'
+                            ],
+                            [
+                                'title' => 'Agregar',
+                                'name'  => 'catalogos.tipos_proyecto.agregar'
+                            ],
+                            [
+                                'title' => 'Editar',
+                                'name'  => 'catalogos.tipos_proyecto.editar'
+                            ],
+                            [
+                                'title' => 'Eliminar',
+                                'name'  => 'catalogos.tipos_proyecto.eliminar'
+                            ]
+                        ]
+                    ],
                 ]
             ],
             [
-                'title' => 'Beneficiarios',
-                'name' => 'beneficiario',
+                
+                'title' => 'Gestión de cuentas',
+                'name' => 'gestion_cuentas',
                 'children' => [
                     [
-                        'title' => 'Agregar',
-                        'name'  => 'beneficiario.agregar'
+                        'title' => 'Roles de usuario',
+                        'name'  => 'gestion_cuentas.roles',
+                        'children' => [
+                            [
+                                'title' => 'Agregar',
+                                'name'  => 'gestion_cuentas.roles.agregar'
+                            ],
+                            [
+                                'title' => 'Editar',
+                                'name'  => 'gestion_cuentas.roles.editar'
+                            ],
+                            [
+                                'title' => 'Eliminar',
+                                'name'  => 'gestion_cuentas.roles.eliminar'
+                            ] 
+                        ]
                     ],
                     [
-                        'title' => 'Editar',
-                        'name'  => 'beneficiario.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'beneficiario.eliminar'
+                        'title' => 'Personas',
+                        'name' => 'gestion_cuentas.personas',
+                        'children' => [
+                            [
+                                    'title' => 'Agregar',
+                                    'name'  => 'gestion_cuentas.personas.agregar'
+                                ],
+                                [
+                                    'title' => 'Editar',
+                                    'name'  => 'gestion_cuentas.personas.editar'
+                                ],
+                                [
+                                    'title' => 'Eliminar',
+                                    'name'  => 'gestion_cuentas.personas.eliminar'
+                                ],
+                                [
+                                    'title' => 'Cambiar contraseña',
+                                    'name'  => 'gestion_cuentas.personas.cambiar_password'
+                                ]
+                        ]
                     ]
-                ]
-            ],
-            [
-                'title' => 'Capacitadores',
-                'name' => 'capacitador',
-                'children' => [
-                    [
-                        'title' => 'Agregar',
-                        'name'  => 'capacitador.agregar'
-                    ],
-                    [
-                        'title' => 'Editar',
-                        'name'  => 'capacitador.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'capacitador.eliminar'
-                    ]
-                ]
-            ],
-            [
-                'title' => 'Departamentos',
-                'name' => 'departamento',
-                'children' => [
-                    [
-                        'title' => 'Agregar',
-                        'name'  => 'departamento.agregar'
-                    ],
-                    [
-                        'title' => 'Editar',
-                        'name'  => 'departamento.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'departamento.eliminar'
-                    ]
-                ]
-            ],
-            [
-                'title' => 'Tipos de actividad',
-                'name' => 'tipo_actividad',
-                'children' => [
-                    [
-                        'title' => 'Agregar',
-                        'name'  => 'tipo_actividad.agregar'
-                    ],
-                    [
-                        'title' => 'Editar',
-                        'name'  => 'tipo_actividad.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'tipo_actividad.eliminar'
-                    ]
-                ]
-            ],
-            [
-                'title' => 'Tipos de documento',
-                'name' => 'tipo_documento',
-                'children' => [
-                    [
-                        'title' => 'Agregar',
-                        'name'  => 'tipo_documento.agregar'
-                    ],
-                    [
-                        'title' => 'Editar',
-                        'name'  => 'tipo_documento.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'tipo_documento.eliminar'
-                    ]
-                ]
-            ],
-            [
-                'title' => 'Tipos de proyecto',
-                'name' => 'tipo_proyecto',
-                'children' => [
-                    [
-                        'title' => 'Agregar',
-                        'name'  => 'tipo_proyecto.agregar'
-                    ],
-                    [
-                        'title' => 'Editar',
-                        'name'  => 'tipo_proyecto.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'tipo_proyecto.eliminar'
-                    ]
-                ]
-            ],
-            [
-                'title' => 'Gestion de roles',
-                'name' => 'role',
-                'children' => [
-                    [
-                        'title' => 'Agregar',
-                        'name'  => 'role.agregar'
-                    ],
-                    [
-                        'title' => 'Editar',
-                        'name'  => 'role.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'role.eliminar'
-                    ]
-
-                ]
-            ],
-            [
-                'title' => 'Gestión de usuarios',
-                'name' => 'usuario',
-                'children' => [
-                    [
-                        'title' => 'Agregar',
-                        'name'  => 'usuario.agregar'
-                    ],
-                    [
-                        'title' => 'Editar',
-                        'name'  => 'usuario.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'usuario.eliminar'
-                    ],
-                    [
-                        'title' => 'Cambiar contraseña',
-                        'name'  => 'usuario.cambiar_password'
-                    ]
-
                 ]
             ],
             [
                 'title' => 'Proyectos',
-                'name' => 'proyecto',
+                'name' => 'proyectos',
                 'children' => [
                     [
                         'title' => 'Agregar',
-                        'name'  => 'proyecto.agregar'
+                        'name'  => 'proyectos.agregar'
                     ],
                     [
                         'title' => 'Editar',
-                        'name'  => 'proyecto.editar'
+                        'name'  => 'proyectos.editar'
                     ],
                     [
                         'title' => 'Eliminar',
-                        'name'  => 'proyecto.eliminar'
+                        'name'  => 'proyectos.eliminar'
                     ],
                     [
                         'title' => 'Actividades',
-                        'name'  => 'proyecto.actividad',
+                        'name'  => 'proyectos.actividades',
                         'children' => [
                             [
                                 'title' => 'Agregar',
-                                'name'  => 'proyecto.actividad.agregar'
+                                'name'  => 'proyectos.actividades.agregar'
                             ],
                             [
                                 'title' => 'Editar',
-                                'name'  => 'proyecto.actividad.editar'
+                                'name'  => 'proyectos.actividades.editar'
                             ],
                             [
                                 'title' => 'Editar',
-                                'name'  => 'proyecto.actividad.eliminar'
+                                'name'  => 'proyectos.actividades.eliminar'
                             ],
                         ]
                     ],
                     [
                         'title' => 'Checklist',
-                        'name'  => 'proyecto.checklist',
+                        'name'  => 'proyectos.checklist',
                         'children' => [
                             [
                                 'title' => 'Agregar',
-                                'name'  => 'proyecto.checklist.agregar'
+                                'name'  => 'proyectos.checklist.agregar'
                             ],
                             [
                                 'title' => 'Editar',
-                                'name'  => 'proyecto.checklis.editar'
+                                'name'  => 'proyectos.checklist.editar'
                             ],
                             [
                                 'title' => 'Completar',
-                                'name'  => 'proyecto.checklist.completar'
+                                'name'  => 'proyectos.checklist.completar'
                             ],
                             [
                                 'title' => 'Eliminar',
-                                'name'  => 'proyecto.checklist.eliminar'
+                                'name'  => 'proyectos.checklist.eliminar'
                             ],
                         ]
                     ],
-
                 ]
             ],
         ];

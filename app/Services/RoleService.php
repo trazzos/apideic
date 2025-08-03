@@ -21,7 +21,7 @@ class RoleService extends BaseService
     public function createFromDto(CreateRoleDto $createRoleDto): JsonResource {
 
         $data = [
-            'title' => $createRoleDto->tile,
+            'title' => $createRoleDto->title,
             'name'  => $createRoleDto->name,
             'guard_name' => $createRoleDto->guardName ?? 'web',
         ];
@@ -38,7 +38,7 @@ class RoleService extends BaseService
     public function updateFromDto(UpdateRoleDto $updateRoleDto, int $id): JsonResource {
 
         $data = [
-            'title' => $updateRoleDto->tile,
+            'title' => $updateRoleDto->title,
         ];
 
         $roleResource = parent::update($id, $data);

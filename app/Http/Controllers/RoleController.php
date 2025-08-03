@@ -57,7 +57,7 @@ class RoleController extends BaseController
     public function update(Role $role, RolePutRequest $request):JsonResource
     {
         $updateRoleDto = UpdateRoleDto::fromRequest($request);
-        return $this->roleService->updateFromDto($updateRoleDto, $role->id,);
+        return $this->roleService->updateFromDto($updateRoleDto, $role->id);
     }
 
     /**

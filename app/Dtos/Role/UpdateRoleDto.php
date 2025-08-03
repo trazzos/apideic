@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class UpdateRoleDto
 {
     public function __construct(
-         public readonly string $tile,
+         public readonly string $title,
          public readonly array $permisos,
     ) {
     }
