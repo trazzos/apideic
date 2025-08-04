@@ -25,7 +25,7 @@ class RolePostRequest extends FormRequest
     {
         return [
             'nombre' => ['required','string','min:3','max:255', new UniqueRoleName()],
-            'permisos' => ['required','array'],
+            'permisos' => ['nullable','array'],
             'permisos.*' => ['exists:permissions,name']
         ];
     }
