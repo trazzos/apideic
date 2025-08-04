@@ -15,6 +15,9 @@ class RoleService extends BaseService
     public function __construct(private readonly RoleRepository $roleRepository)
     {
         $this->repository = $this->roleRepository;
+        $this->customResourceCollection = \App\Http\Resources\Role\RoleCollection::class;
+        $this->customResource = \App\Http\Resources\Role\RoleResource::class;
+
     }
 
 
