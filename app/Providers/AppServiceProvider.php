@@ -8,6 +8,7 @@ use App\Listeners\UpdateActividadStatusOnTareaChange;
 use App\Listeners\UpdateProyectoStatusOnActividadChange;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('superadmin') ? true : null;
+        });
+
         // Registrar evento-listener para actualización de actividades cuando cambian las tareas
         Event::listen(
             TareaCompletedStatusChanged::class,

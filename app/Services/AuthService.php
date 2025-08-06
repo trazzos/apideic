@@ -16,12 +16,20 @@ class AuthService
       $request->session()->regenerate();
 
       $user = User::where('email', $data['email'])->firstOrFail();
-     // $token = $user->createToken('auth_token')->plainTextToken;
+      
+      // Cargar permisos del usuario
+      $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+      $roles = $user->getRoleNames();
 
       return response()->json(
           [
               'message' => 'Login exitoso',
-              'user' => $user,
+              'user' => [
+                  'name' => $user->name,
+                  'email' => $user->email,
+              ],
+              'roles' => $roles,
+              'permissions' => $permissions,
           ],
           200
       );

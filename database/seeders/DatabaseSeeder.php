@@ -21,11 +21,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        $this->creator->create([
+       $user =  $this->creator->create([
             'name' => 'Superusuario',
             'email' => 'super@codisoft.com.mx',
             'password' => 'super2025',
             'password_confirmation' => 'super2025',
         ]);
+       $user->assignRole('superadmin');
     }
 }

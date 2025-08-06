@@ -21,6 +21,7 @@ class InicializarPermisos extends Seeder
         DB::table('model_has_permissions')->truncate();
         Schema::enableForeignKeyConstraints();
 
+
         $permisos =  [
             [
                 'title' => 'Dashboard',
@@ -294,6 +295,8 @@ class InicializarPermisos extends Seeder
         ];
 
         $this->crearPermisosRecursivos($permisos);
+        //Crear el rol de Super Admin
+        $superAdminRole = \Spatie\Permission\Models\Role::firstOrCreate(['title' => 'Super Admin', 'name' => 'superadmin', 'guard_name' => 'web']);
     }
 
     /**
