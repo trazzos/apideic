@@ -25,7 +25,7 @@ class RolePutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string','min:3','max:255', new UniqueRoleName()],
+            'nombre' => ['required','string','min:3','max:255', new UniqueRoleName($this->route('role')->id)],
             'permisos' => ['nullable','array'],
             'permisos.*' => ['exists:permissions,name']
         ];

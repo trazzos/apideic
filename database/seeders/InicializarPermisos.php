@@ -234,7 +234,7 @@ class InicializarPermisos extends Seeder
                 ]
             ],
             [
-                'title' => 'Proyectos',
+                'title' => 'Proyectos y actividades',
                 'name' => 'proyectos',
                 'children' => [
                     [
