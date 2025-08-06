@@ -65,8 +65,8 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->name('roles.')->group(func
 
     Route::get('', [App\Http\Controllers\RoleController::class,'list'])->name('lista');
     Route::post('', [App\Http\Controllers\RoleController::class,'create'])->name('registrar');
-    Route::put('{roles}', [App\Http\Controllers\RoleController::class,'update'])->name('actualizar');
-    Route::delete('{roles}', [App\Http\Controllers\RoleController::class,'delete'])->name('eliminar');
+    Route::put('{role}', [App\Http\Controllers\RoleController::class,'update'])->name('actualizar');
+    Route::delete('{role}', [App\Http\Controllers\RoleController::class,'delete'])->name('eliminar');
 });
 
 // Endpoint consolidado para todos los catálogos
