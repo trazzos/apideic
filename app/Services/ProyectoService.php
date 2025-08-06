@@ -7,10 +7,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Repositories\Eloquent\ProyectoRepository;
 use App\Dtos\Proyecto\CreateProyectoDto;
 use App\Dtos\Proyecto\UpdateProyectoDto;
-
+use App\Services\Traits\Searchable;
 
 class ProyectoService extends BaseService {
 
+    use Searchable;
     /**
      * @param ProyectoRepository $proyectoRepository
      */

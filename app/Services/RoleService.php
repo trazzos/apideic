@@ -2,13 +2,18 @@
 
 namespace App\Services;
 
+use App\Services\Traits\Searchable;
 use App\Dtos\Role\CreateRoleDto;
 use App\Dtos\Role\UpdateRoleDto;
 use App\Repositories\Eloquent\RoleRepository;
+use App\Services\Search\SearchCriteria;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class RoleService extends BaseService
 {
+    use Searchable;
     /**
      * @param RoleRepository $roleRepository
      */
@@ -20,6 +25,37 @@ class RoleService extends BaseService
 
     }
 
+    /**
+     * Sobrescribir método list para excluir superadmin.
+     */
+    public function list(): ResourceCollection
+    {
+        $rows = $this->roleRepository->getAllExceptSuperadmin();
+
+        if ($this->customResourceCollection) {
+            return new $this->customResourceCollection($rows);
+        }
+
+        return ResourceCollection::make($rows);
+    }
+
+    /**
+     * Sobrescribir método paginate para excluir superadmin.
+     */
+    public function paginate(int $perPage = 15, array $columns = ['*'], string $pageName = 'page', int $page = null): ResourceCollection
+    {
+        // Crear criterios básicos para paginación
+        $criteria = new SearchCriteria();
+        $criteria->setSearchFields($this->roleRepository->getPublicSearchFields());
+
+        $rows = $this->roleRepository->searchWithPaginationExceptSuperadmin($criteria, $perPage);
+
+        if ($this->customResourceCollection) {
+            return new $this->customResourceCollection($rows);
+        }
+
+        return ResourceCollection::make($rows);
+    }
 
     public function createFromDto(CreateRoleDto $createRoleDto): JsonResource {
 

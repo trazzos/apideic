@@ -3,6 +3,8 @@
 namespace App\Repositories\Eloquent;
 
 use App\Interfaces\Repositories\BaseRepositoryInterface;
+use App\Interfaces\Repositories\SearchableRepositoryInterface;
+use App\Repositories\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;

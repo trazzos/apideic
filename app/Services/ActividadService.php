@@ -15,9 +15,9 @@ class ActividadService extends BaseService {
     /**
      * @param ActividadRepository $actividadRepository
      */
-    public function __construct(private readonly ActividadRepository $actividadRepository)
+    public function __construct(ActividadRepository $actividadRepository)
     {
-        $this->repository = $this->actividadRepository;
+        $this->repository = $actividadRepository;
         $this->customResourceCollection = "App\\Http\\Resources\\Actividad\\ActividadCollection";
         $this->customResource = "App\\Http\\Resources\\Actividad\\ActividadResource";
     }

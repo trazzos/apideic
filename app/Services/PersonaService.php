@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Services\Traits\Searchable;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Repositories\Eloquent\PersonaRepository;
 use App\Dtos\Persona\CreatePersonaDto;
@@ -13,6 +14,8 @@ use Illuminate\Support\Str;
 use App\Actions\Fortify\CreateNewUser;
 
 class PersonaService extends BaseService {
+
+    use Searchable;
 
     /**
      * @param PersonaRepository $personaRepository
@@ -113,5 +116,32 @@ class PersonaService extends BaseService {
         }
 
         return parent::update($id, $data);
+    }
+
+    /**
+     * Buscar personas con criterios específicos.
+     */
+    public function searchPersonas(\Illuminate\Http\Request $request): \Illuminate\Http\Resources\Json\ResourceCollection
+    {
+        $criteria = $this->createSearchCriteriaFromRequest($request);
+        
+        // Establecer campos de búsqueda específicos para personas
+        $criteria->setSearchFields([
+            'nombre',
+            'apellido', 
+            'email',
+            'telefono',
+            'departamento.nombre' // Buscar también en el nombre del departamento
+        ]);
+
+        return $this->searchWithPagination($criteria, $request->get('per_page', 15));
+    }
+
+    /**
+     * Búsqueda rápida de personas por nombre o email.
+     */
+    public function quickSearchPersonas(string $term): \Illuminate\Http\Resources\Json\ResourceCollection
+    {
+        return $this->quickSearch($term, ['nombre', 'apellido', 'email']);
     }
 }
