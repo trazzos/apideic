@@ -31,7 +31,10 @@ class ActualizarCuentaRequest extends FormRequest
                 'max:255',
                 'unique:users,email,' . ($persona->user->id ?? 'NULL')
             ],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['exists:roles,name'],
             'password' => [
+                'sometimes',
                 'required',
                 'confirmed',
                 Password::min(8)
