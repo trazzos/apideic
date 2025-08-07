@@ -23,6 +23,8 @@ class PersonaResource extends JsonResource
             'apellido_materno' => $this->apellido_materno,
             'responsable_departamento' => $this->responsable_departamento,
             'url_fotografia' => $this->url_fotografia,
+            'email' => $this->whenLoaded('user', $this->user->email),
+            'cuenta_activa' => $this->whenLoaded('user', $this->user->active),
             'estatus' => $this->estatus,
         ];
     }

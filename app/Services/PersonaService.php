@@ -7,11 +7,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Repositories\Eloquent\PersonaRepository;
 use App\Dtos\Persona\CreatePersonaDto;
 use App\Dtos\Persona\UpdatePersonaDto;
+use App\Dtos\Persona\ActualizarCuentaDto;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Actions\Fortify\CreateNewUser;
+use App\Http\Resources\Persona\CuentaResource;
 
 class PersonaService extends BaseService {
 
@@ -143,5 +145,103 @@ class PersonaService extends BaseService {
     public function quickSearchPersonas(string $term): \Illuminate\Http\Resources\Json\ResourceCollection
     {
         return $this->quickSearch($term, ['nombre', 'apellido', 'email']);
+    }
+
+    public function infoCuenta(int $personaId): JsonResource
+    {
+        $persona = $this->repository->findById($personaId);
+        
+        if (!$persona) {
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException('Persona no encontrada');
+        }
+
+        // Cargar el usuario asociado si existe
+        $persona->load('user');
+
+        return new CuentaResource($persona->user);
+    }
+
+    /**
+     * Actualizar cuenta (email/contraseña) de una persona.
+     * @param ActualizarCuentaDto $dto
+     */
+    public function actualizarCuenta(ActualizarCuentaDto $dto, int $personaId): JsonResource
+    {
+        $persona = $this->repository->findById($personaId);
+        
+        if (!$persona) {
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException('Persona no encontrada');
+        }
+
+        return DB::transaction(function() use ($dto, $persona) {
+            // Verificar si la persona tiene usuario asociado
+            $user = $persona->user;
+            
+            if (!$user) {
+                // Si no tiene usuario, crear uno nuevo
+                if (!$dto->shouldUpdateEmail() || !$dto->shouldUpdatePassword()) {
+                    throw new \Exception('Para crear una cuenta nueva se requiere tanto email como contraseña');
+                }
+
+                $dataUser = [
+                    'name' => trim($persona->nombre . " " . $persona->apellido_paterno . " " . ($persona->apellido_materno ?? '')),
+                    'email' => $dto->email,
+                    'password' => $dto->password,
+                    'password_confirmation' => $dto->password,
+                ];
+
+                $user = $this->createNewUser->create($dataUser);
+                $user->owner()->associate($persona);
+                $user->save();
+                
+                $persona->load('user');
+            } else {
+                // Si tiene usuario, actualizar datos existentes
+                
+
+                // Actualizar datos del usuario
+                $updateData = $dto->toUserUpdateArray();
+                if (!empty($updateData)) {
+                    $user = $this->repository->updateAndReturn($user->id, $updateData);
+                    // Refrescar el modelo para obtener los datos actualizados
+                    $persona->load('user');
+                }
+            }
+
+            // Retornar la persona actualizada con su usuario
+            if ($this->customResource) {
+                return new $this->customResource($persona);
+            }
+
+            return JsonResource::make($persona);
+        });
+    }
+
+    /**
+     * Desactivar cuenta de usuario de una persona.
+     */
+    public function desactivarCuenta(int $personaId): array
+    {
+        $persona = $this->repository->findById($personaId);
+        
+        if (!$persona) {
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException('Persona no encontrada');
+        }
+
+        $user = $persona->user;
+        if (!$user) {
+            throw new \Exception('Usuario no encontrado');
+        }
+
+        // Marcar como inactivo en lugar de eliminar
+        $this->repository->updateAndReturn($user->id, [
+            'active' => false,
+            'email_verified_at' => null
+        ]);
+
+        return [
+            'message' => 'Cuenta desactivada exitosamente',
+            'persona_id' => $personaId,
+        ];
     }
 }

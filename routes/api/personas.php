@@ -8,9 +8,7 @@ Route::middleware(['auth:sanctum'])->prefix('personas')->name('personas.')->grou
     Route::patch('{persona}', [App\Http\Controllers\PersonaController::class,'update'])->name('actualizar');
     Route::delete('{persona}', [App\Http\Controllers\PersonaController::class,'delete'])->name('eliminar');
 
-    //Route::put('{persona}/user', [App\Http\Controllers\PersonaController::class,'actualizarPassword'])->name('actualizar.user');
-    //Route::delete('{persona}/user/{user}/desactivar', [App\Http\Controllers\PersonaController::class,'desactivarUsuario'])->name('desactivar.user');
-
-
-
+    Route::get('{persona}/cuenta', [App\Http\Controllers\PersonaController::class,'infoCuenta'])->name('info.cuenta');
+    Route::post('{persona}/cuenta', [App\Http\Controllers\PersonaController::class,'actualizarCuenta'])->name('actualizar.cuenta');
+    Route::delete('{persona}/desactivar-cuenta', [App\Http\Controllers\PersonaController::class,'desactivarCuenta'])->name('desactivar.cuenta');
 });
