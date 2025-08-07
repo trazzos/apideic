@@ -64,6 +64,7 @@ Route::middleware(['auth:sanctum'])->prefix('tipos-proyecto')->name('tipos-proye
 Route::middleware(['auth:sanctum'])->prefix('roles')->name('roles.')->group(function()  {
 
     Route::get('', [App\Http\Controllers\RoleController::class,'list'])->name('lista');
+    Route::get('sin-permisos', [App\Http\Controllers\RoleController::class,'listSinPermiso'])->name('lista-sin-permiso');
     Route::post('', [App\Http\Controllers\RoleController::class,'create'])->name('registrar');
     Route::put('{role}', [App\Http\Controllers\RoleController::class,'update'])->name('actualizar');
     Route::delete('{role}', [App\Http\Controllers\RoleController::class,'delete'])->name('eliminar');

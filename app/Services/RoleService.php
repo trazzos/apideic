@@ -5,11 +5,13 @@ namespace App\Services;
 use App\Services\Traits\Searchable;
 use App\Dtos\Role\CreateRoleDto;
 use App\Dtos\Role\UpdateRoleDto;
+use App\Http\Resources\Role\RoleSinPermisoResource;
 use App\Repositories\Eloquent\RoleRepository;
 use App\Services\Search\SearchCriteria;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Spatie\Permission\Contracts\Role;
 
 class RoleService extends BaseService
 {
@@ -37,6 +39,16 @@ class RoleService extends BaseService
         }
 
         return ResourceCollection::make($rows);
+    }
+
+    /**
+     * Sobrescribir método listSinPermiso para excluir superadmin.
+     */
+    public function listSinPermiso(): ResourceCollection
+    {
+        $rows = $this->roleRepository->getAllExceptSuperadmin();
+
+        return RoleSinPermisoResource::collection($rows);
     }
 
     /**

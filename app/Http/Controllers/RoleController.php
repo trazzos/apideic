@@ -37,6 +37,14 @@ class RoleController extends BaseController
         return $this->roleService->list();
     }
 
+    /**
+     * @return ResourceCollection
+     */
+    public function listSinPermiso(): ResourceCollection
+    {
+        return $this->roleService->listSinPermiso();
+    }
+
 
     /**
      * @param RolePostRequest $request
