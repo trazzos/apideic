@@ -7,18 +7,20 @@ use App\Http\Requests\Persona\ActualizarCuentaRequest;
 class ActualizarCuentaDto
 {
     public function __construct(
-        public readonly ?string $email = null,
+        public readonly string $email,
+        public readonly array $roles = [],
         public readonly ?string $password = null,
         public readonly ?string $currentPassword = null
     ) {}
 
-    /**
+    /** 
      * Crear DTO desde Request validado.
      */
     public static function fromRequest(ActualizarCuentaRequest $request): self
     {
         return new self(
             email: $request->get('email'),
+            roles: $request->get('roles', []),
             password: $request->get('password'),
             currentPassword: $request->get('current_password')
         );
@@ -57,5 +59,10 @@ class ActualizarCuentaDto
         }
 
         return $data;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
     }
 }

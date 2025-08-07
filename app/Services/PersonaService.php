@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Actions\Fortify\CreateNewUser;
 use App\Http\Resources\Persona\CuentaResource;
+use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Http\JsonResponse;
 
 class PersonaService extends BaseService {
@@ -25,10 +26,9 @@ class PersonaService extends BaseService {
      */
     public function __construct(
         private readonly PersonaRepository $personaRepository,
+        private readonly UserRepository $userRepository,
         private readonly CreateNewUser $createNewUser
-    )
-    {
-
+    ) {
         $this->repository = $this->personaRepository;
         $this->customResourceCollection = "App\\Http\\Resources\\Persona\\PersonaCollection";
         $this->customResource = "App\\Http\\Resources\\Persona\\PersonaResource";
@@ -205,17 +205,16 @@ class PersonaService extends BaseService {
                 $user = $this->createNewUser->create($dataUser);
                 $user->owner()->associate($persona);
                 $user->save();
-                
+                $user->assignRole($dto->getRoles());
+
                 $persona->load('user');
             } else {
-                // Si tiene usuario, actualizar datos existentes
-                
-
-                // Actualizar datos del usuario
+                // Si ya tiene usuario, actualizarlo
                 $updateData = $dto->toUserUpdateArray();
                 if (!empty($updateData)) {
-                    $user = $this->repository->updateAndReturn($user->id, $updateData);
-                    // Refrescar el modelo para obtener los datos actualizados
+                    $user = $this->userRepository->updateAndReturn($user->id, $updateData);
+                    $user->assignRole($dto->getRoles());
+
                     $persona->load('user');
                 }
             }
@@ -246,7 +245,7 @@ class PersonaService extends BaseService {
         }
 
         // Marcar como inactivo en lugar de eliminar
-        $this->repository->updateAndReturn($user->id, [
+        $this->userRepository->updateAndReturn($user->id, [
             'active' => false,
             'email_verified_at' => null
         ]);
