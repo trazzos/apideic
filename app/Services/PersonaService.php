@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Actions\Fortify\CreateNewUser;
 use App\Http\Resources\Persona\CuentaResource;
+use Illuminate\Http\JsonResponse;
 
 class PersonaService extends BaseService {
 
@@ -147,7 +148,14 @@ class PersonaService extends BaseService {
         return $this->quickSearch($term, ['nombre', 'apellido', 'email']);
     }
 
-    public function infoCuenta(int $personaId): JsonResource
+    /**
+     * Obtener información de la cuenta (email/estado) de una persona.
+     *
+     * @param int $personaId
+     * @return JsonResource | JsonResponse
+     * @throws \Exception
+     */
+    public function infoCuenta(int $personaId): JsonResource | JsonResponse
     {
         $persona = $this->repository->findById($personaId);
         
@@ -159,7 +167,7 @@ class PersonaService extends BaseService {
         $persona->load('user');
         // si no hay usuario, retornar un recurso vacío
         if (!$persona->user) {
-            return new CuentaResource([]);
+            return response()->json([]);
         }
 
         return new CuentaResource($persona->user);

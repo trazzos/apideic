@@ -15,9 +15,9 @@ class CuentaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'email' => $this->email,
-            'active' => $this->active,
-            'roles' => $this->getRoleNames(),
+            'email' => $this?->email,
+            'active' => $this?->active,
+            'roles' => $this?->getRoleNames(),
         ];
     }
 }

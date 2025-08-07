@@ -11,6 +11,7 @@ use App\Http\Requests\Persona\ActualizarCuentaRequest;
 use App\Models\Persona;
 use App\Models\User;
 use App\Services\PersonaService;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -90,10 +91,10 @@ class PersonaController extends BaseController
      * Obtener información de la cuenta (email/estado) de una persona.
      *
      * @param Persona $persona
-     * @return JsonResource
+     * @return JsonResource | JsonResponse
      * @throws \Exception
      */
-    public function infoCuenta(Persona $persona): JsonResource
+    public function infoCuenta(Persona $persona): JsonResource | JsonResponse
     {
         try {
             return $this->personaService->infoCuenta($persona->id);
