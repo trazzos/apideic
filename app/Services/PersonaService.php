@@ -157,6 +157,10 @@ class PersonaService extends BaseService {
 
         // Cargar el usuario asociado si existe
         $persona->load('user');
+        // si no hay usuario, retornar un recurso vacío
+        if (!$persona->user) {
+            return new CuentaResource([]);
+        }
 
         return new CuentaResource($persona->user);
     }
