@@ -34,4 +34,26 @@ class AuthService
           200
       );
   }
+
+  public function profile()
+  {
+      $user = Auth::user();
+      if (!$user) {
+          throw new AuthenticationException('Usuario no autenticado');
+      }
+      $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+      $roles = $user->getRoleNames();
+
+      return response()->json(
+          [
+              'user' => [
+                  'name' => $user->name,
+                  'email' => $user->email,
+              ],
+              'roles' => $roles,
+              'permissions' => $permissions,
+          ],
+          200
+      );
+    }
 }

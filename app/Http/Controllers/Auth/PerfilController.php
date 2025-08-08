@@ -4,23 +4,24 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use App\Services\AuthService;
 
 class PerfilController extends BaseController
 {
     /**
      *
      */
-    public function __construct()
+    public function __construct(private readonly AuthService $authService)
     {
 
     }
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): \Illuminate\Http\JsonResponse
+    public function __invoke(): \Illuminate\Http\JsonResponse
     {
 
-        return response()->json(['user' => $request->user()]);
+        return $this->authService->profile();
 
     }
 }
