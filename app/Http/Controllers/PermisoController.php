@@ -17,6 +17,6 @@ class PermisoController extends Controller
      */
     public function __invoke()
     {
-        return JsonResource::make($this->permisoService->getPermissionTree());
+        return JsonResource::make($this->permisoService->getPermissionTreeOptimized());
     }
 }

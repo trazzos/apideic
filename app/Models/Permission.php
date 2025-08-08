@@ -15,6 +15,6 @@ class Permission extends SpatiePermission
 
     public function children(): HasMany
     {
-        return $this->hasMany(Permission::class, 'parent_id');
+        return $this->hasMany(Permission::class, 'parent_id')->with('children');
     }
 }

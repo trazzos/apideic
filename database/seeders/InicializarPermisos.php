@@ -236,67 +236,82 @@ class InicializarPermisos extends Seeder
             ],
             [
                 'title' => 'Proyectos y actividades',
-                'name' => 'proyectos',
+                'name' => 'cartera_proyectos',
                 'children' => [
-                    [
-                        'title' => 'Agregar',
-                        'name'  => 'proyectos.agregar'
-                    ],
-                    [
-                        'title' => 'Editar',
-                        'name'  => 'proyectos.editar'
-                    ],
-                    [
-                        'title' => 'Eliminar',
-                        'name'  => 'proyectos.eliminar'
-                    ],
-                    [
-                        'title' => 'Actividades',
-                        'name'  => 'proyectos.actividades',
-                        'children' => [
-                            [
-                                'title' => 'Agregar',
-                                'name'  => 'proyectos.actividades.agregar'
-                            ],
-                            [
-                                'title' => 'Editar',
-                                'name'  => 'proyectos.actividades.editar'
-                            ],
-                            [
-                                'title' => 'Editar',
-                                'name'  => 'proyectos.actividades.eliminar'
-                            ],
+                        [
+                            'title' => 'Proyectos',
+                            'name'  => 'cartera_proyectos.proyectos',
+                            'children' =>  [
+                                [
+                                    'title' => 'Acceso',
+                                    'name'  => 'cartera_proyectos.proyectos.acceso'
+                                ],
+                                [
+                                    'title' => 'Agregar',
+                                    'name'  => 'cartera_proyectos.proyectos.agregar'
+                                ],
+                                [
+                                    'title' => 'Editar',
+                                    'name'  => 'cartera_proyectos.proyectos.editar'
+                                ],
+                                [
+                                    'title' => 'Eliminar',
+                                    'name'  => 'cartera_proyectos.proyectos.eliminar'
+                                ],
+                                [
+                                    'title' => 'Actividades',
+                                    'name'  => 'proyectos.actividades',
+                                    'children' => [
+                                        [
+                                            'title' => 'Agregar',
+                                            'name'  => 'cartera_proyectos.proyectos.actividades.agregar'
+                                        ],
+                                        [
+                                            'title' => 'Editar',
+                                            'name'  => 'cartera_proyectos.proyectos.actividades.editar'
+                                        ],
+                                        [
+                                            'title' => 'Editar',
+                                            'name'  => 'cartera_proyectos.proyectos.actividades.eliminar'
+                                        ],
+                                    ]
+                                ],
+                                [
+                                    'title' => 'Checklist',
+                                    'name'  => 'cartera_proyectos.proyectos.checklist',
+                                    'children' => [
+                                        [
+                                            'title' => 'Agregar',
+                                            'name'  => 'cartera_proyectos.proyectos.checklist.agregar'
+                                        ],
+                                        [
+                                            'title' => 'Editar',
+                                            'name'  => 'cartera_proyectos.proyectos.checklist.editar'
+                                        ],
+                                        [
+                                            'title' => 'Completar',
+                                            'name'  => 'cartera_proyectos.proyectos.checklist.completar'
+                                        ],
+                                        [
+                                            'title' => 'Eliminar',
+                                            'name'  => 'cartera_proyectos.proyectos.checklist.eliminar'
+                                        ],
+                                    ]
+                                ],
+
+                            ]
                         ]
-                    ],
-                    [
-                        'title' => 'Checklist',
-                        'name'  => 'proyectos.checklist',
-                        'children' => [
-                            [
-                                'title' => 'Agregar',
-                                'name'  => 'proyectos.checklist.agregar'
-                            ],
-                            [
-                                'title' => 'Editar',
-                                'name'  => 'proyectos.checklist.editar'
-                            ],
-                            [
-                                'title' => 'Completar',
-                                'name'  => 'proyectos.checklist.completar'
-                            ],
-                            [
-                                'title' => 'Eliminar',
-                                'name'  => 'proyectos.checklist.eliminar'
-                            ],
-                        ]
-                    ],
                 ]
-            ],
+            ]
         ];
 
         $this->crearPermisosRecursivos($permisos);
         //Crear el rol de Super Admin
         $superAdminRole = \Spatie\Permission\Models\Role::firstOrCreate(['title' => 'Super Admin', 'name' => 'superadmin', 'guard_name' => 'web']);
+        $user = \App\Models\User::where('email', 'super@codisoft.com.mx')->first();
+        if ($user) {
+            $user->assignRole($superAdminRole);
+        }
     }
 
     /**
