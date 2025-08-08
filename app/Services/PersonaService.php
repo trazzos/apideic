@@ -246,7 +246,7 @@ class PersonaService extends BaseService {
 
         // Marcar como inactivo en lugar de eliminar
         $this->userRepository->updateAndReturn($user->id, [
-            'active' => false,
+            'active' => 0,
             'email_verified_at' => null
         ]);
 

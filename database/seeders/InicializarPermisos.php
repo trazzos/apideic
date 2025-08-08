@@ -235,72 +235,76 @@ class InicializarPermisos extends Seeder
                 ]
             ],
             [
-                'title' => 'Proyectos y actividades',
-                'name' => 'cartera_proyectos',
+                'title' => 'Gestión de proyectos',
+                'name' => 'gestion_proyectos',
                 'children' => [
                         [
                             'title' => 'Proyectos',
-                            'name'  => 'cartera_proyectos.proyectos',
+                            'name'  => 'gestion_proyectos.proyectos',
                             'children' =>  [
                                 [
                                     'title' => 'Acceso',
-                                    'name'  => 'cartera_proyectos.proyectos.acceso'
+                                    'name'  => 'gestion_proyectos.proyectos.acceso'
                                 ],
                                 [
                                     'title' => 'Agregar',
-                                    'name'  => 'cartera_proyectos.proyectos.agregar'
+                                    'name'  => 'gestion_proyectos.proyectos.agregar'
                                 ],
                                 [
                                     'title' => 'Editar',
-                                    'name'  => 'cartera_proyectos.proyectos.editar'
+                                    'name'  => 'gestion_proyectos.proyectos.editar'
                                 ],
                                 [
                                     'title' => 'Eliminar',
-                                    'name'  => 'cartera_proyectos.proyectos.eliminar'
+                                    'name'  => 'gestion_proyectos.proyectos.eliminar'
                                 ],
                                 [
                                     'title' => 'Actividades',
-                                    'name'  => 'proyectos.actividades',
+                                    'name'  => 'gestion_proyectos.proyectos.actividades',
                                     'children' => [
                                         [
                                             'title' => 'Agregar',
-                                            'name'  => 'cartera_proyectos.proyectos.actividades.agregar'
+                                            'name'  => 'gestion_proyectos.proyectos.actividades.agregar'
                                         ],
                                         [
                                             'title' => 'Editar',
-                                            'name'  => 'cartera_proyectos.proyectos.actividades.editar'
+                                            'name'  => 'gestion_proyectos.proyectos.actividades.editar'
                                         ],
                                         [
                                             'title' => 'Editar',
-                                            'name'  => 'cartera_proyectos.proyectos.actividades.eliminar'
+                                            'name'  => 'gestion_proyectos.proyectos.actividades.eliminar'
                                         ],
                                     ]
                                 ],
                                 [
                                     'title' => 'Checklist',
-                                    'name'  => 'cartera_proyectos.proyectos.checklist',
+                                    'name'  => 'gestion_proyectos.proyectos.checklist',
                                     'children' => [
                                         [
                                             'title' => 'Agregar',
-                                            'name'  => 'cartera_proyectos.proyectos.checklist.agregar'
+                                            'name'  => 'gestion_proyectos.proyectos.checklist.agregar'
                                         ],
                                         [
                                             'title' => 'Editar',
-                                            'name'  => 'cartera_proyectos.proyectos.checklist.editar'
+                                            'name'  => 'gestion_proyectos.proyectos.checklist.editar'
                                         ],
                                         [
                                             'title' => 'Completar',
-                                            'name'  => 'cartera_proyectos.proyectos.checklist.completar'
+                                            'name'  => 'gestion_proyectos.proyectos.checklist.completar'
                                         ],
                                         [
                                             'title' => 'Eliminar',
-                                            'name'  => 'cartera_proyectos.proyectos.checklist.eliminar'
+                                            'name'  => 'gestion_proyectos.proyectos.checklist.eliminar'
                                         ],
                                     ]
                                 ],
 
                             ]
-                        ]
+                            ],
+                            [
+                                'title' => 'Tablero',
+                                'name'  => 'gestion_proyectos.tablero'
+                            ]
                 ]
             ]
         ];
