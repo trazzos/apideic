@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Dtos\Proyecto\CreateActividadDto;
 use App\Http\Resources\Actividad\ActividadResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Repositories\Eloquent\ActividadRepository;
+use App\Interfaces\Repositories\ActividadRepositoryInterface;
 use App\Dtos\Proyecto\UpdateActividadDto;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -13,9 +13,10 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class ActividadService extends BaseService {
 
     /**
-     * @param ActividadRepository $actividadRepository
+     * @param ActividadRepositoryInterface $actividadRepository
      */
-    public function __construct(ActividadRepository $actividadRepository)
+    
+    public function __construct(ActividadRepositoryInterface $actividadRepository)
     {
         $this->repository = $actividadRepository;
         $this->customResourceCollection = "App\\Http\\Resources\\Actividad\\ActividadCollection";
@@ -120,7 +121,7 @@ class ActividadService extends BaseService {
      */
     public function getProgress(int $id): array
     {
-        $actividad = $this->repository->find($id);
+        $actividad = $this->repository->findById($id);
         
         if (!$actividad) {
             throw new \Illuminate\Database\Eloquent\ModelNotFoundException("Actividad con ID {$id} no encontrada.");

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\Eloquent\BaseEloquentRepository;
+use App\Interfaces\Repositories\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -19,10 +19,10 @@ abstract class BaseService
      */
     protected $customResource = "";
 
-    /**
-     * @var BaseEloquentRepository $repository
-     */
-    protected BaseEloquentRepository $repository;
+   /**
+    * @var
+    */
+    protected $repository;
 
     /**
      * @return ResourceCollection

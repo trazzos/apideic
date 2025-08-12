@@ -36,8 +36,8 @@ class InicializarPermisos extends Seeder
                         'name' => 'catalogos.autoridades',
                         'children' => [
                             [
-                                'title' => 'Listar',
-                                'name'  => 'catalogos.autoridades.listar'
+                                'title' => 'Acceso',
+                                'name'  => 'catalogos.autoridades.acceso'
                             ],
                             [
                                 'title' => 'Agregar',
@@ -58,8 +58,8 @@ class InicializarPermisos extends Seeder
                         'name' => 'catalogos.beneficiarios',
                         'children' => [
                             [
-                                'title' => 'Listar',
-                                'name'  => 'catalogos.beneficiarios.listar'
+                                'title' => 'Acceso',
+                                'name'  => 'catalogos.beneficiarios.acceso'
                             ],
                             [
                                 'title' => 'Agregar',
@@ -80,8 +80,8 @@ class InicializarPermisos extends Seeder
                         'name' => 'catalogos.capacitadores',
                         'children' => [
                             [
-                                'title' => 'Listar',
-                                'name'  => 'catalogos.capacitadores.listar'
+                                'title' => 'Acceso',
+                                'name'  => 'catalogos.capacitadores.acceso'
                             ],
                             [
                                 'title' => 'Agregar',
@@ -102,8 +102,8 @@ class InicializarPermisos extends Seeder
                         'name' => 'catalogos.departamentos',
                         'children' => [
                             [
-                                'title' => 'Listar',
-                                'name'  => 'catalogos.departamentos.agregar'
+                                'title' => 'Acceso',
+                                'name'  => 'catalogos.departamentos.acceso'
                             ],
                             [
                                 'title' => 'Agregar',
@@ -124,8 +124,8 @@ class InicializarPermisos extends Seeder
                         'name' => 'catalogos.tipos_actividad',
                         'children' => [
                             [
-                                'title' => 'Listar',
-                                'name'  => 'catalogos.tipos_actividad.listar'
+                                'title' => 'Acceso',
+                                'name'  => 'catalogos.tipos_actividad.acceso'
                             ],
                             [
                                 'title' => 'Agregar',
@@ -146,8 +146,8 @@ class InicializarPermisos extends Seeder
                         'name' => 'catalogos.tipos_documento',
                         'children' => [
                             [
-                                'title' => 'Listar',
-                                'name'  => 'catalogos.tipos_documento.listar'
+                                'title' => 'Acceso',
+                                'name'  => 'catalogos.tipos_documento.acceso'
                             ],
                             [
                                 'title' => 'Agregar',
@@ -168,8 +168,8 @@ class InicializarPermisos extends Seeder
                         'name' => 'catalogos.tipos_proyecto',
                         'children' => [
                             [
-                                'title' => 'Listar',
-                                'name'  => 'catalogos.tipos_proyecto.listar'
+                                'title' => 'Acceso',
+                                'name'  => 'catalogos.tipos_proyecto.acceso'
                             ],
                             [
                                 'title' => 'Agregar',
@@ -197,6 +197,10 @@ class InicializarPermisos extends Seeder
                         'name'  => 'gestion_cuentas.roles',
                         'children' => [
                             [
+                                'title' => 'Acceso',
+                                'name'  => 'gestion_cuentas.roles.acceso'
+                            ],
+                            [
                                 'title' => 'Agregar',
                                 'name'  => 'gestion_cuentas.roles.agregar'
                             ],
@@ -214,7 +218,11 @@ class InicializarPermisos extends Seeder
                         'title' => 'Personas',
                         'name' => 'gestion_cuentas.personas',
                         'children' => [
-                            [
+                                [
+                                    'title' => 'Acceso',
+                                    'name'  => 'gestion_cuentas.personas.acceso'
+                                ],
+                                [
                                     'title' => 'Agregar',
                                     'name'  => 'gestion_cuentas.personas.agregar'
                                 ],
@@ -227,8 +235,8 @@ class InicializarPermisos extends Seeder
                                     'name'  => 'gestion_cuentas.personas.eliminar'
                                 ],
                                 [
-                                    'title' => 'Cambiar contraseña',
-                                    'name'  => 'gestion_cuentas.personas.cambiar_password'
+                                    'title' => 'Administrar cuenta',
+                                    'name'  => 'gestion_cuentas.personas.administrar_cuenta'
                                 ]
                         ]
                     ]

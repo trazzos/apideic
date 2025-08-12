@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Services\Traits\Searchable;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Repositories\Eloquent\PersonaRepository;
+use App\Interfaces\Repositories\PersonaRepositoryInterface;
 use App\Dtos\Persona\CreatePersonaDto;
 use App\Dtos\Persona\UpdatePersonaDto;
 use App\Dtos\Persona\ActualizarCuentaDto;
@@ -22,10 +22,10 @@ class PersonaService extends BaseService {
     use Searchable;
 
     /**
-     * @param PersonaRepository $personaRepository
+     * @param PersonaRepositoryInterface $personaRepository
      */
     public function __construct(
-        private readonly PersonaRepository $personaRepository,
+        private readonly PersonaRepositoryInterface $personaRepository,
         private readonly UserRepository $userRepository,
         private readonly CreateNewUser $createNewUser
     ) {

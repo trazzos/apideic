@@ -203,4 +203,44 @@ class SearchCriteria
     {
         return $this->searchFields;
     }
+
+    /**
+     * Obtener filtros aplicados.
+     */
+    public function getFilters(): array
+    {
+        return $this->filters;
+    }
+
+    /**
+     * Obtener relaciones a cargar.
+     */
+    public function getRelations(): array
+    {
+        return $this->relations;
+    }
+
+    /**
+     * Obtener término de búsqueda.
+     */
+    public function getSearchTerm(): string
+    {
+        return $this->searchTerm;
+    }
+
+    /**
+     * Obtener campo de ordenamiento.
+     */
+    public function getSortBy(): string
+    {
+        return $this->sortBy;
+    }
+
+    /**
+     * Obtener dirección de ordenamiento.
+     */
+    public function getSortDirection(): string
+    {
+        return $this->sortDirection;
+    }
 }

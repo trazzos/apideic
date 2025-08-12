@@ -52,7 +52,64 @@ trait Searchable
             $criteria->setSearchFields($this->getSearchFields());
         }
         
-        return $criteria->apply($query);
+        // Aplicar criterios usando método personalizable
+        return $this->applyCriteria($query, $criteria);
+    }
+
+    /**
+     * Aplicar criterios de búsqueda al query.
+     * Este método puede ser sobrescrito en repositorios específicos.
+     */
+    protected function applyCriteria(Builder $query, SearchCriteria $criteria): Builder
+    {
+        // Aplicar relaciones
+        if (!empty($criteria->getRelations())) {
+            $query->with($criteria->getRelations());
+        }
+        
+        // Aplicar filtros personalizados si el método existe
+        if (method_exists($this, 'applyCustomFilters')) {
+            $this->applyCustomFilters($query, $criteria->getFilters());
+            
+            // Aplicar búsqueda de texto manualmente
+            if (!empty($criteria->getSearchTerm()) && !empty($criteria->getSearchFields())) {
+                $query->where(function ($q) use ($criteria) {
+                    foreach ($criteria->getSearchFields() as $field) {
+                        if (str_contains($field, '.')) {
+                            // Campo de relación
+                            [$relation, $relationField] = explode('.', $field, 2);
+                            $q->orWhereHas($relation, function ($relationQuery) use ($relationField, $criteria) {
+                                $relationQuery->where($relationField, 'LIKE', "%{$criteria->getSearchTerm()}%");
+                            });
+                        } else {
+                            // Campo directo
+                            $q->orWhere($field, 'LIKE', "%{$criteria->getSearchTerm()}%");
+                        }
+                    }
+                });
+            }
+            
+            // Aplicar ordenamiento manualmente
+            if (str_contains($criteria->getSortBy(), '.')) {
+                // Ordenamiento por campo de relación
+                [$relation, $field] = explode('.', $criteria->getSortBy(), 2);
+                $relationTable = \Illuminate\Support\Str::plural($relation);
+                $query->join(
+                    $relationTable, 
+                    $relationTable . '.id', 
+                    '=', 
+                    $query->getModel()->getTable() . ".{$relation}_id"
+                )->orderBy($relationTable . '.' . $field, $criteria->getSortDirection());
+            } else {
+                // Ordenamiento por campo directo
+                $query->orderBy($criteria->getSortBy(), $criteria->getSortDirection());
+            }
+        } else {
+            // Usar aplicación estándar de criterios
+            $criteria->apply($query);
+        }
+        
+        return $query;
     }
 
     /**

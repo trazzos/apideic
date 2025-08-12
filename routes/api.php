@@ -14,3 +14,4 @@ require __DIR__.'/api/seguridad.php';
 require __DIR__.'/api/catalogos.php';
 require __DIR__.'/api/personas.php';
 require __DIR__.'/api/proyectos.php';
+require __DIR__.'/api/reportes.php';
