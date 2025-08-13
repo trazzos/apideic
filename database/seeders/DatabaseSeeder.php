@@ -27,6 +27,11 @@ class DatabaseSeeder extends Seeder
             'password' => 'super2025',
             'password_confirmation' => 'super2025',
         ]);
-       $user->assignRole('superadmin');
+      
+      $this->call([
+            InicializarPermisos::class,
+            InicializarDatosPrueba::class,
+            // Otros seeders que necesites
+        ]);
     }
 }

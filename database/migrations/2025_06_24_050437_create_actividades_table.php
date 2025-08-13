@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('proyecto_id')->constrained('proyectos');
             $table->foreignId('tipo_actividad_id')->constrained('tipos_actividad');
-            $table->foreignId('capacitador_id')->constrained('capacitadores');
+            $table->foreignId('capacitador_id')->constrained('capacitadores')->nullable()->default(null);
             $table->foreignId('beneficiario_id')->constrained('beneficiarios');
             $table->foreignId('responsable_id')->constrained('personas');
             $table->uuid('proyecto_uuid')->index();

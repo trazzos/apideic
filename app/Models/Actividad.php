@@ -15,6 +15,7 @@ class Actividad extends Model
     protected $guarded = [];
     protected $casts = [
         'autoridad_participante' => 'json',
+        'persona_beneficiada' => 'json',
         'completed_at' => 'datetime',
     ];
 
