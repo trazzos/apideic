@@ -144,9 +144,18 @@ class ReporteService extends BaseService {
                 'beneficiados' => [
                     'total' => 0,
                     'detalles'=> [
-                        'hombres' => 0,
-                        'mujeres' => 0,
-                        'otro' => 0
+                        [
+                            'nombre' => 'Hombres',
+                            'total' => 0
+                        ],
+                        [
+                            'nombre' => 'Mujeres',
+                            'total' => 0
+                        ],
+                        [
+                            'nombre' => 'Otros',
+                            'total' => 0
+                        ]
                     ]
                 ]
                 //'actividades' => $actividadesDetalle
