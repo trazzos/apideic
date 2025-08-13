@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Interfaces\Repositories\ActividadRepositoryInterface;
 use App\Services\Traits\Searchable;
 use App\Dtos\Reporte\ReporteActividadesDto;
+use App\Models\TipoProyecto;
 use Illuminate\Database\Eloquent\Collection;
 use App\Services\Search\SearchCriteria;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -140,18 +141,20 @@ class ReporteService extends BaseService {
                     'porcentaje_pendiente' => $total > 0 ? round(($pendientes / $total) * 100, 2) : 0,
                     'porcentaje_iniciado' => $total > 0 ? round(($iniciadas / $total) * 100, 2) : 0
                 ],
-                'actividades' => $actividadesDetalle
+                'beneficiados' => [
+                    'total' => 0,
+                    'detalles'=> [
+                        'hombres' => 0,
+                        'mujeres' => 0,
+                        'otro' => 0
+                    ]
+                ]
+                //'actividades' => $actividadesDetalle
             ];
         }
 
         return [
-            'filtros_aplicados' => [
-                'fecha_inicio' => $dto->fechaInicio?->format('Y-m-d'),
-                'fecha_fin' => $dto->fechaFin?->format('Y-m-d'),
-                'tipo_proyecto_id' => $dto->tipoProyectoId,
-                'estatus' => $dto->estatus
-            ],
-            'totales_generales' => [
+            'totales' => [
                 ...$totales,
                 'porcentaje_completado' => $totales['total_actividades'] > 0 ? 
                     round(($totales['actividades_completadas'] / $totales['total_actividades']) * 100, 2) : 0,
@@ -160,7 +163,7 @@ class ReporteService extends BaseService {
                 'porcentaje_iniciado' => $totales['total_actividades'] > 0 ? 
                     round(($totales['actividades_iniciadas'] / $totales['total_actividades']) * 100, 2) : 0
             ],
-            'reporte_por_tipo_proyecto' => $reporte,
+            'data_reporte' => $reporte,
             'total_tipos_proyecto' => count($reporte)
         ];
     }
