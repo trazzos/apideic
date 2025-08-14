@@ -16,14 +16,14 @@ class UpdateActividadDto
      */
     public function __construct(
         public readonly int $tipoActividadId,
-        public readonly int $capacitadorId,
         public readonly int $beneficiarioId,
         public readonly string $nombre,
         public readonly int $responsableId,
         public readonly Carbon $fechaInicio,
         public readonly Carbon $fechaFin,
-        public readonly string $personaBeneficiada,
+        public readonly array $personaBeneficiada,
         public readonly string $prioridad,
+        public readonly ?int $capacitadorId,
         public readonly ?array $autoridad,
         public readonly ?string $linkDrive,
         public readonly ?Carbon $fechaSolicitudConstancia,
@@ -51,7 +51,6 @@ class UpdateActividadDto
     {
         return new self(
             $request->input('tipo_actividad_id'),
-            $request->input('capacitador_id'),
             $request->input('beneficiario_id'),
             $request->input('nombre'),
             $request->input('responsable_id'),
@@ -59,6 +58,7 @@ class UpdateActividadDto
             Carbon::parse($request->input('fecha_fin')),
             $request->input('persona_beneficiada'),
             $request->input('prioridad'),
+            $request->input('capacitador_id'),
             $request->input('autoridad_participante'),
             $request->input('link_drive'),
             $request->input('fecha_solicitud_constancia') ? Carbon::parse($request->input('fecha_solicitud_constancia')) : null,
