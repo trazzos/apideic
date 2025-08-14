@@ -27,7 +27,17 @@ class ActividadPatchRequest extends FormRequest
             'tipo_actividad_id'=> ['required','integer','exists:tipos_actividad,id'],
             'capacitador_id' => ['sometimes','integer','exists:capacitadores,id'],
             'beneficiario_id'  => ['required','integer','exists:beneficiarios,id'],
-            'nombre' => ['required','string',Rule::unique('actividades','nombre')->whereNot('tipo_actividad_id',$this->tipo_actividad_id)],
+            'nombre' => [
+                'required',
+                'string',
+                Rule::unique('actividades','nombre')
+                    ->where(function ($query) {
+                        return $query
+                            ->where('tipo_actividad_id', $this->tipo_actividad_id)
+                            ->where('proyecto_id', $this->route('actividad')->proyecto_id);
+                    })
+                    ->ignore($this->route('actividad')->id),
+            ],
             'responsable_id'=> ['required','integer','exists:personas,id'],
             'fecha_inicio'  => ['required','date'],
             'fecha_fin'  => ['required','date'],
