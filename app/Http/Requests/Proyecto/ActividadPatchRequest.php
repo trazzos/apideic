@@ -41,7 +41,7 @@ class ActividadPatchRequest extends FormRequest
             'responsable_id'=> ['required','integer','exists:personas,id'],
             'fecha_inicio'  => ['required','date'],
             'fecha_fin'  => ['required','date'],
-            'persona_beneficiada' => ['required','string'],
+            'persona_beneficiada' => ['required','array'],
             'prioridad' => ['required','string'],
             'autoridad_participante' => ['nullable','array'],
             'link_drive' => ['nullable','string'],
