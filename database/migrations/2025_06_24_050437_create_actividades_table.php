@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->date('fecha_inicio');
             $table->date('fecha_final');
-            $table->string('persona_beneficiada');
+            $table->json('persona_beneficiada')->nullable()->default(null);
             $table->string('prioridad')->default('Normal');
             $table->json('autoridad_participante')->nullable()->default(null);
             $table->string('link_drive')->default('No');
