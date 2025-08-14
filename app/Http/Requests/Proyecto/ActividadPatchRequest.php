@@ -25,7 +25,7 @@ class ActividadPatchRequest extends FormRequest
     {
         return [
             'tipo_actividad_id'=> ['required','integer','exists:tipos_actividad,id'],
-            'capacitador_id' => ['sometimes','integer','exists:capacitadores,id'],
+            'capacitador_id' => ['nullable','integer','exists:capacitadores,id'],
             'beneficiario_id'  => ['required','integer','exists:beneficiarios,id'],
             'nombre' => [
                 'required',
