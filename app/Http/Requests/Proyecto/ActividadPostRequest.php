@@ -34,7 +34,7 @@ class ActividadPostRequest extends FormRequest
                 ->where(function ($query) {
                     return $query
                         ->where('tipo_actividad_id', $this->tipo_actividad_id)
-                        ->where('proyecto_id', $this->route('proyectos')->id);
+                        ->where('proyecto_id', $this->route('proyecto')->id);
                 })
             ],
             'responsable_id'=> ['required','integer','exists:personas,id'],
