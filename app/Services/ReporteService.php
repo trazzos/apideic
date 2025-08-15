@@ -92,6 +92,29 @@ class ReporteService extends BaseService {
             })->count();
 
             $total = $actividadesPorTipo->count();
+            
+           
+            // es un array persona_beneficiada
+            $totalBeneficiadoHombres = $actividadesPorTipo->sum(function($actividad) {
+                if (!$actividad->persona_beneficiada || !is_array($actividad->persona_beneficiada)) {
+                    return 0;
+                }
+                return collect($actividad->persona_beneficiada)->where('nombre', 'Hombre')->sum('total');
+            });
+            $totalBeneficiadoMujeres = $actividadesPorTipo->sum(function($actividad) {
+                if (!$actividad->persona_beneficiada || !is_array($actividad->persona_beneficiada)) {
+                    return 0;
+                }
+                return collect($actividad->persona_beneficiada)->where('nombre', 'Mujer')->sum('total');
+            });
+            $totalBeneficiadoOtros = $actividadesPorTipo->sum(function($actividad) {
+                if (!$actividad->persona_beneficiada || !is_array($actividad->persona_beneficiada)) {
+                    return 0;
+                }
+                return collect($actividad->persona_beneficiada)->where('nombre', 'Otro')->sum('total');
+            });
+            
+            $totalBeneficiado = $totalBeneficiadoHombres + $totalBeneficiadoMujeres + $totalBeneficiadoOtros;
 
             // Agregar a totales generales
             $totales['total_actividades'] += $total;
@@ -142,19 +165,19 @@ class ReporteService extends BaseService {
                     'porcentaje_iniciado' => $total > 0 ? round(($iniciadas / $total) * 100, 2) : 0
                 ],
                 'beneficiados' => [
-                    'total' => 0,
+                    'total' => $totalBeneficiado,
                     'detalles'=> [
                         [
                             'nombre' => 'Hombres',
-                            'total' => 0
+                            'total' => $totalBeneficiadoHombres
                         ],
                         [
                             'nombre' => 'Mujeres',
-                            'total' => 0
+                            'total' => $totalBeneficiadoMujeres
                         ],
                         [
                             'nombre' => 'Otros',
-                            'total' => 0
+                            'total' => $totalBeneficiadoOtros
                         ]
                     ]
                 ]
