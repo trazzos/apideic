@@ -50,8 +50,8 @@ class DepartamentoController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Departamento $departamentos)
+    public function delete(Departamento $departamento)
     {
-        return $this->departamentoService->delete($departamentos->id);
+        return $this->departamentoService->delete($departamento->id);
     }
 }
