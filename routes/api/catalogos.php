@@ -70,10 +70,37 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->name('roles.')->group(func
     Route::delete('{role}', [App\Http\Controllers\RoleController::class,'delete'])->name('eliminar');
 });
 
+Route::middleware(['auth:sanctum'])->prefix('secretarias')->name('secretarias.')->group(function()  {
+
+    Route::get('', [App\Http\Controllers\SecretariaController::class,'list'])->name('lista');
+    Route::post('', [App\Http\Controllers\SecretariaController::class,'create'])->name('registrar');
+    Route::patch('{secretaria}', [App\Http\Controllers\SecretariaController::class,'update'])->name('actualizar');
+    Route::delete('{secretaria}', [App\Http\Controllers\SecretariaController::class,'delete'])->name('eliminar');
+
+    Route::get('{secretaria}/subsecretarias', [App\Http\Controllers\SubsecretariaController::class,'list'])->name('subsecretarias.lista');
+    Route::post('{secretaria}/subsecretarias', [App\Http\Controllers\SubsecretariaController::class,'create'])->name('subsecretarias.registrar');
+    Route::patch('{secretaria}/subsecretarias/{subsecretaria}', [App\Http\Controllers\SubsecretariaController::class,'update'])->name('subsecretarias.actualizar');
+    Route::delete('{secretaria}/subsecretarias/{subsecretaria}', [App\Http\Controllers\SubsecretariaController::class,'delete'])->name('subsecretarias.eliminar');
+
+    Route::get('{secretaria}/subsecretarias/{subsecretaria}/direcciones', [App\Http\Controllers\DireccionController::class,'list'])->name('subsecretarias.direcciones.lista');
+    Route::post('{secretaria}/subsecretarias/{subsecretaria}/direcciones', [App\Http\Controllers\DireccionController::class,'create'])->name('subsecretarias.direcciones.registrar');
+    Route::patch('{secretaria}/subsecretarias/{subsecretaria}/direcciones/{direccion}', [App\Http\Controllers\DireccionController::class,'update'])->name('subsecretarias.direcciones.actualizar');
+    Route::delete('{secretaria}/subsecretarias/{subsecretaria}/direcciones/{direccion}', [App\Http\Controllers\DireccionController::class,'delete'])->name('subsecretarias.direcciones.eliminar');
+});
+ Route::get('subsecretarias', [App\Http\Controllers\SubsecretariaController::class,'list'])
+        ->middleware(['auth:sanctum'])
+        ->name('subsecretarias.lista');
+
+ Route::get('direcciones', [App\Http\Controllers\DireccionController::class,'list'])
+        ->middleware(['auth:sanctum'])
+        ->name('direcciones.lista');       
+
 // Endpoint consolidado para todos los catálogos
 Route::middleware(['auth:sanctum'])->prefix('catalogos')->name('catalogos.')->group(function()  {
     Route::get('all', [App\Http\Controllers\CatalogoController::class,'all'])->name('all');
 });
+
+
 
 Route::middleware([StartSession::class])->get('debug-session', function (\Illuminate\Http\Request $request) {
     return response()->json([

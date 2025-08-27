@@ -23,4 +23,9 @@ class Departamento extends Model
 
         return $this->hasMany(Persona::class);
     }
+
+    public function direccion()
+    {
+        return $this->belongsTo(Direccion::class);
+    }
 }

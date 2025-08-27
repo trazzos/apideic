@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Departamento;
+namespace App\Http\Requests\Organizacion;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class DepartamentoPostRequest extends FormRequest
+class SecretariaPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class DepartamentoPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', 
-            Rule::unique('departamentos', 'nombre')
-            ->where(fn($query) => $query->where('direccion_id', $this->route('direccion')->id))],
+            'nombre' => ['required','string', Rule::unique('secretarias','nombre')],
             'descripcion' => ['required','string'],
         ];
     }

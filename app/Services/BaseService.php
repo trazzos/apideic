@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Interfaces\Repositories\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;

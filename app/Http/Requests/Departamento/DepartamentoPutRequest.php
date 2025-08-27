@@ -24,7 +24,10 @@ class DepartamentoPutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', Rule::unique('departamentos', 'nombre')->ignore($this->departamento->id)],
+            'nombre' => ['required','string', 
+                Rule::unique('departamentos', 'nombre')
+                ->where(fn($query) => $query->where('direccion_id', $this->route('direccion')->id))
+                ->ignore($this->departamento->id)],
             'descripcion' => ['required','string'],
         ];
     }
