@@ -98,28 +98,6 @@ class InicializarPermisos extends Seeder
                         ]
                     ],
                     [
-                        'title' => 'Departamentos',
-                        'name' => 'catalogos.departamentos',
-                        'children' => [
-                            [
-                                'title' => 'Acceso',
-                                'name'  => 'catalogos.departamentos.acceso'
-                            ],
-                            [
-                                'title' => 'Agregar',
-                                'name'  => 'catalogos.departamentos.agregar'
-                            ],
-                            [
-                                'title' => 'Editar',
-                                'name'  => 'catalogos.departamentos.editar'
-                            ],
-                            [
-                                'title' => 'Eliminar',
-                                'name'  => 'catalogos.departamentos.eliminar'
-                            ]
-                        ]
-                    ],
-                    [
                         'title' => 'Tipos de actividad',
                         'name' => 'catalogos.tipos_actividad',
                         'children' => [
@@ -183,6 +161,100 @@ class InicializarPermisos extends Seeder
                                 'title' => 'Eliminar',
                                 'name'  => 'catalogos.tipos_proyecto.eliminar'
                             ]
+                        ]
+                    ],
+                    [
+                        'title' => 'Dependencias',
+                        'name' => 'catalogos.organizacion',
+                        'children' => [
+                            [
+                                'title' => 'Secretarías',
+                                'name'  => 'catalogos.organizacion.secretarias',
+                                'children' => [
+                                    [
+                                        'title' => 'Acceso',
+                                        'name'  => 'catalogos.organizacion.secretarias.acceso'
+                                    ],
+                                    [
+                                        'title' => 'Agregar',
+                                        'name'  => 'catalogos.organizacion.secretarias.agregar'
+                                    ],
+                                    [
+                                        'title' => 'Editar',
+                                        'name'  => 'catalogos.organizacion.secretarias.editar'
+                                    ],
+                                    [
+                                        'title' => 'Eliminar',
+                                        'name'  => 'catalogos.organizacion.secretarias.eliminar'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'title' => 'Subsecretarías',
+                                'name'  => 'catalogos.organizacion.subsecretarias',
+                                'children' => [
+                                    [
+                                        'title' => 'Acceso',
+                                        'name'  => 'catalogos.organizacion.subsecretarias.acceso'
+                                    ],
+                                    [
+                                        'title' => 'Agregar',
+                                        'name'  => 'catalogos.organizacion.subsecretarias.agregar'
+                                    ],
+                                    [
+                                        'title' => 'Editar',
+                                        'name'  => 'catalogos.organizacion.subsecretarias.editar'
+                                    ],
+                                    [
+                                        'title' => 'Eliminar',
+                                        'name'  => 'catalogos.organizacion.subsecretarias.eliminar'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'title' => 'Direcciones',
+                                'name'  => 'catalogos.organizacion.direcciones',
+                                'children' => [
+                                    [
+                                        'title' => 'Acceso',
+                                        'name'  => 'catalogos.organizacion.direcciones.acceso'
+                                    ],
+                                    [
+                                        'title' => 'Agregar',
+                                        'name'  => 'catalogos.organizacion.direcciones.agregar'
+                                    ],
+                                    [
+                                        'title' => 'Editar',
+                                        'name'  => 'catalogos.organizacion.direcciones.editar'
+                                    ],
+                                    [
+                                        'title' => 'Eliminar',
+                                        'name'  => 'catalogos.organizacion.direcciones.eliminar'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'title' => 'Departamentos',
+                                'name'  => 'catalogos.organizacion.departamentos',
+                                'children' => [
+                                    [
+                                        'title' => 'Acceso',
+                                        'name'  => 'catalogos.organizacion.departamentos.acceso'
+                                    ],
+                                    [
+                                        'title' => 'Agregar',
+                                        'name'  => 'catalogos.organizacion.departamentos.agregar'
+                                    ],
+                                    [
+                                        'title' => 'Editar',
+                                        'name'  => 'catalogos.organizacion.departamentos.editar'
+                                    ],
+                                    [
+                                        'title' => 'Eliminar',
+                                        'name'  => 'catalogos.organizacion.departamentos.eliminar'
+                                    ]
+                                ]
+                            ],
                         ]
                     ],
                 ]
@@ -314,7 +386,22 @@ class InicializarPermisos extends Seeder
                                 'name'  => 'gestion_proyectos.tablero'
                             ]
                 ]
+            ],
+            [
+                'title' => 'Reportes',
+                'name' => 'reportes',
+                'children' => [
+                    [
+                        'title' => 'Reporte de proyectos',
+                        'name'  => 'reportes.proyectos'
+                    ],
+                    [
+                        'title' => 'Reporte de actividades',
+                        'name'  => 'reportes.actividades'
+                    ]
+                ]
             ]
+
         ];
 
         $this->crearPermisosRecursivos($permisos);
