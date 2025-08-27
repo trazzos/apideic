@@ -24,7 +24,13 @@ class DireccionPatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required','string', Rule::unique('direcciones', 'nombre')->ignore($this->direccion->id)],
+            'subsecretaria_id' => [
+                'required',
+                'exists:subsecretarias,id',
+            ],
+            'nombre' => ['required','string', Rule::unique('direcciones', 'nombre')
+                ->where(fn($query) => $query->where('subsecretaria_id', $this->subsecretaria_id))
+                ->ignore($this->direccion->id)],
             'descripcion' => ['required','string'],
         ];
     }

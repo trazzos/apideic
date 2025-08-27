@@ -31,47 +31,32 @@ class DireccionController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param Secretaria $secretaria
-     * @param Subsecretaria|null $subsecretaria
      * @return ResourceCollection
      */
-    public function list(Secretaria $secretaria, ?Subsecretaria $subsecretaria): ResourceCollection
+    public function list(): ResourceCollection
     {
-        if ($subsecretaria) {
-            $criteria =  new SearchCriteria();
-            $criteria->addFilter('subsecretaria_id', $subsecretaria->id);
-            return $this->direccionService->search($criteria);
-        }
         return $this->direccionService->list();
     }
 
    /**
-    * Create a new resource.
-    *
-    * @param Secretaria $secretaria
-    * @param Subsecretaria $subsecretaria
+    * Create a new resource
     * @param DireccionPostRequest $request
     * @return JsonResource
     */
-    public function create(Secretaria $secretaria,Subsecretaria $subsecretaria, DireccionPostRequest $request): JsonResource
+    public function create(DireccionPostRequest $request): JsonResource
     {
-        $data = $request->validated();
-        $data['subsecretaria_id'] = $subsecretaria->id;
-
-        return $this->direccionService->create($data);
+        return $this->direccionService->create($request->validated());
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Secretaria $secretaria
-     * @param Subsecretaria $subsecretaria
      * @param Direccion $direccion
      * @param DireccionPatchRequest $request
      * @return JsonResource
      */
-    public function update(Secretaria $secretaria, Subsecretaria $subsecretaria, Direccion $direccion, DireccionPatchRequest $request): JsonResource
+    public function update(Direccion $direccion, DireccionPatchRequest $request): JsonResource
     {
         return $this->direccionService->update($direccion->id, $request->validated());
     }
@@ -79,12 +64,10 @@ class DireccionController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param Secretaria $secretaria
-     * @param Subsecretaria $subsecretaria
      * @param Direccion $direccion
      * @return Response
      */
-    public function delete(Secretaria $secretaria, Subsecretaria $subsecretaria, Direccion $direccion): Response
+    public function delete(Direccion $direccion): Response
     {
         return $this->direccionService->delete($direccion->id);
     }

@@ -24,10 +24,15 @@ class SubsecretariaPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => [   
+            'secretaria_id' => [
+                'required',
+                'exists:secretarias,id',
+            ],
+            'nombre' => [
                 'required',
                 'string', 
-                Rule::unique('subsecretarias', 'nombre')->where(fn($query) => $query->where('secretaria_id', $this->route('secretaria')->id))],
+                Rule::unique('subsecretarias', 'nombre')
+                ->where(fn($query) => $query->where('secretaria_id', $this->secretaria_id))],
             'descripcion' => ['required','string'],
         ];
     }

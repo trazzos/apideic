@@ -24,10 +24,16 @@ class DireccionPostRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'subsecretaria_id' => [
+                'required',
+                'exists:subsecretarias,id',
+            ],
             'nombre' => [
                 'required',
-                'string', 
-                Rule::unique('direcciones', 'nombre')->where(fn($query) => $query->where('subsecretaria_id', $this->route('subsecretaria')->id))],
+                'string',
+                Rule::unique('direcciones', 'nombre')
+                ->where(fn($query) => $query->where('subsecretaria_id', $this->subsecretaria_id))
+            ],
             'descripcion' => ['required','string'],
         ];
     }

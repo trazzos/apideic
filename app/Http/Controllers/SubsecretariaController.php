@@ -35,48 +35,38 @@ class SubsecretariaController extends BaseController
      * @param Secretaria|null $secretaria
      * @return ResourceCollection
      */
-    public function list(?Secretaria $secretaria = null): ResourceCollection
+    public function list(): ResourceCollection
     {
-        if ($secretaria) {
-            $criteria =  new SearchCriteria();
-            $criteria->addFilter('secretaria_id', $secretaria->id);
-            return $this->subsecretariaService->search($criteria);
-        }
-        return $this->subsecretariaService->list();
+       return $this->subsecretariaService->list();
     }
 
    /**
-    * @param Secretaria $secretaria
     * @param SubsecretariaPostRequest $request
     * @return JsonResource
     */
-    public function create(Secretaria $secretaria, SubsecretariaPostRequest $request): JsonResource
+    public function create(SubsecretariaPostRequest $request): JsonResource
     {
         $data = $request->validated();
-        $data['secretaria_id'] = $secretaria->id;
-
         return $this->subsecretariaService->create($data);
     }
 
 
     /**
      * Update the specified resource in storage.
-     * @param Secretaria $secretaria
      * @param Subsecretaria $subsecretaria
      * @return JsonResource
      */
-    public function update(Secretaria $secretaria, Subsecretaria $subsecretaria, SubsecretariaPatchRequest $request): JsonResource
+    public function update(Subsecretaria $subsecretaria, SubsecretariaPatchRequest $request): JsonResource
     {
         return $this->subsecretariaService->update($subsecretaria->id, $request->validated());
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param Secretaria $secretaria
      * @param Subsecretaria $subsecretaria
      * @return Response
      */
-    public function delete(Secretaria $secretaria, Subsecretaria $subsecretaria): Response
+    public function delete(Subsecretaria $subsecretaria): Response
     {
         return $this->subsecretariaService->delete($subsecretaria->id);
     }
