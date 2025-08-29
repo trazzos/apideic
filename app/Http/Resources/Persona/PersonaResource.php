@@ -16,12 +16,13 @@ class PersonaResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'departamento_id' => $this->departamento_id,
-            'nombre_departamento' => $this->departamento?->nombre,
+            'dependencia_type' => $this->dependencia_type,
+            'dependencia_id' => $this->dependencia_id,
+            'nombre_dependencia' => $this->dependencia->nombre ?? null,
             'nombre' => $this->nombre,
             'apellido_paterno' => $this->apellido_paterno,
             'apellido_materno' => $this->apellido_materno,
-            'responsable_departamento' => $this->responsable_departamento,
+            'es_titular' => $this->es_titular,
             'url_fotografia' => $this->url_fotografia,
             'email' => $this->whenLoaded('user', $this->user?->email),
             'cuenta_activa' => $this->whenLoaded('user', $this->user?->active),
