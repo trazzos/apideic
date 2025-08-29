@@ -16,7 +16,7 @@ class PersonaResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'dependencia_type' => $this->dependencia_type,
+            'dependencia_type' => $this->tipo_dependencia,
             'dependencia_id' => $this->dependencia_id,
             'nombre_dependencia' => $this->dependencia->nombre ?? null,
             'nombre' => $this->nombre,
