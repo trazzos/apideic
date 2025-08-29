@@ -15,17 +15,44 @@ class Departamento extends Model
     protected $guarded = [];
 
     public function proyectos(): HasMany {
-
         return $this->hasMany(Proyecto::class);
     }
 
-    public function personas(): HasMany {
-
-        return $this->hasMany(Persona::class);
+    /**
+     * Personas asignadas a este departamento mediante relación polimórfica.
+     */
+    public function personas(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Persona::class, 'dependencia');
     }
 
+    /**
+     * Dirección a la que pertenece este departamento.
+     */
     public function direccion()
     {
         return $this->belongsTo(Direccion::class);
+    }
+
+    /**
+     * Obtener la dependencia padre (Direccion).
+     */
+    public function getPadre()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * Obtener la jerarquía completa hasta la Secretaría.
+     */
+    public function getJerarquiaCompleta(): array
+    {
+        $jerarquia = [$this];
+        
+        if ($direccion = $this->direccion) {
+            $jerarquia = array_merge($direccion->getJerarquiaCompleta(), $jerarquia);
+        }
+        
+        return $jerarquia;
     }
 }
