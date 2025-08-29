@@ -126,8 +126,10 @@ class CatalogoService extends BaseService
     {
         return Persona::select(
             'id',
-            'departamento_id', 
-            'nombre', 
+            'dependencia_id',
+            'dependencia_type',
+            'tipo_dependencia',
+            'nombre',
             'apellido_paterno',
             'apellido_materno', 
             'responsable_departamento')
