@@ -134,7 +134,7 @@ class CatalogoService extends BaseService
             ->get();
 
             return $personas->map(function ($persona) {
-                return [
+                return collect([
                     'id' => $persona->id,
                     'nombre' => $persona->nombre,
                     'apellido_paterno' => $persona->apellido_paterno,
@@ -143,7 +143,7 @@ class CatalogoService extends BaseService
                     'tipo_dependencia' => $persona->tipo_dependencia,
                     'dependencia_id' => $persona->dependencia->id ?? null,
                     'dependencia' => $persona->dependencia->nombre ?? null
-                ];
+                ]);
             });
     }
 
