@@ -92,9 +92,10 @@ class CatalogoCollection extends ResourceCollection
         return collect($items)->map(function ($item) {
             return [
                 'id' => $item->id,
-                'departamento_id' => $item->departamento_id,
-                'departamento_nombre' => $item->departamento->nombre ?? null,
-                'responsable_departamento' => $item->responsable_departamento,
+                'tipo_dependencia' => $item->tipo_dependencia,
+                'dependencia_id' => $item->dependencia->id ?? null,
+                'nombre_dependencia' => $item->dependencia->nombre ?? null,
+                'es_titular' => $item->es_titular,
                 'nombre' => $item->nombre,
                 'apellido_paterno' => $item->apellido_paterno ?? null,
                 'apellido_materno' => $item->apellido_materno ?? null,

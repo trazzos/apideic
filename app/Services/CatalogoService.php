@@ -140,8 +140,9 @@ class CatalogoService extends BaseService
                     'apellido_paterno' => $persona->apellido_paterno,
                     'apellido_materno' => $persona->apellido_materno,
                     'es_titular' => $persona->es_titular,
-                    'dependencia_id' => $persona->dependencia_id,
                     'tipo_dependencia' => $persona->tipo_dependencia,
+                    'dependencia_id' => $persona->dependencia->id ?? null,
+                    'dependencia' => $persona->dependencia->nombre ?? null
                 ];
             });
     }
