@@ -124,17 +124,26 @@ class CatalogoService extends BaseService
      */
     private function getResponsables()
     {
-        return Persona::select(
+        $personas = Persona::select(
             'id',
-            'dependencia_id',
-            'dependencia_type',
-            'tipo_dependencia',
             'nombre',
             'apellido_paterno',
             'apellido_materno', 
-            'responsable_departamento')
+            'es_titular')
             ->orderBy('nombre')
             ->get();
+
+            return $personas->map(function ($persona) {
+                return [
+                    'id' => $persona->id,
+                    'nombre' => $persona->nombre,
+                    'apellido_paterno' => $persona->apellido_paterno,
+                    'apellido_materno' => $persona->apellido_materno,
+                    'es_titular' => $persona->es_titular,
+                    'dependencia_id' => $persona->dependencia_id,
+                    'tipo_dependencia' => $persona->tipo_dependencia,
+                ];
+            });
     }
 
     /**
