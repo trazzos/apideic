@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dtos\Proyecto\CreateProyectoDto;
 use App\Dtos\Proyecto\UpdateProyectoDto;
+use App\Dtos\Proyecto\ProyectoFiltroDto;
 use App\Http\Requests\Proyecto\ProyectoPostRequest;
 use App\Http\Requests\Proyecto\ProyectoPatchRequest;
 use App\Models\Proyecto;
@@ -49,10 +50,22 @@ class ProyectoController extends BaseController
     }
 
     /**
+     * Obtener proyectos con paginación y filtros jerárquicos.
+     * 
      * @param Request $request
      * @return mixed
      */
     public function paginate(Request $request): mixed
+    {
+        $dto = ProyectoFiltroDto::fromRequest($request, $request->user());
+        return $this->proyectoService->paginateWithHierarchicalFilters($dto);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function paginateOld(Request $request): mixed
     {
 
         $perPage = $request->input('per_page', 15);

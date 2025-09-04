@@ -5,6 +5,7 @@ Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->gr
 
     Route::get('', [App\Http\Controllers\ProyectoController::class,'list'])->name('list');
     Route::get('paginate', [App\Http\Controllers\ProyectoController::class,'paginate'])->name('paginate');
+    //Route::post('paginate-with-filters', [App\Http\Controllers\ProyectoController::class,'paginateWithFilters'])->name('paginate.filters');
     Route::get('{proyecto}', [App\Http\Controllers\ProyectoController::class,'show'])->name('show');
     Route::get('{proyecto}/progreso', [App\Http\Controllers\ProyectoController::class,'getProgress'])->name('progress');
     Route::post('', [App\Http\Controllers\ProyectoController::class,'create'])->name('registrar');
