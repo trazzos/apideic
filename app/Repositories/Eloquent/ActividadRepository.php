@@ -100,6 +100,17 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
         if ($dto->shouldFilterByEstatus()) {
             $criteria->addFilter('estatus', $dto->estatus);
         }
+
+        // Filtro jerárquico por responsables
+        if (!$dto->canViewAllActivities()) {
+            $subordinatePersonaIds = $dto->getSubordinatePersonaIds();
+            if (!empty($subordinatePersonaIds)) {
+                $criteria->addFilter('responsable_persona_ids', $subordinatePersonaIds);
+            } else {
+                // Si no tiene subordinados, no debería ver ninguna actividad
+                $criteria->addFilter('responsable_persona_ids', [0]); // ID inexistente
+            }
+        }
         
         return $criteria;
     }
@@ -128,6 +139,11 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
             $query->whereHas('proyecto', function ($q) use ($filters) {
                 $q->where('tipo_proyecto_id', $filters['tipo_proyecto_id']);
             });
+        }
+
+        // Filtro jerárquico por responsables
+        if (isset($filters['responsable_persona_ids'])) {
+            $query->whereIn('responsable_id', $filters['responsable_persona_ids']);
         }
         
         // Filtro por estatus de actividad

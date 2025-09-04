@@ -343,6 +343,10 @@ class InicializarPermisos extends Seeder
                                     'name'  => 'gestion_proyectos.proyectos.actividades',
                                     'children' => [
                                         [
+                                            'title' => 'Acceso',
+                                            'name'  => 'gestion_proyectos.proyectos.actividades.acceso'
+                                        ],
+                                        [
                                             'title' => 'Agregar',
                                             'name'  => 'gestion_proyectos.proyectos.actividades.agregar'
                                         ],
@@ -351,7 +355,7 @@ class InicializarPermisos extends Seeder
                                             'name'  => 'gestion_proyectos.proyectos.actividades.editar'
                                         ],
                                         [
-                                            'title' => 'Editar',
+                                            'title' => 'Eliminar',
                                             'name'  => 'gestion_proyectos.proyectos.actividades.eliminar'
                                         ],
                                     ]
@@ -360,6 +364,10 @@ class InicializarPermisos extends Seeder
                                     'title' => 'Checklist',
                                     'name'  => 'gestion_proyectos.proyectos.checklist',
                                     'children' => [
+                                        [
+                                            'title' => 'Acceso',
+                                            'name'  => 'gestion_proyectos.proyectos.checklist.acceso'
+                                        ],
                                         [
                                             'title' => 'Agregar',
                                             'name'  => 'gestion_proyectos.proyectos.checklist.agregar'
@@ -380,11 +388,7 @@ class InicializarPermisos extends Seeder
                                 ],
 
                             ]
-                            ],
-                            [
-                                'title' => 'Tablero',
-                                'name'  => 'gestion_proyectos.tablero'
-                            ]
+                        ],
                 ]
             ],
             [

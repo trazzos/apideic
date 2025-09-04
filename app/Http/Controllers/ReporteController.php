@@ -32,7 +32,7 @@ class ReporteController extends BaseController
      */
     public function actividadesPorTipoProyecto(ReporteActividadesRequest $request): JsonResource
     {
-        $dto = ReporteActividadesDto::fromRequest($request);
+        $dto = ReporteActividadesDto::fromRequest($request, $request->user());
         $reporte = $this->reporteService->generarReporteActividades($dto);
 
         return JsonResource::make($reporte);
