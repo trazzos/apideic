@@ -234,7 +234,7 @@ class ProyectoFiltroDto
     public function getFinalDepartamentoFilter(): array
     {
         // Si puede ver todos los proyectos, no aplicar filtro
-        if ($this->canViewAllProjects()) {
+        if ($this->canViewAllProjects() && !$this->shouldFilterByDepartamento()) {
             return [];
         }
 
