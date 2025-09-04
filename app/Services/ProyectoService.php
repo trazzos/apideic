@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\Proyecto\ProyectoResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use App\Repositories\Eloquent\ProyectoRepository;
 use App\Dtos\Proyecto\CreateProyectoDto;
 use App\Dtos\Proyecto\UpdateProyectoDto;
@@ -70,15 +71,16 @@ class ProyectoService extends BaseService {
      * Paginar proyectos con filtros jerárquicos.
      * 
      * @param ProyectoFiltroDto $dto
-     * @return LengthAwarePaginator
+     * @return ResourceCollection
      */
-    public function paginateWithHierarchicalFilters(ProyectoFiltroDto $dto): LengthAwarePaginator
+    public function paginateWithHierarchicalFilters(ProyectoFiltroDto $dto): ResourceCollection
     {
         // Crear criterios de búsqueda usando el sistema centralizado
         $criteria = $this->buildSearchCriteriaFromDto($dto);
         
         // Usar el método searchWithPagination del trait Searchable
-        return $this->repository->searchWithPagination($criteria, $dto->perPage);
+        // que maneja automáticamente las ResourceCollections
+        return $this->searchWithPagination($criteria, $dto->perPage);
     }
 
     /**
