@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class Actividad extends Model
 {
@@ -84,5 +86,173 @@ class Actividad extends Model
     public function getRouteKeyName()
     {
         return 'uuid';
+    }
+
+    /**
+     * Verificar si el usuario puede trabajar en esta actividad.
+     * Sigue la misma lógica jerárquica que los filtros.
+     */
+    public function canBeWorkedByUser(?User $user): bool
+    {
+        if (!$user) {
+            return false; // Usuario no autenticado no puede trabajar
+        }
+
+        // Superadmin puede trabajar en cualquier actividad
+        if ($user->hasRole('superadmin')) {
+            return true;
+        }
+
+        // Usuario sin persona asociada puede trabajar en cualquier actividad
+        $persona = $user->owner;
+        if (!$persona || !($persona instanceof Persona)) {
+            return true;
+        }
+
+        // Verificar según el nivel jerárquico del usuario
+        return $this->checkHierarchicalAccess($persona);
+    }
+
+    /**
+     * Verificar acceso jerárquico basado en la persona del usuario.
+     */
+    private function checkHierarchicalAccess(Persona $persona): bool
+    {
+        // Si es el responsable directo de la actividad
+        if ($this->responsable_id === $persona->id) {
+            return true;
+        }
+
+        // Obtener la dependencia de la persona
+        $dependencia = $persona->dependencia;
+        if (!$dependencia) {
+            return false;
+        }
+
+        // Verificar según el tipo de dependencia
+        switch (get_class($dependencia)) {
+            case 'App\Models\Secretaria':
+                return $this->canBeAccessedFromSecretaria($dependencia);
+            
+            case 'App\Models\Subsecretaria':
+                return $this->canBeAccessedFromSubsecretaria($dependencia);
+            
+            case 'App\Models\Direccion':
+                return $this->canBeAccessedFromDireccion($dependencia);
+            
+            case 'App\Models\Departamento':
+                return $this->canBeAccessedFromDepartamento($dependencia);
+            
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Verificar si la actividad puede ser accedida desde una Secretaría.
+     */
+    private function canBeAccessedFromSecretaria($secretaria): bool
+    {
+        // Puede acceder a actividades de cualquier departamento subordinado
+        $departamento = $this->proyecto->departamento;
+        if (!$departamento) {
+            return false;
+        }
+
+        // Verificar si el departamento está en la jerarquía de la secretaría
+        $direccion = $departamento->direccion;
+        if (!$direccion) {
+            return false;
+        }
+
+        $subsecretaria = $direccion->subsecretaria;
+        if (!$subsecretaria) {
+            return false;
+        }
+
+        return $subsecretaria->secretaria_id === $secretaria->id;
+    }
+
+    /**
+     * Verificar si la actividad puede ser accedida desde una Subsecretaría.
+     */
+    private function canBeAccessedFromSubsecretaria($subsecretaria): bool
+    {
+        // Puede acceder a actividades de departamentos de sus direcciones
+        $departamento = $this->proyecto->departamento;
+        if (!$departamento) {
+            return false;
+        }
+
+        $direccion = $departamento->direccion;
+        if (!$direccion) {
+            return false;
+        }
+
+        return $direccion->subsecretaria_id === $subsecretaria->id;
+    }
+
+    /**
+     * Verificar si la actividad puede ser accedida desde una Dirección.
+     */
+    private function canBeAccessedFromDireccion($direccion): bool
+    {
+        // Puede acceder a actividades de sus departamentos directos
+        $departamento = $this->proyecto->departamento;
+        if (!$departamento) {
+            return false;
+        }
+
+        return $departamento->direccion_id === $direccion->id;
+    }
+
+    /**
+     * Verificar si la actividad puede ser accedida desde un Departamento.
+     */
+    private function canBeAccessedFromDepartamento($departamento): bool
+    {
+        // Solo puede acceder si es responsable directo (ya verificado arriba)
+        // o si la actividad pertenece a un proyecto de su departamento
+        $actividadDepartamento = $this->proyecto->departamento;
+        if (!$actividadDepartamento) {
+            return false;
+        }
+
+        return $actividadDepartamento->id === $departamento->id;
+    }
+
+    /**
+     * Atributo computado para verificar si puede ser trabajado por el usuario autenticado.
+     * Este atributo se puede usar en resources y vistas.
+     * Requiere que se pase el usuario como contexto.
+     */
+    public function getCanBeWorkedByCurrentUserAttribute(): bool
+    {
+        // Intentar obtener el usuario autenticado
+        $user = null;
+        if (Auth::check()) {
+            $user = Auth::user();
+        }
+        
+        return $this->canBeWorkedByUser($user);
+    }
+
+    /**
+     * Método helper para establecer si puede ser trabajado por un usuario específico.
+     * Útil para usar en resources donde se tiene acceso al usuario.
+     */
+    public function setUserContext(?User $user): self
+    {
+        $this->setAttribute('_user_context', $user);
+        return $this;
+    }
+
+    /**
+     * Obtener si puede ser trabajado considerando el contexto del usuario.
+     */
+    public function getCanBeWorkedAttribute(): bool
+    {
+        $user = $this->getAttribute('_user_context');
+        return $this->canBeWorkedByUser($user);
     }
 }

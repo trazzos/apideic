@@ -49,6 +49,7 @@ class ActividadResource extends JsonResource
             "tareas_completadas" => $this->getProgress()['tareas_completadas'],
             "tareas_pendientes" => $this->getProgress()['tareas_pendientes'],
             "estatus" => $this->isCompleted() ? 'Completado' : 'Pendiente',
+            "can_be_worked" => $this->setUserContext($request->user())->can_be_worked,
 
         ];
     }
