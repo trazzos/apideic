@@ -4,6 +4,7 @@ namespace App\Http\Resources\Persona;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class PersonaResource extends JsonResource
 {
@@ -23,7 +24,7 @@ class PersonaResource extends JsonResource
             'apellido_paterno' => $this->apellido_paterno,
             'apellido_materno' => $this->apellido_materno,
             'es_titular' => $this->es_titular,
-            'url_fotografia' => $this->url_fotografia,
+            'public_url_fotografia' => Storage::url($this->url_fotografia),
             'email' => $this->whenLoaded('user', $this->user?->email),
             'cuenta_activa' => $this->whenLoaded('user', $this->user?->active),
             'estatus' => $this->estatus,
