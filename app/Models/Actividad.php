@@ -120,7 +120,6 @@ class Actividad extends Model
     private function checkHierarchicalAccess(Persona $persona): bool
     {
         // Si es el responsable directo de la actividad
-        Log::info('Actividad::checkHierarchicalAccess - Persona ID: ' . $persona->id . ', Actividad Responsable ID: ' . $this->responsable_id);
         if ($this->responsable_id === $persona->id) {
             return true;
         }
@@ -213,14 +212,7 @@ class Actividad extends Model
      */
     private function canBeAccessedFromDepartamento($departamento): bool
     {
-        // Solo puede acceder si es responsable directo (ya verificado arriba)
-        // o si la actividad pertenece a un proyecto de su departamento
-        $actividadDepartamento = $this->proyecto->departamento;
-        if (!$actividadDepartamento) {
-            return false;
-        }
-
-        return $actividadDepartamento->id === $departamento->id;
+        return false;
     }
 
     /**
