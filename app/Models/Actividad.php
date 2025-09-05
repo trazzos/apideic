@@ -119,6 +119,7 @@ class Actividad extends Model
     private function checkHierarchicalAccess(Persona $persona): bool
     {
         // Si es el responsable directo de la actividad
+        \log('Actividad::checkHierarchicalAccess - Persona ID: ' . $persona->id . ', Actividad Responsable ID: ' . $this->responsable_id);
         if ($this->responsable_id === $persona->id) {
             return true;
         }
