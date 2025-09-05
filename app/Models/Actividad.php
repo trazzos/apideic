@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class Actividad extends Model
 {
@@ -119,7 +120,7 @@ class Actividad extends Model
     private function checkHierarchicalAccess(Persona $persona): bool
     {
         // Si es el responsable directo de la actividad
-        \log('Actividad::checkHierarchicalAccess - Persona ID: ' . $persona->id . ', Actividad Responsable ID: ' . $this->responsable_id);
+        Log::info('Actividad::checkHierarchicalAccess - Persona ID: ' . $persona->id . ', Actividad Responsable ID: ' . $this->responsable_id);
         if ($this->responsable_id === $persona->id) {
             return true;
         }
