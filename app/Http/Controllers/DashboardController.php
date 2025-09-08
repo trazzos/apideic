@@ -83,7 +83,7 @@ class DashboardController extends Controller
                 });
 
             // 6. Las últimas 10 actividades completadas
-            $ultimasActividadesCompletadas = Actividad::with(['proyecto:uuid,nombre', 'responsable:id,nombre,apellido_paterno'])
+            $ultimasActividadesCompletadas = Actividad::with(['proyecto:id,uuid,nombre', 'responsable:id,nombre,apellido_paterno'])
                 ->whereNotNull('completed_at')
                 ->orderBy('completed_at', 'desc')
                 ->limit(10)
