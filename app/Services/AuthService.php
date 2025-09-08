@@ -15,7 +15,7 @@ class AuthService
       }
       $request->session()->regenerate();
 
-      $user = User::where('email', $data['email'])->firstOrFail();
+      $user = User::where('email', $data['email'])->with('owner')->firstOrFail();
       
       // Cargar permisos del usuario
       $permissions = $user->getAllPermissions()->pluck('name')->toArray();
@@ -27,9 +27,11 @@ class AuthService
               'user' => [
                   'name' => $user->name,
                   'email' => $user->email,
+                  'url_img_profile' => $user->owner->public_url_fotografia ?? null
               ],
               'roles' => $roles,
               'permissions' => $permissions,
+              'img_profile' => $user->owner->img_profile ?? null
           ],
           200
       );
@@ -41,6 +43,7 @@ class AuthService
       if (!$user) {
           throw new AuthenticationException('Usuario no autenticado');
       }
+      
       $permissions = $user->getAllPermissions()->pluck('name')->toArray();
       $roles = $user->getRoleNames();
 
@@ -49,6 +52,7 @@ class AuthService
               'user' => [
                   'name' => $user->name,
                   'email' => $user->email,
+                  'url_img_profile' => $user->owner->public_url_fotografia ?? null
               ],
               'roles' => $roles,
               'permissions' => $permissions,

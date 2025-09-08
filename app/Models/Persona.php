@@ -144,4 +144,23 @@ class Persona extends Model
     {
         return $this->morphOne(User::class, 'owner');
     }
+
+    public function getPublicUrlFotografiaAttribute(): ?string
+    {
+        if (!$this->url_fotografia) {
+            return null;
+        }
+
+        // Si la URL ya contiene el dominio, devolverla tal como está
+        if (str_starts_with($this->url_fotografia, 'http') || str_starts_with($this->url_fotografia, 'https')) {
+            return $this->url_fotografia;
+        }
+
+        // Remover barras iniciales para evitar duplicados
+        $path = ltrim($this->url_fotografia, '/');
+        
+        // Construir la URL pública usando la configuración del disco público
+        // que apunta a public/storage gracias al enlace simbólico
+        return asset('public/' . $path);
+    }
 }
