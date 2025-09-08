@@ -92,8 +92,8 @@ class DashboardController extends Controller
                     return [
                         'uuid' => $actividad->uuid,
                         'nombre' => $actividad->nombre,
-                        'proyecto_uuid' => $actividad->proyecto->uuid ?? null,
-                        'proyecto_nombre' => $actividad->proyecto->nombre ?? null,
+                        'proyecto_uuid' => $actividad?->proyecto?->uuid ?? null,
+                        'proyecto_nombre' => $actividad?->proyecto?->nombre ?? null,
                         'responsable_nombre' => $actividad->responsable 
                             ? $actividad->responsable->nombre . ' ' . $actividad->responsable->apellido_paterno
                             : null,
