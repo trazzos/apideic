@@ -3,6 +3,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->prefix('proyectos')->name('proyectos.')->group(function()  {
 
+    // Dashboard de proyectos
+    Route::get('dashboard', [App\Http\Controllers\DashboardController::class,'proyectosDashboard'])->name('dashboard');
+
     Route::get('', [App\Http\Controllers\ProyectoController::class,'list'])->name('list');
     Route::get('paginate', [App\Http\Controllers\ProyectoController::class,'paginate'])->name('paginate');
     //Route::post('paginate-with-filters', [App\Http\Controllers\ProyectoController::class,'paginateWithFilters'])->name('paginate.filters');
