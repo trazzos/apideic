@@ -47,6 +47,6 @@ class PersonaResource extends JsonResource
         
         // Construir la URL pública usando la configuración del disco público
         // que apunta a public/storage gracias al enlace simbólico
-        return url($path);
+        return asset('public/' . $path);
     }
 }
