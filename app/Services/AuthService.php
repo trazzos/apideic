@@ -31,7 +31,6 @@ class AuthService
               ],
               'roles' => $roles,
               'permissions' => $permissions,
-              'img_profile' => $user->owner->img_profile ?? null
           ],
           200
       );
