@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Modelo para la gestión de archivos del sistema.
@@ -14,9 +15,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @author Sistema DEIC
  * @since 1.0.0
  */
-class Archivo extends Model
+class Archivo extends Model implements Auditable
 {
-    use SoftDeletes;
+    use SoftDeletes, \OwenIt\Auditing\Auditable;
 
     protected $table = 'archivos';
 
