@@ -57,12 +57,15 @@ class ProyectoRepository extends BaseEloquentRepository implements ProyectoRepos
                     break;
                 case 'En curso':
                     $query->whereNull('completed_at')
-                        ->whereHas('actividades', function ($q) {
-                        $q->whereNotNull('completed_at');
-                    })->distinct();
+                          ->whereHas('actividades', function ($q) {
+                            $q->whereNotNull('completed_at');
+                          })->distinct();
                     break;
                 case 'Pendiente':
-                    $query->whereNull('completed_at');
+                    $query->whereNull('completed_at')
+                          ->whereDoesntHave('actividades', function ($q) {
+                              $q->whereNotNull('completed_at');
+                           })->distinct();
                     break;
             }
         }
