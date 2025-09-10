@@ -60,6 +60,20 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
     }
 
     /**
+     * Obtener actividades para reporte agrupadas por estatus.
+     * @param \App\Dtos\Reporte\ReporteActividadesPorEstatusDto $dto
+     * @return Collection
+     */
+    public function getActividadesParaReportePorEstatus(\App\Dtos\Reporte\ReporteActividadesPorEstatusDto $dto): Collection
+    {
+        // Crear criterios de búsqueda usando el sistema centralizado
+        $criteria = $this->buildSearchCriteriaFromEstatusDto($dto);
+        
+        // Usar el método search del trait Searchable
+        return $this->search($criteria);
+    }
+
+    /**
      * Construir SearchCriteria desde el DTO del reporte.
      * @param ReporteActividadesDto $dto
      * @return SearchCriteria
@@ -116,6 +130,91 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
     }
 
     /**
+     * Construir SearchCriteria desde el DTO del reporte por estatus.
+     * @param \App\Dtos\Reporte\ReporteActividadesPorEstatusDto $dto
+     * @return SearchCriteria
+     */
+    private function buildSearchCriteriaFromEstatusDto(\App\Dtos\Reporte\ReporteActividadesPorEstatusDto $dto): SearchCriteria
+    {
+        $criteria = new \App\Services\Search\SearchCriteria();
+        
+        // Configurar relaciones necesarias para el reporte
+        $criteria->setRelations([
+            'proyecto.tipoProyecto',
+            'proyecto.departamento',
+            'tipoActividad',
+            'responsable',
+            'tareas'
+        ]);
+        
+        // Configurar ordenamiento
+        $criteria->setSort('created_at', 'desc');
+        
+        // Aplicar filtros específicos del reporte
+        
+        // Filtro por rango de fechas
+        if ($dto->shouldFilterByDate()) {
+            if ($dto->fechaInicio) {
+                $criteria->addFilter('fecha_inicio_from', $dto->fechaInicio);
+            }
+            if ($dto->fechaFin) {
+                $criteria->addFilter('fecha_fin_to', $dto->fechaFin);
+            }
+        }
+        
+        // Filtro por tipo de proyecto
+        if ($dto->shouldFilterByTipoProyecto()) {
+            $criteria->addFilter('tipo_proyecto_id', $dto->tipoProyectoId);
+        }
+        
+        // Filtro por estatus
+        if ($dto->shouldFilterByEstatus()) {
+            $criteria->addFilter('estatus', $dto->estatus);
+        }
+        
+        // Aplicar filtros jerárquicos según los permisos del usuario
+        if (!$dto->canViewAllActivities()) {
+            // Verificar si debe ver solo sus propias actividades (usuario no titular de departamento)
+            $subordinatePersonaIds = $dto->getSubordinatePersonaIds();
+            
+            if (empty($subordinatePersonaIds)) {
+                // Usuario no titular de departamento: solo ve sus propias actividades donde es responsable
+                $persona = $dto->getPersona();
+                if ($persona) {
+                    $criteria->addFilter('responsable_persona_ids', [$persona->id]);
+                } else {
+                    // Sin persona asociada, no debería ver ninguna actividad
+                    $criteria->addFilter('responsable_persona_ids', [0]); // ID inexistente
+                }
+            } else {
+                // Usuario con subordinados: aplicar filtros jerárquicos por departamentos
+                $accessibleDepartmentIds = $dto->getAccessibleDepartmentIds();
+                
+                if (!empty($accessibleDepartmentIds)) {
+                    // Si hay filtro específico de departamento, verificar que esté en los accesibles
+                    if ($dto->shouldFilterByDepartamento()) {
+                        if (in_array($dto->departamentoId, $accessibleDepartmentIds)) {
+                            // El departamento solicitado está en los accesibles, usar solo ese
+                            $criteria->addFilter('departamentos_jerarquicos', [$dto->departamentoId]);
+                        } else {
+                            // El departamento solicitado no está en los accesibles, no debería ver nada
+                            $criteria->addFilter('departamentos_jerarquicos', [0]); // ID inexistente
+                        }
+                    } else {
+                        // No hay filtro específico, aplicar todos los departamentos accesibles
+                        $criteria->addFilter('departamentos_jerarquicos', $accessibleDepartmentIds);
+                    }
+                } else {
+                    // No tiene acceso a ningún departamento
+                    $criteria->addFilter('departamentos_jerarquicos', [0]); // ID inexistente
+                }
+            }
+        }
+        
+        return $criteria;
+    }
+
+    /**
      * Aplicar filtros específicos del reporte que no están en el sistema base.
      * Este método sobrescribe la aplicación de filtros para casos específicos.
      * @param Builder $query
@@ -141,7 +240,7 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
             });
         }
 
-        // Filtro jerárquico por responsables
+        // Filtro jerárquico por responsables (para ambos tipos de reporte)
         if (isset($filters['responsable_persona_ids'])) {
             $query->whereIn('responsable_id', $filters['responsable_persona_ids']);
         }
@@ -149,22 +248,32 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
         // Filtro por estatus de actividad
         if (isset($filters['estatus'])) {
             switch ($filters['estatus']) {
-                case 'Completo':
+                case 'completado':
                     $query->whereNotNull('completed_at');
                     break;
-                case 'Pendiente':
-                    $query->whereNull('completed_at')
-                          ->whereDoesntHave('tareas', function ($q) {
-                              $q->whereNotNull('completed_at');
-                          });
-                    break;
-                case 'Iniciado':
+                case 'en_curso':
                     $query->whereNull('completed_at')
                           ->whereHas('tareas', function ($q) {
                               $q->whereNotNull('completed_at');
                           });
                     break;
+                case 'sin_iniciar':
+                    $query->whereNull('completed_at')
+                          ->whereDoesntHave('tareas', function ($q) {
+                              $q->whereNotNull('completed_at');
+                          });
+                    break;
             }
         }
+
+        // Filtros jerárquicos por departamentos
+        if (isset($filters['departamentos_jerarquicos'])) {
+            // Filtro jerárquico por departamentos (individual o múltiples según permisos del usuario)
+            $query->whereHas('proyecto', function ($q) use ($filters) {
+                $q->whereIn('departamento_id', $filters['departamentos_jerarquicos']);
+            });
+        }
+
+       
     }
 }

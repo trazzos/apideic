@@ -7,4 +7,6 @@ interface ActividadRepositoryInterface extends BaseRepositoryInterface,Searchabl
     public function findByProyectoUuid(string $uuid): \Illuminate\Database\Eloquent\Collection;
     
     public function getActividadesParaReporte(\App\Dtos\Reporte\ReporteActividadesDto $dto): \Illuminate\Database\Eloquent\Collection;
+    
+    public function getActividadesParaReportePorEstatus(\App\Dtos\Reporte\ReporteActividadesPorEstatusDto $dto): \Illuminate\Database\Eloquent\Collection;
 }

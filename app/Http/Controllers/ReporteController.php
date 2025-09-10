@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Dtos\Reporte\ReporteActividadesDto;
+use App\Dtos\Reporte\ReporteActividadesPorEstatusDto;
 use App\Http\Requests\Reporte\ReporteActividadesRequest;
+use App\Http\Requests\Reporte\ReporteActividadesPorEstatusRequest;
 use App\Services\ReporteService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -39,40 +41,16 @@ class ReporteController extends BaseController
     }
 
     /**
-     * Buscar actividades usando el sistema de búsqueda centralizado.
+     * Buscar actividades por estatus usando el sistema de búsqueda centralizado.
      * 
-     * @param Request $request
+     * @param ReporteActividadesPorEstatusRequest $request
      * @return JsonResource
      */
-    public function buscarActividades(Request $request): JsonResource
+    public function buscarActividades(ReporteActividadesPorEstatusRequest $request): JsonResource
     {
-        // Crear criterios desde el request
-        $criteria = \App\Services\Search\SearchCriteria::fromRequest($request);
+        $dto = ReporteActividadesPorEstatusDto::fromRequest($request, $request->user());
+        $reporte = $this->reporteService->generarReporteActividadesPorEstatus($dto);
         
-        // Añadir filtros específicos si se proporcionan
-        if ($request->has('tipo_proyecto_id')) {
-            $criteria->addFilter('tipo_proyecto_id', $request->get('tipo_proyecto_id'));
-        }
-        
-        if ($request->has('estatus')) {
-            $criteria->addFilter('estatus', $request->get('estatus'));
-        }
-        
-        // Configurar relaciones para cargar
-        $criteria->setRelations([
-            'proyecto.tipoProyecto',
-            'tipoActividad',
-            'responsable'
-        ]);
-        
-        // Usar paginación si se especifica
-        if ($request->has('per_page')) {
-            $perPage = (int) $request->get('per_page', 15);
-            $actividades = $this->reporteService->buscarActividadesConPaginacion($criteria, $perPage);
-        } else {
-            $actividades = $this->reporteService->buscarActividades($criteria);
-        }
-
-        return JsonResource::make($actividades);
+        return JsonResource::make($reporte);
     }
 }

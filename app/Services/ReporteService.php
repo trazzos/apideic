@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Interfaces\Repositories\ActividadRepositoryInterface;
 use App\Services\Traits\Searchable;
 use App\Dtos\Reporte\ReporteActividadesDto;
+use App\Dtos\Reporte\ReporteActividadesPorEstatusDto;
 use App\Models\TipoProyecto;
 use Illuminate\Database\Eloquent\Collection;
 use App\Services\Search\SearchCriteria;
@@ -198,5 +199,125 @@ class ReporteService extends BaseService {
             'data_reporte' => $reporte,
             'total_tipos_proyecto' => count($reporte)
         ];
+    }
+
+    /**
+     * Generar reporte de actividades agrupadas por estatus usando DTO.
+     * @param ReporteActividadesPorEstatusDto $dto
+     * @return array
+     */
+    public function generarReporteActividadesPorEstatus(ReporteActividadesPorEstatusDto $dto): array
+    {
+        // Usar el repositorio con sistema de búsqueda centralizado
+        $actividades = $this->repository->getActividadesParaReportePorEstatus($dto);
+        
+        return $this->procesarActividadesParaReportePorEstatus($actividades, $dto);
+    }
+
+    /**
+     * Procesar actividades para generar estructura del reporte por estatus.
+     * @param Collection $actividades
+     * @param ReporteActividadesPorEstatusDto $dto
+     * @return array
+     */
+    private function procesarActividadesParaReportePorEstatus(Collection $actividades, ReporteActividadesPorEstatusDto $dto): array
+    {
+        // Clasificar actividades por estatus
+        $actividadesCompletadas = $actividades->filter(function($actividad) {
+            return !is_null($actividad->completed_at);
+        });
+
+        $actividadesEnCurso = $actividades->filter(function($actividad) {
+            return is_null($actividad->completed_at) && 
+                   $actividad->tareas()->whereNotNull('completed_at')->count() > 0;
+        });
+
+        $actividadesSinIniciar = $actividades->filter(function($actividad) {
+            return is_null($actividad->completed_at) && 
+                   $actividad->tareas()->whereNotNull('completed_at')->count() === 0;
+        });
+
+        // Formatear detalles de actividades
+        $formatearActividades = function($collection) {
+            return $collection->map(function($actividad) {
+                return [
+                    'uuid' => $actividad->uuid,
+                    'nombre' => $actividad->nombre,
+                    'descripcion' => $actividad->descripcion,
+                    'fecha_inicio' => $actividad->fecha_inicio,
+                    'fecha_fin' => $actividad->fecha_fin,
+                    'completed_at' => $actividad->completed_at,
+                    'proyecto' => [
+                        'uuid' => $actividad->proyecto->uuid,
+                        'nombre' => $actividad->proyecto->nombre,
+                        'tipo_proyecto' => $actividad->proyecto->tipoProyecto->nombre ?? null
+                    ],
+                    'responsable' => $actividad->responsable ? [
+                        'id' => $actividad->responsable->id,
+                        'nombre' => $actividad->responsable->nombre,
+                        'apellido_paterno' => $actividad->responsable->apellido_paterno,
+                        'nombre_completo' => $actividad->responsable->nombre . ' ' . 
+                                           $actividad->responsable->apellido_paterno
+                    ] : null,
+                    'total_tareas' => $actividad->tareas->count(),
+                    'tareas_completadas' => $actividad->tareas()->whereNotNull('completed_at')->count(),
+                    'porcentaje_avance_tareas' => $actividad->tareas->count() > 0 ? 
+                        round(($actividad->tareas()->whereNotNull('completed_at')->count() / $actividad->tareas->count()) * 100, 2) : 0
+                ];
+            })->values();
+        };
+
+        // Construir respuesta final
+        $respuesta = [
+            'resumen' => [
+                'total_actividades' => $actividades->count(),
+                'completadas' => [
+                    'count' => $actividadesCompletadas->count(),
+                    'porcentaje' => $actividades->count() > 0 ? 
+                        round(($actividadesCompletadas->count() / $actividades->count()) * 100, 2) : 0
+                ],
+                'en_curso' => [
+                    'count' => $actividadesEnCurso->count(),
+                    'porcentaje' => $actividades->count() > 0 ? 
+                        round(($actividadesEnCurso->count() / $actividades->count()) * 100, 2) : 0
+                ],
+                'sin_iniciar' => [
+                    'count' => $actividadesSinIniciar->count(),
+                    'porcentaje' => $actividades->count() > 0 ? 
+                        round(($actividadesSinIniciar->count() / $actividades->count()) * 100, 2) : 0
+                ]
+            ],
+            'filtros_aplicados' => $dto->getFiltrosAplicados()
+        ];
+
+        // Si no hay filtro específico de estatus, mostrar todos los grupos
+        if ($dto()) {
+            $respuesta['grupos'] = [
+                'completadas' => [
+                    'count' => $actividadesCompletadas->count(),
+                    'actividades' => $formatearActividades($actividadesCompletadas)
+                ],
+                'en_curso' => [
+                    'count' => $actividadesEnCurso->count(),
+                    'actividades' => $formatearActividades($actividadesEnCurso)
+                ],
+                'sin_iniciar' => [
+                    'count' => $actividadesSinIniciar->count(),
+                    'actividades' => $formatearActividades($actividadesSinIniciar)
+                ]
+            ];
+        } else {
+            // Si hay filtro específico, filtrar y mostrar solo ese grupo
+            $actividadesFiltradas = match($dto->estatus) {
+                'completado' => $actividadesCompletadas,
+                'en_curso' => $actividadesEnCurso,
+                'pendiente' => $actividadesSinIniciar,
+                default => $actividades
+            };
+            
+            $respuesta['actividades'] = $formatearActividades($actividadesFiltradas);
+        }
+
+        return $respuesta;
     }
 }

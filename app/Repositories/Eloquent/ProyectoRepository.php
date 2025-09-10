@@ -52,16 +52,16 @@ class ProyectoRepository extends BaseEloquentRepository implements ProyectoRepos
         // Filtro por estatus del proyecto
         if (isset($filters['estatus'])) {
             switch ($filters['estatus']) {
-                case 'Completado':
+                case 'completado':
                     $query->whereNotNull('completed_at');
                     break;
-                case 'En curso':
+                case 'en_curso':
                     $query->whereNull('completed_at')
                           ->whereHas('actividades', function ($q) {
                             $q->whereNotNull('completed_at');
                           })->distinct();
                     break;
-                case 'Pendiente':
+                case 'pendiente':
                     $query->whereNull('completed_at')
                           ->whereDoesntHave('actividades', function ($q) {
                               $q->whereNotNull('completed_at');
