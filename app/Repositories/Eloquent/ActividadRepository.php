@@ -257,7 +257,7 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
                               $q->whereNotNull('completed_at');
                           });
                     break;
-                case 'sin_iniciar':
+                case 'pendiente':
                     $query->whereNull('completed_at')
                           ->whereDoesntHave('tareas', function ($q) {
                               $q->whereNotNull('completed_at');

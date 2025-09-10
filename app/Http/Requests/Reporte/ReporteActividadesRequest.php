@@ -25,7 +25,7 @@ class ReporteActividadesRequest extends FormRequest
             'fecha_inicio' => 'nullable|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
             'tipo_proyecto_id' => 'nullable|exists:tipos_proyecto,id',
-            'estatus' => 'nullable|in:completado,en_curso,sin_iniciar',
+            'estatus' => 'nullable|in:completado,en_curso,pendiente',
             'per_page' => 'nullable|integer|min:1|max:100',
             'page' => 'nullable|integer|min:1'
         ];
