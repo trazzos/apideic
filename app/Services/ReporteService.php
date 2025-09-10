@@ -257,7 +257,8 @@ class ReporteService extends BaseService {
                         'nombre' => $actividad->responsable->nombre,
                         'apellido_paterno' => $actividad->responsable->apellido_paterno,
                         'nombre_completo' => $actividad->responsable->nombre . ' ' . 
-                                           $actividad->responsable->apellido_paterno
+                                           $actividad->responsable->apellido_paterno.' '.
+                                           $actividad->responsable->apellido_materno
                     ] : null,
                     'total_tareas' => $actividad->tareas->count(),
                     'tareas_completadas' => $actividad->tareas()->whereNotNull('completed_at')->count(),
