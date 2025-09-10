@@ -163,7 +163,10 @@ class DashboardService
      */
     private function getProyectosPorDepartamento(Builder $proyectosQuery): \Illuminate\Support\Collection
     {
-        return $proyectosQuery->select('departamento_id', DB::raw('count(*) as total_proyectos'))
+        // Clonar query para evitar conflictos con otros métodos
+        $query = clone $proyectosQuery;
+        
+        return $query->select('departamento_id', DB::raw('count(*) as total_proyectos'))
             ->with('departamento:id,nombre')
             ->groupBy('departamento_id')
             ->get()
@@ -187,7 +190,10 @@ class DashboardService
      */
     private function getUltimosProyectos(Builder $proyectosQuery): \Illuminate\Support\Collection
     {
-        return $proyectosQuery->with(['actividades', 'departamento'])
+        // Clonar query para evitar conflictos con otros métodos
+        $query = clone $proyectosQuery;
+        
+        return $query->with(['actividades', 'departamento'])
             ->orderBy('created_at', 'desc')
             ->limit(10)
             ->get()
@@ -216,7 +222,10 @@ class DashboardService
      */
     private function getProyectosPrioritarios(Builder $proyectosQuery): \Illuminate\Support\Collection
     {
-        return $proyectosQuery->with(['actividades', 'departamento'])
+        // Clonar query para evitar conflictos con otros métodos
+        $query = clone $proyectosQuery;
+        
+        return $query->with(['actividades', 'departamento'])
             ->withCount('actividades')
             ->orderBy('actividades_count', 'desc')
             ->limit(10)
@@ -245,7 +254,10 @@ class DashboardService
      */
     private function getUltimasActividadesCompletadas(Builder $actividadesQuery): \Illuminate\Support\Collection
     {
-        return $actividadesQuery->with(['proyecto:id,uuid,nombre', 'responsable:id,nombre,apellido_paterno'])
+        // Clonar query para evitar conflictos con otros métodos
+        $query = clone $actividadesQuery;
+        
+        return $query->with(['proyecto:id,uuid,nombre', 'responsable:id,nombre,apellido_paterno'])
             ->whereNotNull('completed_at')
             ->orderBy('completed_at', 'desc')
             ->limit(10)
