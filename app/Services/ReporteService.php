@@ -250,7 +250,8 @@ class ReporteService extends BaseService {
                     'proyecto' => [
                         'uuid' => $actividad->proyecto->uuid,
                         'nombre' => $actividad->proyecto->nombre,
-                        'tipo_proyecto' => $actividad->proyecto->tipoProyecto->nombre ?? null
+                        'tipo_proyecto' => $actividad->proyecto->tipoProyecto->nombre ?? null,
+                        'departamento' => $actividad->proyecto?->departamento?->nombre ?? null,
                     ],
                     'responsable' => $actividad->responsable ? [
                         'id' => $actividad->responsable->id,
