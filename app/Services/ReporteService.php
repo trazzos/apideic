@@ -290,33 +290,20 @@ class ReporteService extends BaseService {
             'filtros_aplicados' => $dto->getFiltrosAplicados()
         ];
 
-        // Si no hay filtro específico de estatus, mostrar todos los grupos
-        if ($dto()) {
-            $respuesta['grupos'] = [
-                'completadas' => [
-                    'count' => $actividadesCompletadas->count(),
-                    'actividades' => $formatearActividades($actividadesCompletadas)
-                ],
-                'en_curso' => [
-                    'count' => $actividadesEnCurso->count(),
-                    'actividades' => $formatearActividades($actividadesEnCurso)
-                ],
-                'sin_iniciar' => [
-                    'count' => $actividadesSinIniciar->count(),
-                    'actividades' => $formatearActividades($actividadesSinIniciar)
-                ]
-            ];
-        } else {
-            // Si hay filtro específico, filtrar y mostrar solo ese grupo
-            $actividadesFiltradas = match($dto->estatus) {
-                'completado' => $actividadesCompletadas,
-                'en_curso' => $actividadesEnCurso,
-                'pendiente' => $actividadesSinIniciar,
-                default => $actividades
-            };
-            
-            $respuesta['actividades'] = $formatearActividades($actividadesFiltradas);
-        }
+        $respuesta = [
+            'completadas' => [
+                'total' => $actividadesCompletadas->count(),
+                'actividades' => $formatearActividades($actividadesCompletadas)
+            ],
+            'en_curso' => [
+                'total' => $actividadesEnCurso->count(),
+                'actividades' => $formatearActividades($actividadesEnCurso)
+            ],
+            'pendiente' => [
+                'total' => $actividadesSinIniciar->count(),
+                'actividades' => $formatearActividades($actividadesSinIniciar)
+            ]
+        ];
 
         return $respuesta;
     }
