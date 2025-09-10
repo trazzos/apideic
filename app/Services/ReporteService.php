@@ -245,7 +245,7 @@ class ReporteService extends BaseService {
                     'nombre' => $actividad->nombre,
                     'descripcion' => $actividad->descripcion,
                     'fecha_inicio' => $actividad->fecha_inicio,
-                    'fecha_fin' => $actividad->fecha_fin,
+                    'fecha_fin' => $actividad->fecha_final,
                     'completed_at' => $actividad->completed_at,
                     'proyecto' => [
                         'uuid' => $actividad->proyecto->uuid,
