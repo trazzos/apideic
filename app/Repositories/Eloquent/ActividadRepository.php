@@ -209,6 +209,11 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
                     $criteria->addFilter('departamentos_jerarquicos', [0]); // ID inexistente
                 }
             }
+        } else {
+            // Usuario con permisos completos: aplicar filtro de departamento específico si se proporciona
+            if ($dto->shouldFilterByDepartamento()) {
+                $criteria->addFilter('departamentos_jerarquicos', [$dto->departamentoId]);
+            }
         }
         
         return $criteria;
