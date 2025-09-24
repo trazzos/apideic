@@ -37,8 +37,16 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::table('personas', function (Blueprint $table) {
             // Restaurar la estructura original
-            $table->dropIndex('personas_dependencia_index');
-            $table->dropMorphs('dependencia');
+            Schema::hasIndex('personas', 'personas_dependencia_index', function (Blueprint $table) {
+                $table->dropIndex('personas_dependencia_index');            
+            });
+            Schema::hasIndex('personas', 'dependencia_type', function (Blueprint $table) {
+                $table->dropColumn('dependencia_type');            
+            });
+            
+            Schema::hasIndex('personas', 'dependencia_id', function (Blueprint $table) {
+                $table->dropColumn('dependencia_id');            
+            });
             
             // Restaurar relación con departamentos
             $table->foreignId('departamento_id')->constrained('departamentos');
