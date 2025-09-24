@@ -34,6 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::table('personas', function (Blueprint $table) {
             // Restaurar la estructura original
             $table->dropIndex('personas_dependencia_index');
@@ -45,5 +46,6 @@ return new class extends Migration
             // Cambiar es_titular de vuelta a responsable_departamento
             $table->renameColumn('es_titular', 'responsable_departamento');
         });
+        Schema::enableForeignKeyConstraints();
     }
 };
