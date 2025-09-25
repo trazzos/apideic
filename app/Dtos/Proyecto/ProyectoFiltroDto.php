@@ -131,11 +131,6 @@ class ProyectoFiltroDto
             case 'App\Models\Departamento':
                  // Solo puede ver proyectos donde es responsable (no por departamento)
                 $allowedIds = [];
-                  // Solo su propio departamento si es titular, ninguno si no es titular
-                if ($persona->es_titular === 'Si') {
-                    $allowedIds = [$dependencia->id];
-                }
-
                 break;
         }
 
@@ -254,10 +249,13 @@ class ProyectoFiltroDto
             }
         }
 
-        // Si es usuario de departamento, usar filtro por responsable
+        // Si es usuario de departamento, usar filtro por responsable ,pero si es titular de ese departamento puede ver todo el departamento
         if ($this->isUserFromDepartamento()) {
             $persona = $this->getPersona();
             if ($persona) {
+                if ($persona->es_titular === 'Si') {
+                    return ['departamento_id' => $persona->dependencia->id];
+                }
                 return ['responsable_persona_id' => $persona->id];
             }
             return ['departamento_ids' => [0]]; // Sin acceso
