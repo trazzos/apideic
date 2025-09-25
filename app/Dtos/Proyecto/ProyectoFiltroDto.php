@@ -61,7 +61,7 @@ class ProyectoFiltroDto
     public function canViewAllProjects(): bool
     {
         if (!$this->user) {
-            return false; // Usuario no autenticado no puede ver todo
+            return false; // Usuario no autenticado no puede ver
         }
 
         // Superadmin puede ver todos los proyectos
@@ -129,8 +129,13 @@ class ProyectoFiltroDto
                 $allowedIds = $this->getDepartamentosFromDireccion($dependencia);
                 break;
             case 'App\Models\Departamento':
-                // Solo puede ver proyectos donde es responsable (no por departamento)
-                return []; // Se manejará diferente
+                 // Solo puede ver proyectos donde es responsable (no por departamento)
+                $allowedIds = [];
+                  // Solo su propio departamento si es titular, ninguno si no es titular
+                if ($persona->es_titular === 'Si') {
+                    $allowedIds = [$dependencia->id];
+                }
+
                 break;
         }
 
