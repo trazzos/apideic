@@ -237,7 +237,12 @@ class ActividadRepository extends BaseEloquentRepository implements ActividadRep
         if (isset($filters['fecha_fin_to'])) {
             $query->where('fecha_final', '<=', $filters['fecha_fin_to']);
         }
-        
+
+        //Filtro por proyectos que no esten eliminados
+        $query->whereHas('proyecto', function ($q) {
+            $q->whereNull('deleted_at');
+        });
+
         // Filtro por tipo de proyecto
         if (isset($filters['tipo_proyecto_id'])) {
             $query->whereHas('proyecto', function ($q) use ($filters) {
