@@ -66,7 +66,7 @@ class CreatePersonaDto
             'subsecretaria' => \App\Models\Subsecretaria::class,
             'direccion' => \App\Models\Direccion::class,
             'departamento' => \App\Models\Departamento::class,
-            'unidad_apoyo' => \App\Models\UnidadApoyo::class,
+            'unidad de apoyo' => \App\Models\UnidadApoyo::class,
             default => throw new \InvalidArgumentException("Tipo de dependencia inválido: {$this->dependenciaType}")
         };
     }

@@ -28,7 +28,7 @@ class PersonaPatchRequest extends FormRequest
             'dependencia_type' => [
                 'sometimes',
                 'string',
-                Rule::in(['Secretaria', 'Subsecretaria', 'Direccion', 'Departamento'])
+                Rule::in(['Secretaria', 'Subsecretaria', 'Direccion', 'Departamento', 'Unidad de Apoyo'])
             ],
             'dependencia_id' => [
                 'sometimes',
@@ -42,6 +42,7 @@ class PersonaPatchRequest extends FormRequest
                         'Subsecretaria' => 'subsecretarias',
                         'Direccion' => 'direcciones',
                         'Departamento' => 'departamentos',
+                        'Unidad de Apoyo' => 'unidades_apoyo',
                         default => null
                     };
                     
@@ -64,7 +65,7 @@ class PersonaPatchRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'dependencia_type.in' => 'El tipo de dependencia debe ser: Secretaria, Subsecretaria, Direccion o Departamento.',
+            'dependencia_type.in' => 'El tipo de dependencia debe ser: Secretaria, Unidad de Apoyo, Subsecretaria, Direccion o Departamento.',
             'dependencia_id.integer' => 'El ID de la dependencia debe ser un número.',
             'es_titular.in' => 'El campo titular debe ser "Si" o "No".',
         ];

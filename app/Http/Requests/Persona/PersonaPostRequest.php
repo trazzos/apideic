@@ -28,7 +28,7 @@ class PersonaPostRequest extends FormRequest
             'dependencia_type' => [
                 'required', 
                 'string',
-                Rule::in(['Secretaria', 'Subsecretaria', 'Direccion', 'Departamento'])
+                Rule::in(['Secretaria', 'Subsecretaria', 'Direccion', 'Departamento', 'Unidad de Apoyo'])
             ],
             'dependencia_id' => [
                 'required', 
@@ -40,6 +40,7 @@ class PersonaPostRequest extends FormRequest
                         'Subsecretaria' => 'subsecretarias',
                         'Direccion' => 'direcciones',
                         'Departamento' => 'departamentos',
+                        'Unidad de Apoyo' => 'unidades_apoyo',
                         default => null
                     };
                     
@@ -65,7 +66,7 @@ class PersonaPostRequest extends FormRequest
     {
         return [
             'dependencia_type.required' => 'El tipo de dependencia es requerido.',
-            'dependencia_type.in' => 'El tipo de dependencia debe ser: Secretaria, Subsecretaria, Direccion o Departamento.',
+            'dependencia_type.in' => 'El tipo de dependencia debe ser: Secretaria, Unidad de Apoyo, Subsecretaria, Direccion o Departamento.',
             'dependencia_id.required' => 'Debe seleccionar una dependencia.',
             'dependencia_id.integer' => 'El ID de la dependencia debe ser un número.',
             'es_titular.in' => 'El campo titular debe ser "Si" o "No".',
