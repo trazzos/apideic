@@ -14,6 +14,7 @@ class CreateProyectoDto
      * @param int $departamentoId
      * @param string $nombre
      * @param string $descripcion
+     * @param float|null $monto
      * @param string $uuid
      */
     public function __construct(
@@ -21,6 +22,7 @@ class CreateProyectoDto
         public readonly int $departamentoId,
         public readonly string $nombre,
         public readonly string $descripcion,
+        public readonly ?float $monto,
         public readonly string $uuid
     )
     {
@@ -38,6 +40,7 @@ class CreateProyectoDto
             $request->input('departamento_id'),
             $request->input('nombre'),
             $request->input('descripcion'),
+            $request->input('monto'),
             Str::uuid()
         );
     }

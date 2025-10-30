@@ -40,6 +40,7 @@ class ProyectoService extends BaseService {
             'uuid' => $createProyectoDto->uuid,
             'nombre' => $createProyectoDto->nombre,
             'descripcion' => $createProyectoDto->descripcion,
+            'monto' => $createProyectoDto->monto,
         ];
 
         $jsonResource =  parent::create($data);
@@ -60,6 +61,7 @@ class ProyectoService extends BaseService {
             'departamento_id' => $updateProyectoDto->departamentoId,
             'nombre' => $updateProyectoDto->nombre,
             'descripcion' => $updateProyectoDto->descripcion,
+            'monto' => $updateProyectoDto->monto,
         ];
 
         $jsonResource = parent::update($id, $data);

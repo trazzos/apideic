@@ -23,6 +23,7 @@ class ProyectoResource extends JsonResource
             "departamento_nombre" => $this->departamento->nombre,
             "nombre" => $this->nombre,
             "descripcion" => $this->descripcion,
+            "monto" => $this->monto,
             "porcentaje_avance" => $this->getProgress()['porcentaje_completado'],
             "total_actividades" => $this->getProgress()['total_actividades'],
             "actividades_completadas" => $this->getProgress()['actividades_completadas'],

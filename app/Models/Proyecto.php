@@ -18,6 +18,7 @@ class Proyecto extends Model implements Auditable
 
     protected $casts = [
         'completed_at' => 'datetime',
+        'monto' => 'decimal:2',
     ];
 
     public function tipoProyecto(): BelongsTo

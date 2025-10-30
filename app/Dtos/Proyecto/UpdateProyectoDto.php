@@ -12,12 +12,14 @@ class UpdateProyectoDto
      * @param int $departamentoId
      * @param string $nombre
      * @param string $descripcion
+     * @param float|null $monto
      */
     public function __construct(
         public readonly int $tipoProyectoId,
         public readonly int $departamentoId,
         public readonly string $nombre,
         public readonly string $descripcion,
+        public readonly ?float $monto,
     )
     {
 
@@ -34,6 +36,7 @@ class UpdateProyectoDto
             $request->input('departamento_id'),
             $request->input('nombre'),
             $request->input('descripcion'),
+            $request->input('monto'),
         );
     }
 }
