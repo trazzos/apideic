@@ -84,8 +84,16 @@ class Persona extends Model implements Auditable
         return $this->dependencia_type === Departamento::class;
     }
 
+     /**
+     * Verificar si la persona pertenece a un Departamento.
+     */
+    public function perteneceAUnidadApoyo(): bool
+    {
+        return $this->dependencia_type === UnidadApoyo::class;
+    }
+
     /**
-     * Obtener el tipo de dependencia como string legible.
+     * Verificar si la persona pertenece a una Unidad de Apoyo.
      */
     public function getTipoDependenciaAttribute(): string
     {
@@ -94,6 +102,7 @@ class Persona extends Model implements Auditable
             Subsecretaria::class => 'Subsecretaria', 
             Direccion::class => 'Direccion',
             Departamento::class => 'Departamento',
+            UnidadApoyo::class => 'Unidad de Apoyo',
             default => 'No asignado'
         };
     }

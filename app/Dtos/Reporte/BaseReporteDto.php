@@ -90,6 +90,9 @@ abstract class BaseReporteDto
             case 'App\Models\Departamento':
                 $subordinateIds = array_merge($subordinateIds, $this->getPersonasFromDepartamento($dependencia, $persona));
                 break;
+            case 'App\Models\UnidadApoyo':
+                $subordinateIds = array_merge($subordinateIds, $this->getPersonasFromUnidadApoyo($dependencia));
+                break;
         }
 
         return array_unique($subordinateIds);
@@ -181,6 +184,15 @@ abstract class BaseReporteDto
     }
 
     /**
+     * Obtener personas subordinadas a una Unidad de Apoyo.
+     * Los usuarios de Unidad de Apoyo pueden ver todas las personas de su secretaría.
+     */
+    private function getPersonasFromUnidadApoyo($unidadApoyo): array
+    {
+        return $this->getPersonasFromSecretaria($unidadApoyo->secretaria);
+    }
+
+    /**
      * Verificar si la persona puede ver actividades del departamento completo.
      */
     public function canViewDepartmentActivities(): bool
@@ -197,10 +209,11 @@ abstract class BaseReporteDto
             return true;
         }
 
-        // Si pertenece a niveles superiores (Dirección, Subsecretaría, Secretaría)
+        // Si pertenece a niveles superiores (Dirección, Subsecretaría, Secretaría, UnidadApoyo)
         if ($dependencia instanceof \App\Models\Direccion || 
             $dependencia instanceof \App\Models\Subsecretaria || 
-            $dependencia instanceof \App\Models\Secretaria) {
+            $dependencia instanceof \App\Models\Secretaria ||
+            $dependencia instanceof \App\Models\UnidadApoyo) {
             return true;
         }
 
@@ -253,6 +266,13 @@ abstract class BaseReporteDto
                 if ($persona->es_titular === 'Si') {
                     $departmentIds = [$dependencia->id];
                 }
+                break;
+
+            case 'App\Models\UnidadApoyo':
+                // Todos los departamentos de la secretaría de la unidad de apoyo
+                $departmentIds = \App\Models\Departamento::whereHas('direccion.subsecretaria', function($query) use ($dependencia) {
+                    $query->where('secretaria_id', $dependencia->secretaria_id);
+                })->pluck('id')->toArray();
                 break;
         }
 

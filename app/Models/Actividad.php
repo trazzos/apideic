@@ -144,6 +144,9 @@ class Actividad extends Model implements Auditable
             case 'App\Models\Departamento':
                 return $this->canBeAccessedFromDepartamento($dependencia);
             
+            case 'App\Models\UnidadApoyo':
+                return $this->canBeAccessedFromUnidadApoyo($dependencia);
+            
             default:
                 return false;
         }
@@ -213,6 +216,32 @@ class Actividad extends Model implements Auditable
     private function canBeAccessedFromDepartamento($departamento): bool
     {
         return false;
+    }
+
+    /**
+     * Verificar si la actividad puede ser accedida desde una Unidad de Apoyo.
+     */
+    private function canBeAccessedFromUnidadApoyo($unidadApoyo): bool
+    {
+        // Los usuarios de Unidad de Apoyo pueden acceder a actividades de todos los departamentos
+        // de la secretaría a la que pertenece la unidad de apoyo
+        $departamento = $this->proyecto->departamento;
+        if (!$departamento) {
+            return false;
+        }
+
+        // Verificar si el departamento está en la jerarquía de la secretaría de la unidad de apoyo
+        $direccion = $departamento->direccion;
+        if (!$direccion) {
+            return false;
+        }
+
+        $subsecretaria = $direccion->subsecretaria;
+        if (!$subsecretaria) {
+            return false;
+        }
+
+        return $subsecretaria->secretaria_id === $unidadApoyo->secretaria_id;
     }
 
     /**

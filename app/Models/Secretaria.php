@@ -23,6 +23,14 @@ class Secretaria extends Model implements Auditable
     }
 
     /**
+     * Unidades de apoyo que pertenecen a esta secretaria.
+     */
+    public function unidadesApoyo()
+    {
+        return $this->hasMany(UnidadApoyo::class);
+    }
+
+    /**
      * Personas asignadas directamente a esta secretaria mediante relación polimórfica.
      */
     public function personas(): \Illuminate\Database\Eloquent\Relations\MorphMany

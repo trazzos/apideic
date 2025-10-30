@@ -132,6 +132,9 @@ class ProyectoFiltroDto
                  // Solo puede ver proyectos donde es responsable (no por departamento)
                 $allowedIds = [];
                 break;
+            case 'App\Models\UnidadApoyo':
+                $allowedIds = $this->getDepartamentosFromUnidadApoyo($dependencia);
+                break;
         }
 
         return array_unique($allowedIds);
@@ -204,6 +207,15 @@ class ProyectoFiltroDto
     private function getDepartamentosFromDireccion($direccion): array
     {
         return $direccion->departamentos()->pluck('id')->toArray();
+    }
+
+    /**
+     * Obtener departamentos subordinados a una Unidad de Apoyo.
+     * Los usuarios de Unidad de Apoyo pueden ver todos los departamentos de su secretaría.
+     */
+    private function getDepartamentosFromUnidadApoyo($unidadApoyo): array
+    {
+        return $this->getDepartamentosFromSecretaria($unidadApoyo->secretaria);
     }
 
     /**

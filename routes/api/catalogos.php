@@ -86,6 +86,13 @@ Route::middleware(['auth:sanctum'])->prefix('subsecretarias')->name('subsecretar
     Route::delete('{subsecretaria}', [App\Http\Controllers\SubsecretariaController::class,'delete'])->name('subsecretarias.eliminar');
 });
 
+Route::middleware(['auth:sanctum'])->prefix('unidades-apoyo')->name('unidades-apoyo.')->group(function() {
+    
+    Route::get('', [App\Http\Controllers\UnidadApoyoController::class,'list'])->name('lista');
+    Route::post('', [App\Http\Controllers\UnidadApoyoController::class,'create'])->name('registrar');
+    Route::patch('{unidadApoyo}', [App\Http\Controllers\UnidadApoyoController::class,'update'])->name('actualizar');
+    Route::delete('{unidadApoyo}', [App\Http\Controllers\UnidadApoyoController::class,'delete'])->name('eliminar');
+});
 
 Route::middleware(['auth:sanctum'])->prefix('direcciones')->name('direcciones.')->group(function() {
     
@@ -93,15 +100,12 @@ Route::middleware(['auth:sanctum'])->prefix('direcciones')->name('direcciones.')
     Route::post('', [App\Http\Controllers\DireccionController::class,'create'])->name('registrar');
     Route::patch('{direccion}', [App\Http\Controllers\DireccionController::class,'update'])->name('actualizar');
     Route::delete('{direccion}', [App\Http\Controllers\DireccionController::class,'delete'])->name('eliminar');
-
 });
 
 // Endpoint consolidado para todos los catálogos
 Route::middleware(['auth:sanctum'])->prefix('catalogos')->name('catalogos.')->group(function()  {
     Route::get('all', [App\Http\Controllers\CatalogoController::class,'all'])->name('all');
 });
-
-
 
 Route::middleware([StartSession::class])->get('debug-session', function (\Illuminate\Http\Request $request) {
     return response()->json([
@@ -111,11 +115,3 @@ Route::middleware([StartSession::class])->get('debug-session', function (\Illumi
         'cookies' => $request->cookies->all(),
     ]);
 });
-
-
-
-
-
-
-
-
