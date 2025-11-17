@@ -82,7 +82,7 @@ Rellena la configuración de DB, APP_URL y otros valores de producción en `.env
 
 Notas:
 
->Por default al autenticarse por session, el nombre del cookie se contruye concantenando APP_NAME_ + 'session .
+>Por default al autenticarse por session, el nombre del cookie se contruye concantenando APP_NAME_ + 'session'
 
 >Si requieres un nombre especifico agrega en .env la variable SESSION_COOKIE con el nombre que desees.
 
