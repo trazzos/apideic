@@ -80,13 +80,13 @@ cp .env.example .env
 
 Rellena la configuración de DB, APP_URL y otros valores de producción en `.env`.
 
-    Notas:
+Notas:
 
-    - Por default al autenticarse por session, el nombre del cookie se contruye concantenando APP_NAME_ + 'session .
+>Por default al autenticarse por session, el nombre del cookie se contruye concantenando APP_NAME_ + 'session .
 
-    - Si requieres un nombre especifico agrega en .env la variable SESSION_COOKIE con el nombre que desees.
+>Si requieres un nombre especifico agrega en .env la variable SESSION_COOKIE con el nombre que desees.
 
-    - Lo que elijas recuerda configurar la variable de entorno de frontend con el mismo nombre de la cookie, ya que es requerido para la autenticacion.
+>Lo que elijas recuerda configurar la variable de entorno de frontend con el mismo nombre de la cookie, ya que es requerido para la autenticacion.
 
 4. Genera la clave de la aplicación:
 
