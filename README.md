@@ -1,66 +1,239 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Introducción
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este repositorio contiene la API del proyecto APIDEIC construida con Laravel 12. Sigue una arquitectura orientada a servicios con DTOs, repositorios y recursos. Aquí encontrarás instrucciones para montar un entorno de desarrollo simple y para desplegar la aplicación en un servidor Linux.
 
-## About Laravel
+## Entorno de desarrollo
+Sigue estos pasos para levantar la API rápidamente en tu máquina local (Linux/WSL o macOS). Esta guía usa SQLite para un arranque rápido sin depender de MySQL.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Clona el repositorio:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+git clone https://github.com/trazzos/apideic.git
+cd apideic
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. Instala dependencias PHP
 
-## Learning Laravel
+```bash
+composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. Copia `.env` y configura SQLite:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+cp .env.example .env
+mkdir -p database
+touch database/database.sqlite
+# luego en .env pon:
+# DB_CONNECTION=sqlite
+# DB_DATABASE=/full/path/to/apideic/database/database.sqlite
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. Genera la clave y ejecuta migraciones + seeders:
 
-## Laravel Sponsors
+```bash
+php artisan key:generate
+php artisan migrate
+php artisan db:seed --class=DatabaseSeeder
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+5. Levanta el servidor local:
 
-### Premium Partners
+```bash
+php artisan serve
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+> Si prefieres usar MySQL en lugar de SQLite, ajusta las variables `DB_*` en `.env` y ejecuta las mismas migraciones.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Despliegue y configuración de BD en produccion (Servidor compartido / dedicado)
 
-## Code of Conduct
+A continuación se describen pasos claros para desplegar esta API Laravel en:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Hosting compartido con acceso SSH
+- Servidor dedicado (VPS, DigitalOcean, AWS EC2, etc.)
 
-## Security Vulnerabilities
+Todos los pasos asumen que tienes acceso por SSH y que Composer está disponible en el servidor.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Requisitos previos
 
-## License
+- PHP 8.0+ con extensiones necesarias (pdo, mbstring, BCMath, OpenSSL, tokenizer, XML, ctype, json, fileinfo, etc.)
+- Composer
+- Base de datos soportada (MySQL, MariaDB, PostgreSQL) accesible desde la app
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Resumen de pasos comunes
+
+1. Clona o sube el repositorio al servidor
+
+2. Instala dependencias PHP:
+
+```bash
+composer install --no-dev --optimize-autoloader
+```
+
+3. Copia el archivo de ejemplo de entorno y configúralo:
+
+```bash
+cp .env.example .env
+```
+
+Rellena la configuración de DB, APP_URL y otros valores de producción en `.env`.
+
+    Notas:
+
+    - Por default al autenticarse por session, el nombre del cookie se contruye concantenando APP_NAME_ + 'session .
+
+    - Si requieres un nombre especifico agrega en .env la variable SESSION_COOKIE con el nombre que desees.
+
+    - Lo que elijas recuerda configurar la variable de entorno de frontend con el mismo nombre de la cookie, ya que es requerido para la autenticacion.
+
+4. Genera la clave de la aplicación:
+
+```bash
+php artisan key:generate
+```
+
+5. Ajusta permisos (Linux):
+
+```bash
+sudo chown -R www-data:www-data storage bootstrap/cache
+sudo chmod -R 775 storage bootstrap/cache
+```
+
+6. Crea el enlace simbólico a `storage`:
+
+```bash
+php artisan storage:link
+```
+
+7. Optimiza cachés:
+
+```bash
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+### Hosting compartido (con SSH)
+
+1. Sube los archivos y entra en la carpeta del proyecto
+2. Ejecuta `composer install` como se mostró arriba
+3. Configura `.env` y genera la clave
+4. Ejecuta migraciones y seeders (ver orden abajo)
+
+```bash
+php artisan migrate --force
+php artisan db:seed --class=DatabaseSeeder
+```
+
+### Servidor dedicado (recomendado)
+
+En un servidor dedicado puedes ejecutar los mismos comandos y además configurar servicios y mecanismos de despliegue continuo.
+
+Comandos para producción:
+
+```bash
+composer install --no-dev --optimize-autoloader
+php artisan migrate --force
+php artisan db:seed --class=DatabaseSeeder
+php artisan storage:link
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+Reinicia PHP-FPM y el servidor web si haces cambios de configuración.
+
+### Orden y ejecución de seeders
+
+El seeder principal es `DatabaseSeeder`. Ejecutarlo aplica los seeders del proyecto en el orden correcto:
+
+1. `InicializarPermisos` — crea roles y permisos (Spatie)
+2. `InicializarDatosPrueba` — carga datos iniciales (secretarías, direcciones, departamentos, etc.)
+
+Comando para ejecutar la semilla principal:
+
+```bash
+php artisan db:seed --class=DatabaseSeeder
+```
+
+Si prefieres correr seeders individuales:
+
+```bash
+php artisan db:seed --class=InicializarPermisos
+php artisan db:seed --class=InicializarDatosPrueba
+```
+
+### Seguridad y post-deploy
+
+- Asegúrate de que `.env` no sea accesible desde la web y que el document root apunte a `public/` únicamente
+- Mantén `APP_DEBUG=false` en producción
+- Controla los límites de subida en `php.ini` y la configuración del servidor web
+
+### Configurar Document Root (Apache / Nginx)
+
+Es crítico que el `DocumentRoot` del servidor web apunte al directorio `public` de este proyecto. Esto evita que archivos sensibles (como `.env`) estén expuestos y permite que Laravel maneje correctamente las peticiones.
+
+Ejemplos de configuración:
+
+- Apache (VirtualHost)
+
+```apacheconf
+<VirtualHost *:80>
+    ServerName ejemplo.com
+    DocumentRoot /var/www/apideic/public
+
+    <Directory /var/www/apideic/public>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/apideic_error.log
+    CustomLog ${APACHE_LOG_DIR}/apideic_access.log combined
+    # Asegúrate de tener habilitado mod_rewrite
+</VirtualHost>
+```
+
+- Nginx (server block)
+
+```nginx
+server {
+    listen 80;
+    server_name ejemplo.com;
+    root /var/www/apideic/public;
+
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock; # Ajusta la versión de PHP
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+```
+
+Después de modificar la configuración reinicia el servidor web:
+
+```bash
+sudo systemctl restart apache2    # para Apache
+sudo systemctl restart nginx      # para Nginx
+```
+
+### Rollback y reinstalación desde cero
+
+Para recrear la base de datos desde cero (peligro: borra datos):
+
+```bash
+php artisan migrate:fresh --seed
+```

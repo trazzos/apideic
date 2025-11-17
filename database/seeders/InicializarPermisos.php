@@ -255,6 +255,28 @@ class InicializarPermisos extends Seeder
                                     ]
                                 ]
                             ],
+                             [
+                                'title' => 'Unidades de Apoyo',
+                                'name'  => 'catalogos.organizacion.unidades_de_apoyo',
+                                'children' => [
+                                    [
+                                        'title' => 'Acceso',
+                                        'name'  => 'catalogos.organizacion.unidades_de_apoyo.acceso'
+                                    ],
+                                    [
+                                        'title' => 'Agregar',
+                                        'name'  => 'catalogos.organizacion.unidades_de_apoyo.agregar'
+                                    ],
+                                    [
+                                        'title' => 'Editar',
+                                        'name'  => 'catalogos.organizacion.unidades_de_apoyo.editar'
+                                    ],
+                                    [
+                                        'title' => 'Eliminar',
+                                        'name'  => 'catalogos.organizacion.unidades_de_apoyo.eliminar'
+                                    ]
+                                ]
+                            ],
                         ]
                     ],
                 ]
