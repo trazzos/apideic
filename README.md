@@ -1,6 +1,6 @@
 ## Introducción
 
-Este repositorio contiene la API del proyecto APIDEIC construida con Laravel 12. Sigue una arquitectura orientada a servicios con DTOs, repositorios y recursos. Aquí encontrarás instrucciones para montar un entorno de desarrollo simple y para desplegar la aplicación en un servidor Linux.
+Este repositorio contiene la API de un proyecto construida con Laravel 12. Sigue una arquitectura orientada a servicios con DTOs, repositorios y recursos. Aquí encontrarás instrucciones para montar un entorno de desarrollo simple y para desplegar la aplicación en un servidor Linux.
 
 ## Entorno de desarrollo
 Sigue estos pasos para levantar la API rápidamente en tu máquina local (Linux/WSL o macOS). Esta guía usa SQLite para un arranque rápido sin depender de MySQL.
