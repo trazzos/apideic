@@ -19,8 +19,6 @@ return [
         '%s%s',
         'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
         Sanctum::currentApplicationUrlWithPort(),
-        // Sanctum::currentRequestHost(),
-        env('FRONTEND_URL') ? ','.parse_url(env('FRONTEND_URL'), PHP_URL_HOST) : ''
     ))),
 
     /*
@@ -34,8 +32,8 @@ return [
     | token that's present on an incoming request for authentication.
     |
     */
-    //Se anula por que la api es 100% autenticaod por token
-    'guard' => ['web'],
+    //Vacio por ser autenticacion solo por token
+    'guard' => [],
 
     /*
     |--------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->prefix('personas')->name('personas.')->group(function()  {
-
+ 
     Route::get('', [App\Http\Controllers\PersonaController::class,'list'])->name('lista');
     Route::post('', [App\Http\Controllers\PersonaController::class,'create'])->name('registrar');
     Route::patch('{persona}', [App\Http\Controllers\PersonaController::class,'update'])->name('actualizar');

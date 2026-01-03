@@ -19,9 +19,8 @@ class LogoutController extends BaseController
      */
     public function __invoke(Request $request)
     {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // Revoke the current access token
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Sesión cerrada']);
     }
